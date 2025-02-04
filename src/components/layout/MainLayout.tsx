@@ -36,6 +36,9 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }
             <Link href="/workflows/it-helper" passHref>
               <Button color="inherit">IT Helper</Button>
             </Link>
+            <Link href="/admin/workflows" passHref>
+              <Button color="inherit">Admin</Button>
+            </Link>
           </Box>
           <IconButton onClick={toggleTheme} color="inherit">
             {isDarkMode ? <Brightness7 /> : <Brightness4 />}
