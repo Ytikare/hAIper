@@ -18,7 +18,7 @@ const WorkflowContext = createContext<WorkflowContextType>({} as WorkflowContext
 export const WorkflowProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [workflows, setWorkflows] = useState<WorkflowTemplate[]>(initialWorkflows);
   const [activeWorkflow, setActiveWorkflow] = useState<WorkflowTemplate>();
-  const workflowService = new WorkflowService();
+  const [workflowService] = useState(() => new WorkflowService());
 
   useEffect(() => {
     const fetchWorkflows = async () => {
