@@ -23,7 +23,7 @@ export default function WorkflowPage() {
       if (id) {
         try {
           // Find the workflow in the existing workflows array
-          const workflow = workflows.find(w => w.id === id);
+          const workflow = workflows.find(w => w.id === (Array.isArray(id) ? id[0] : id));
           setActiveWorkflow(workflow);
         } catch (error) {
           console.error('Error loading workflow:', error);
