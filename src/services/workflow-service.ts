@@ -1,49 +1,72 @@
 import { WorkflowTemplate, WorkflowExecution } from '../types/workflow-builder';
+import { initialWorkflows } from '../mocks/initial-workflows';
 
 export class WorkflowService {
   private baseUrl = '/api/workflows';
+  private workflows: WorkflowTemplate[] = [...initialWorkflows];
 
   async getWorkflows(): Promise<WorkflowTemplate[]> {
-    const response = await fetch(this.baseUrl);
-    return response.json();
+    // For now, return mock data since API isn't set up
+    return Promise.resolve(this.workflows);
   }
 
   async getWorkflow(id: string): Promise<WorkflowTemplate> {
-    const response = await fetch(`${this.baseUrl}/${id}`);
-    return response.json();
+    const workflow = this.workflows.find(w => w.id === id);
+    if (!workflow) {
+      throw new Error('Workflow not found');
+    }
+    return Promise.resolve(workflow);
   }
 
   async createWorkflow(workflow: Partial<WorkflowTemplate>): Promise<WorkflowTemplate> {
-    const response = await fetch(this.baseUrl, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(workflow),
-    });
-    return response.json();
+    const newWorkflow = {
+      ...workflow,
+      id: Math.random().toString(36).substr(2, 9), // Generate a random ID
+      fields: workflow.fields || [],
+      apiConfig: workflow.apiConfig || {
+        endpoint: '',
+        method: 'POST'
+      }
+    } as WorkflowTemplate;
+    
+    this.workflows.push(newWorkflow);
+    return Promise.resolve(newWorkflow);
   }
 
   async updateWorkflow(id: string, workflow: Partial<WorkflowTemplate>): Promise<WorkflowTemplate> {
-    const response = await fetch(`${this.baseUrl}/${id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(workflow),
-    });
-    return response.json();
+    const index = this.workflows.findIndex(w => w.id === id);
+    if (index === -1) {
+      throw new Error('Workflow not found');
+    }
+    
+    const updatedWorkflow = {
+      ...this.workflows[index],
+      ...workflow,
+      id // Ensure ID doesn't change
+    };
+    
+    this.workflows[index] = updatedWorkflow;
+    return Promise.resolve(updatedWorkflow);
   }
 
   async deleteWorkflow(id: string): Promise<void> {
-    await fetch(`${this.baseUrl}/${id}`, {
-      method: 'DELETE',
-    });
+    const index = this.workflows.findIndex(w => w.id === id);
+    if (index === -1) {
+      throw new Error('Workflow not found');
+    }
+    
+    this.workflows.splice(index, 1);
+    return Promise.resolve();
   }
 
   async executeWorkflow(id: string, data: any): Promise<WorkflowExecution> {
-    const response = await fetch(`${this.baseUrl}/${id}/execute`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
+    const workflow = await this.getWorkflow(id);
+    return Promise.resolve({
+      workflowId: id,
+      status: 'completed',
+      result: data,
+      timestamp: new Date().toISOString()
     });
-    return response.json();
   }
 }
 
