@@ -2,12 +2,18 @@ import { WorkflowTemplate, WorkflowExecution } from '../types/workflow-builder';
 import { initialWorkflows } from '../mocks/initial-workflows';
 
 export class WorkflowService {
-  private baseUrl = '/api/workflows';
+  private static instance: WorkflowService;
   private workflows: WorkflowTemplate[] = [...initialWorkflows];
 
+  constructor() {
+    if (WorkflowService.instance) {
+      return WorkflowService.instance;
+    }
+    WorkflowService.instance = this;
+  }
+
   async getWorkflows(): Promise<WorkflowTemplate[]> {
-    // For now, return mock data since API isn't set up
-    return Promise.resolve(this.workflows);
+    return this.workflows;
   }
 
   async getWorkflow(id: string): Promise<WorkflowTemplate> {
