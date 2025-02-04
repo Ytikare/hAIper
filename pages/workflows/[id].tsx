@@ -36,12 +36,11 @@ export default function WorkflowPage() {
         }
         
         setActiveWorkflow(workflow);
-        } catch (error) {
-          console.error('Error loading workflow:', error);
-          router.push('/workflows');
-        } finally {
-          setLoading(false);
-        }
+      } catch (error) {
+        console.error('Error loading workflow:', error);
+        router.push('/workflows');
+      } finally {
+        setLoading(false);
       }
     };
 
