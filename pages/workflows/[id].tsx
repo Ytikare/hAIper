@@ -20,11 +20,22 @@ export default function WorkflowPage() {
 
   useEffect(() => {
     const loadWorkflow = async () => {
-      if (id) {
-        try {
-          // Find the workflow in the existing workflows array
-          const workflow = workflows.find(w => w.id === (Array.isArray(id) ? id[0] : id));
-          setActiveWorkflow(workflow);
+      if (!id) {
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const workflowId = Array.isArray(id) ? id[0] : id;
+        const workflow = workflows.find(w => w.id === workflowId);
+        
+        if (!workflow) {
+          console.error('Workflow not found');
+          router.push('/workflows');
+          return;
+        }
+        
+        setActiveWorkflow(workflow);
         } catch (error) {
           console.error('Error loading workflow:', error);
           router.push('/workflows');
