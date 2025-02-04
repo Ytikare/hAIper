@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState } from 'react';
 import { WorkflowTemplate } from '../types/workflow-builder';
-import { workflowService } from '../services/workflow-service';
+import { WorkflowService } from '../services/workflow-service';
 import { initialWorkflows } from '../mocks/initial-workflows';
 
 interface WorkflowContextType {
@@ -18,6 +18,7 @@ const WorkflowContext = createContext<WorkflowContextType>({} as WorkflowContext
 export const WorkflowProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [workflows, setWorkflows] = useState<WorkflowTemplate[]>(initialWorkflows);
   const [activeWorkflow, setActiveWorkflow] = useState<WorkflowTemplate>();
+  const workflowService = new WorkflowService();
 
   const createWorkflow = async (workflow: Partial<WorkflowTemplate>) => {
     const created = await workflowService.createWorkflow(workflow);
