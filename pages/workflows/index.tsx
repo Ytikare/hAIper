@@ -4,15 +4,11 @@ import { useWorkflow } from '../../src/contexts/WorkflowContext';
 import { WorkflowCard } from '../../src/components/workflow/WorkflowCard';
 
 export default function WorkflowsPage() {
-  const { workflows, setWorkflows } = useWorkflow();
-  const { workflowService } = useWorkflow();
+  const { workflows } = useWorkflow();
 
   useEffect(() => {
-    const loadWorkflows = async () => {
-      const data = await workflowService.getWorkflows();
-      setWorkflows(data);
-    };
-    loadWorkflows();
+    // No need to fetch workflows here since WorkflowContext 
+    // already handles the initial fetch in its useEffect
   }, []);
 
   return (
