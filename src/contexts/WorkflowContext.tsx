@@ -1,5 +1,7 @@
 import React, { createContext, useContext, useState } from 'react';
-import { Workflow, WorkflowTemplate, WorkflowExecution } from '../types/workflow-builder';
+import { WorkflowTemplate } from '../types/workflow-builder';
+import { workflowService } from '../services/workflow-service';
+import { initialWorkflows } from '../mocks/initial-workflows';
 
 interface WorkflowContextType {
   workflows: WorkflowTemplate[];
@@ -14,19 +16,22 @@ interface WorkflowContextType {
 const WorkflowContext = createContext<WorkflowContextType>({} as WorkflowContextType);
 
 export const WorkflowProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [workflows, setWorkflows] = useState<WorkflowTemplate[]>([]);
+  const [workflows, setWorkflows] = useState<WorkflowTemplate[]>(initialWorkflows);
   const [activeWorkflow, setActiveWorkflow] = useState<WorkflowTemplate>();
 
   const createWorkflow = async (workflow: Partial<WorkflowTemplate>) => {
-    // API call to create workflow
+    const created = await workflowService.createWorkflow(workflow);
+    setWorkflows([...workflows, created]);
   };
 
   const updateWorkflow = async (id: string, workflow: Partial<WorkflowTemplate>) => {
-    // API call to update workflow
+    const updated = await workflowService.updateWorkflow(id, workflow);
+    setWorkflows(workflows.map(w => w.id === id ? updated : w));
   };
 
   const deleteWorkflow = async (id: string) => {
-    // API call to delete workflow
+    await workflowService.deleteWorkflow(id);
+    setWorkflows(workflows.filter(w => w.id !== id));
   };
 
   return (
