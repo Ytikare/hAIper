@@ -1,7 +1,7 @@
 import type { AppProps } from 'next/app';
 import { CssBaseline } from '@mui/material';
 import { ThemeProvider } from '../src/contexts/ThemeContext';
-import { MainLayout } from '../components/layout/MainLayout';
+import { MainLayout } from '../src/components/layout/MainLayout';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
