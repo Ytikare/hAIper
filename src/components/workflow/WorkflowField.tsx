@@ -70,6 +70,10 @@ export const WorkflowField: React.FC<WorkflowFieldProps> = ({ field, value, onCh
       );
     
     case 'file':
+      const acceptedTypes = field.validation?.fileTypes?.map(type => 
+        type.startsWith('.') ? type : `.${type}`
+      ).join(',');
+      
       return (
         <FormControl fullWidth margin="normal">
           <Input
@@ -83,15 +87,27 @@ export const WorkflowField: React.FC<WorkflowFieldProps> = ({ field, value, onCh
                   e.target.value = '';
                   return;
                 }
+                
+                // Check file type
+                if (acceptedTypes && !acceptedTypes.split(',').some(type => 
+                  file.name.toLowerCase().endsWith(type.toLowerCase())
+                )) {
+                  alert(`File type not allowed. Accepted types: ${acceptedTypes}`);
+                  e.target.value = '';
+                  return;
+                }
+                
                 onChange(file);
               }
             }}
             required={field.required}
-            // Ensure fileTypes is an array and prepend dots if needed
-            accept={field.validation?.fileTypes?.map(type => 
-              type.startsWith('.') ? type : `.${type}`
-            ).join(',')}
+            accept={acceptedTypes}
           />
+          {acceptedTypes && (
+            <small style={{ marginTop: '4px', color: 'rgba(0, 0, 0, 0.6)' }}>
+              Accepted file types: {acceptedTypes}
+            </small>
+          )}
         </FormControl>
       );
     
