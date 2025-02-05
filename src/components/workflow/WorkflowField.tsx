@@ -76,8 +76,14 @@ export const WorkflowField: React.FC<WorkflowFieldProps> = ({ field, value, onCh
       
       return (
         <FormControl fullWidth margin="normal">
-          <Input
+          <TextField
             type="file"
+            fullWidth
+            InputProps={{
+              inputProps: {
+                accept: acceptedTypes
+              }
+            }}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               const file = e.target.files?.[0];
               if (file) {
@@ -101,7 +107,6 @@ export const WorkflowField: React.FC<WorkflowFieldProps> = ({ field, value, onCh
               }
             }}
             required={field.required}
-            accept={acceptedTypes}
           />
           {acceptedTypes && (
             <small style={{ marginTop: '4px', color: 'rgba(0, 0, 0, 0.6)' }}>
