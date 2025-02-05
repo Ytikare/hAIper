@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Button, Typography, Paper, Stepper, Step, StepLabel } from '@mui/material';
+import { Box, Button, Typography, Paper } from '@mui/material';
 import { WorkflowTemplate } from '../../types/workflow-builder';
 import { workflowService } from '../../services/workflow-service';
 import { WorkflowField } from './WorkflowField';
@@ -9,30 +9,18 @@ interface WorkflowExecutorProps {
 }
 
 export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) => {
-  const [activeStep, setActiveStep] = useState(0);
   const [formData, setFormData] = useState<Record<string, any>>({});
   const [result, setResult] = useState<any>(null);
   const [error, setError] = useState<string>('');
-
-  const handleNext = () => {
-    setActiveStep((prevStep) => prevStep + 1);
-  };
-
-  const handleBack = () => {
-    setActiveStep((prevStep) => prevStep - 1);
-  };
+  const [isCompleted, setIsCompleted] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (activeStep < workflow.fields.length - 1) {
-      handleNext();
-      return;
-    }
     try {
       const response = await workflowService.executeWorkflow(workflow.id, formData);
       setResult(response.result);
       setError('');
-      handleNext();
+      setIsCompleted(true);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
       setResult(null);
@@ -46,26 +34,19 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
     }));
   };
 
-  const currentField = workflow.fields[activeStep];
+  const handleReset = () => {
+    setFormData({});
+    setResult(null);
+    setError('');
+    setIsCompleted(false);
+  };
 
-  return (
-    <Paper sx={{ p: 3 }}>
-      <Typography variant="h5" gutterBottom>
-        {workflow.name}
-      </Typography>
-      <Typography variant="body1" color="text.secondary" paragraph>
-        {workflow.description}
-      </Typography>
-
-      <Stepper activeStep={activeStep} sx={{ mb: 4 }}>
-        {workflow.fields.map((field, index) => (
-          <Step key={index}>
-            <StepLabel>{field.label}</StepLabel>
-          </Step>
-        ))}
-      </Stepper>
-
-      {activeStep === workflow.fields.length ? (
+  if (isCompleted) {
+    return (
+      <Paper sx={{ p: 3 }}>
+        <Typography variant="h5" gutterBottom>
+          {workflow.name}
+        </Typography>
         <Box>
           <Typography variant="h6" gutterBottom>
             Workflow completed!
@@ -82,50 +63,53 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
           )}
           <Button
             variant="contained"
-            onClick={() => {
-              setActiveStep(0);
-              setFormData({});
-              setResult(null);
-            }}
+            onClick={handleReset}
             sx={{ mt: 2 }}
           >
             Start New Workflow
           </Button>
         </Box>
-      ) : (
-        <form onSubmit={handleSubmit}>
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+      </Paper>
+    );
+  }
+
+  return (
+    <Paper sx={{ p: 3 }}>
+      <Typography variant="h5" gutterBottom>
+        {workflow.name}
+      </Typography>
+      <Typography variant="body1" color="text.secondary" paragraph>
+        {workflow.description}
+      </Typography>
+
+      <form onSubmit={handleSubmit}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          {workflow.fields.map((field, index) => (
             <WorkflowField
-              field={currentField}
-              value={formData[currentField.name || currentField.label]}
-              onChange={(value) => handleFieldChange(currentField.name || currentField.label, value)}
+              key={index}
+              field={field}
+              value={formData[field.name || field.label]}
+              onChange={(value) => handleFieldChange(field.name || field.label, value)}
             />
+          ))}
 
-            {error && (
-              <Typography color="error">
-                {error}
-              </Typography>
-            )}
+          {error && (
+            <Typography color="error">
+              {error}
+            </Typography>
+          )}
 
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
-              <Button
-                variant="contained"
-                disabled={activeStep === 0}
-                onClick={handleBack}
-              >
-                Back
-              </Button>
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-              >
-                {activeStep === workflow.fields.length - 1 ? 'Execute' : 'Next'}
-              </Button>
-            </Box>
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+            >
+              Execute Workflow
+            </Button>
           </Box>
-        </form>
-      )}
+        </Box>
+      </form>
     </Paper>
   );
 };
