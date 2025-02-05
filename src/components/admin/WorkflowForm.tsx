@@ -11,6 +11,10 @@ import {
   Typography,
   Switch,
   FormControlLabel,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -49,7 +53,12 @@ export const WorkflowForm: React.FC<WorkflowFormProps> = ({
   const handleAddField = () => {
     setFormData(prev => ({
       ...prev,
-      fields: [...(prev.fields || []), { label: '', type: 'text', required: false }],
+      fields: [...(prev.fields || []), { 
+        label: '', 
+        type: 'text', 
+        required: false,
+        validation: {}
+      }],
     }));
   };
 
@@ -104,7 +113,34 @@ export const WorkflowForm: React.FC<WorkflowFormProps> = ({
                       newFields[index] = { ...field, label: e.target.value };
                       setFormData({ ...formData, fields: newFields });
                     }}
+                    sx={{ flexGrow: 1 }}
                   />
+                  <FormControl sx={{ minWidth: 120 }}>
+                    <InputLabel>Type</InputLabel>
+                    <Select
+                      value={field.type}
+                      label="Type"
+                      onChange={(e) => {
+                        const newFields = [...(formData.fields || [])];
+                        newFields[index] = { 
+                          ...field, 
+                          type: e.target.value,
+                          validation: e.target.value === 'file' 
+                            ? { fileTypes: ['.pdf', '.doc', '.docx'] }
+                            : {}
+                        };
+                        setFormData({ ...formData, fields: newFields });
+                      }}
+                    >
+                      <MenuItem value="text">Text</MenuItem>
+                      <MenuItem value="textarea">Text Area</MenuItem>
+                      <MenuItem value="number">Number</MenuItem>
+                      <MenuItem value="email">Email</MenuItem>
+                      <MenuItem value="date">Date</MenuItem>
+                      <MenuItem value="file">File</MenuItem>
+                      <MenuItem value="select">Select</MenuItem>
+                    </Select>
+                  </FormControl>
                   <FormControlLabel
                     control={
                       <Switch
