@@ -59,7 +59,15 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }
               <Button color="inherit">Admin</Button>
             </Link>
           </Box>
-          <IconButton onClick={toggleTheme} color="inherit">
+          <IconButton 
+            onClick={toggleTheme} 
+            sx={{
+              bgcolor: theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.08)' : 'rgba(255, 255, 255, 0.08)',
+              '&:hover': {
+                bgcolor: theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.15)' : 'rgba(255, 255, 255, 0.15)',
+              },
+            }}
+          >
             {isDarkMode ? <Brightness7 /> : <Brightness4 />}
           </IconButton>
         </Toolbar>
