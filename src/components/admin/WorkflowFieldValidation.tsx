@@ -154,23 +154,22 @@ export const WorkflowFieldValidation: React.FC<ValidationProps> = ({
           </Box>
           <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', mt: 1 }}>
             {(validation.options || []).map((option: string, index: number) => (
-              <Chip
-                key={index}
-                label={
-                  <TextField
-                    value={option}
-                    onChange={(e) => {
-                      const options = [...(validation.options || [])];
-                      options[index] = e.target.value;
-                      onChange({ ...validation, options });
-                    }}
-                    size="small"
-                    sx={{ width: 120 }}
-                  />
-                }
-                onDelete={() => handleRemoveOption(index)}
-                sx={{ m: 0.5 }}
-              />
+              <Box key={index} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                <TextField
+                  value={option}
+                  onChange={(e) => {
+                    const options = [...(validation.options || [])];
+                    options[index] = e.target.value;
+                    onChange({ ...validation, options });
+                  }}
+                  size="small"
+                  placeholder="Option value"
+                  sx={{ width: 150 }}
+                />
+                <IconButton size="small" onClick={() => handleRemoveOption(index)}>
+                  <DeleteIcon />
+                </IconButton>
+              </Box>
             ))}
           </Box>
         </Box>
