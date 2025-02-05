@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextField, FormControl, Input } from '@mui/material';
+import { TextField, FormControl, Input, MenuItem } from '@mui/material';
 import { WorkflowField as IWorkflowField } from '../../types/workflow-builder';
 
 interface WorkflowFieldProps {
@@ -126,16 +126,11 @@ export const WorkflowField: React.FC<WorkflowFieldProps> = ({ field, value, onCh
           onChange={(e) => onChange(e.target.value)}
           required={field.required}
           margin="normal"
-          inputProps={{
-            minLength: field.validation?.minLength,
-            maxLength: field.validation?.maxLength,
-            pattern: field.validation?.pattern
-          }}
         >
           {field.validation?.options?.map((option: string) => (
-            <option key={option} value={option}>
+            <MenuItem key={option} value={option}>
               {option}
-            </option>
+            </MenuItem>
           ))}
         </TextField>
       );
