@@ -9,6 +9,8 @@ import {
   Box,
   IconButton,
   Typography,
+  Switch,
+  FormControlLabel,
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -93,7 +95,7 @@ export const WorkflowForm: React.FC<WorkflowFormProps> = ({
             <Box>
               <Typography variant="h6">Fields</Typography>
               {formData.fields?.map((field, index) => (
-                <Box key={index} sx={{ display: 'flex', gap: 1, mb: 2 }}>
+                <Box key={index} sx={{ display: 'flex', gap: 1, mb: 2, alignItems: 'center' }}>
                   <TextField
                     label="Field Label"
                     value={field.label}
@@ -102,6 +104,19 @@ export const WorkflowForm: React.FC<WorkflowFormProps> = ({
                       newFields[index] = { ...field, label: e.target.value };
                       setFormData({ ...formData, fields: newFields });
                     }}
+                  />
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={field.required || false}
+                        onChange={(e) => {
+                          const newFields = [...(formData.fields || [])];
+                          newFields[index] = { ...field, required: e.target.checked };
+                          setFormData({ ...formData, fields: newFields });
+                        }}
+                      />
+                    }
+                    label="Required"
                   />
                   <IconButton onClick={() => handleRemoveField(index)}>
                     <DeleteIcon />
