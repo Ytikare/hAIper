@@ -19,10 +19,29 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-      <AppBar position="static">
+      <AppBar 
+        position="fixed" 
+        elevation={0}
+        sx={{
+          background: theme.palette.mode === 'light' 
+            ? 'rgba(255, 255, 255, 0.8)'
+            : 'rgba(15, 23, 42, 0.8)',
+          borderBottom: `1px solid ${theme.palette.divider}`,
+        }}
+      >
         <Toolbar>
           <Link href="/" passHref style={{ textDecoration: 'none', color: 'inherit' }}>
-            <Typography variant="h6" component="div">
+            <Typography 
+              variant="h6" 
+              component="div"
+              sx={{
+                background: 'linear-gradient(45deg, #6366f1, #8b5cf6)',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                fontWeight: 700,
+              }}
+            >
               hAIper Platform
             </Typography>
           </Link>
@@ -45,7 +64,7 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }
           </IconButton>
         </Toolbar>
       </AppBar>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <Box component="main" sx={{ flexGrow: 1, p: 3, mt: 8 }}>
         {children}
       </Box>
     </Box>
