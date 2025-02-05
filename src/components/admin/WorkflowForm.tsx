@@ -125,9 +125,7 @@ export const WorkflowForm: React.FC<WorkflowFormProps> = ({
                         newFields[index] = { 
                           ...field, 
                           type: e.target.value,
-                          validation: e.target.value === 'file' 
-                            ? { fileTypes: ['.pdf', '.doc', '.docx'] }
-                            : {}
+                          validation: {}
                         };
                         setFormData({ ...formData, fields: newFields });
                       }}
@@ -141,6 +139,15 @@ export const WorkflowForm: React.FC<WorkflowFormProps> = ({
                       <MenuItem value="select">Select</MenuItem>
                     </Select>
                   </FormControl>
+                  <WorkflowFieldValidation
+                    type={field.type}
+                    validation={field.validation || {}}
+                    onChange={(validation) => {
+                      const newFields = [...(formData.fields || [])];
+                      newFields[index] = { ...field, validation };
+                      setFormData({ ...formData, fields: newFields });
+                    }}
+                  />
                   <FormControlLabel
                     control={
                       <Switch

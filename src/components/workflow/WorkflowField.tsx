@@ -34,6 +34,11 @@ export const WorkflowField: React.FC<WorkflowFieldProps> = ({ field, value, onCh
           onChange={(e) => onChange(e.target.value)}
           required={field.required}
           margin="normal"
+          inputProps={{
+            min: field.validation?.min,
+            max: field.validation?.max,
+            step: field.validation?.step
+          }}
         />
       );
     
@@ -91,6 +96,11 @@ export const WorkflowField: React.FC<WorkflowFieldProps> = ({ field, value, onCh
           onChange={(e) => onChange(e.target.value)}
           required={field.required}
           margin="normal"
+          inputProps={{
+            minLength: field.validation?.minLength,
+            maxLength: field.validation?.maxLength,
+            pattern: field.validation?.pattern
+          }}
         >
           {field.validation?.options?.map((option: string) => (
             <option key={option} value={option}>
