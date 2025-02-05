@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Box, Button, Typography, Paper } from '@mui/material';
+import { WorkflowProgress } from '../../types/workflow';
+import { WorkflowProgressStepper } from './WorkflowProgressStepper';
 import { WorkflowTemplate } from '../../types/workflow-builder';
 import { workflowService } from '../../services/workflow-service';
 import { WorkflowField } from './WorkflowField';
@@ -13,17 +15,51 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
   const [result, setResult] = useState<any>(null);
   const [error, setError] = useState<string>('');
   const [isCompleted, setIsCompleted] = useState(false);
+  const [progress, setProgress] = useState<WorkflowProgress>({
+    currentStep: 0,
+    totalSteps: 4,
+    status: 'pending',
+    stepDetails: ''
+  });
+
+  const updateProgress = useCallback((step: number, status: WorkflowProgress['status'], details: string) => {
+    setProgress({
+      currentStep: step,
+      totalSteps: 4,
+      status,
+      stepDetails: details
+    });
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+      // Step 1: Preparing workflow
+      updateProgress(0, 'in_progress', 'Preparing workflow data...');
+      
+      // Step 2: Sending to backend
+      updateProgress(1, 'in_progress', 'Sending data to backend server...');
       const response = await workflowService.executeWorkflow(workflow.id, formData);
+      
+      // Step 3: Executing in Airflow
+      updateProgress(2, 'in_progress', 'Executing workflow in Airflow...');
+      // Here you would typically poll the backend for workflow status
+      // For now, we'll simulate a delay
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      // Step 4: Processing results
+      updateProgress(3, 'in_progress', 'Processing results...');
       setResult(response.result);
+      
+      // Complete
+      updateProgress(4, 'completed', 'Workflow completed successfully');
       setError('');
       setIsCompleted(true);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
+      const errorMessage = err instanceof Error ? err.message : 'An error occurred';
+      setError(errorMessage);
       setResult(null);
+      updateProgress(progress.currentStep, 'failed', `Error: ${errorMessage}`);
     }
   };
 
@@ -39,6 +75,12 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
     setResult(null);
     setError('');
     setIsCompleted(false);
+    setProgress({
+      currentStep: 0,
+      totalSteps: 4,
+      status: 'pending',
+      stepDetails: ''
+    });
   };
 
   if (isCompleted) {
@@ -83,6 +125,7 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
       </Typography>
 
       <form onSubmit={handleSubmit}>
+        <WorkflowProgressStepper progress={progress} />
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
           {workflow.fields.map((field, index) => (
             <WorkflowField
