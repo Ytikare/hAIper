@@ -111,23 +111,25 @@ export const WorkflowFieldValidation: React.FC<ValidationProps> = ({
           </Box>
           <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', mt: 1 }}>
             {(validation.fileTypes || []).map((type: string, index: number) => (
-              <Chip
-                key={index}
-                label={
-                  <TextField
-                    value={type}
-                    onChange={(e) => {
-                      const fileTypes = [...(validation.fileTypes || [])];
-                      fileTypes[index] = e.target.value;
-                      onChange({ ...validation, fileTypes });
-                    }}
-                    size="small"
-                    sx={{ width: 80 }}
-                  />
-                }
-                onDelete={() => handleRemoveFileType(index)}
-                sx={{ m: 0.5 }}
-              />
+              <Box key={index} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                <TextField
+                  value={type}
+                  onChange={(e) => {
+                    const fileTypes = [...(validation.fileTypes || [])];
+                    fileTypes[index] = e.target.value;
+                    onChange({ ...validation, fileTypes });
+                  }}
+                  size="small"
+                  placeholder="e.g. .pdf"
+                  sx={{ width: 100 }}
+                  InputProps={{
+                    startAdornment: type && !type.startsWith('.') ? '.' : undefined
+                  }}
+                />
+                <IconButton size="small" onClick={() => handleRemoveFileType(index)}>
+                  <DeleteIcon />
+                </IconButton>
+              </Box>
             ))}
           </Box>
           <TextField
