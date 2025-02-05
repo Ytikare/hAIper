@@ -77,11 +77,20 @@ export const WorkflowField: React.FC<WorkflowFieldProps> = ({ field, value, onCh
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               const file = e.target.files?.[0];
               if (file) {
+                // Check file size if maxSize is specified
+                if (field.validation?.maxSize && file.size > field.validation.maxSize * 1024 * 1024) {
+                  alert(`File size must be less than ${field.validation.maxSize}MB`);
+                  e.target.value = '';
+                  return;
+                }
                 onChange(file);
               }
             }}
             required={field.required}
-            accept={field.validation?.fileTypes?.join(',')}
+            // Ensure fileTypes is an array and prepend dots if needed
+            accept={field.validation?.fileTypes?.map(type => 
+              type.startsWith('.') ? type : `.${type}`
+            ).join(',')}
           />
         </FormControl>
       );
