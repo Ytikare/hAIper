@@ -15,7 +15,6 @@ interface WorkflowCardProps {
   workflow: Workflow;
 }
 
-export default WorkflowCard;
 
 const WorkflowCard: FC<WorkflowCardProps> = ({ workflow }) => {
   const router = useRouter();
@@ -59,3 +58,5 @@ const WorkflowCard: FC<WorkflowCardProps> = ({ workflow }) => {
     </Card>
   );
 }
+
+export default WorkflowCard;
