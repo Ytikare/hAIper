@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
 import { Box, Typography, Grid } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { WorkflowTemplate } from '@/types/workflow-builder';
+import { WorkflowTemplate } from '../src/types/workflow-builder';
 import WorkflowCard from '@/components/workflow/WorkflowCard';
 
 const Home: NextPage = () => {
