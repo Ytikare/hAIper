@@ -3,35 +3,43 @@ import { createTheme, alpha } from '@mui/material';
 const commonComponents = {
   MuiCard: {
     styleOverrides: {
-      root: {
+      root: ({ theme }) => ({
         backdropFilter: 'blur(20px)',
         borderRadius: 24,
-        border: '1px solid rgba(99, 102, 241, 0.2)',
-        transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-        background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(139, 92, 246, 0.08) 100%)',
-        boxShadow: '0 4px 20px rgba(99, 102, 241, 0.15)',
+        padding: '1px', // Space for gradient border
+        background: `linear-gradient(135deg, ${theme.palette.primary.main}40, ${theme.palette.primary.light}40)`,
         position: 'relative',
-        overflow: 'hidden',
+        transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
         '&::before': {
           content: '""',
           position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          height: '4px',
-          background: 'linear-gradient(90deg, #6366f1, #8b5cf6)',
-          opacity: 0.7,
+          inset: 0,
+          borderRadius: 24,
+          padding: '1px',
+          background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.primary.light})`,
+          WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+          WebkitMaskComposite: 'xor',
+          maskComposite: 'exclude',
         },
+        '& > *:first-of-type': {
+          borderRadius: 23,
+          background: theme.palette.mode === 'dark' 
+            ? 'linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.9))'
+            : 'linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(241, 245, 249, 0.9))',
+        },
+        boxShadow: theme.palette.mode === 'dark'
+          ? '0 4px 20px rgba(99, 102, 241, 0.3)'
+          : '0 4px 20px rgba(99, 102, 241, 0.15)',
         '&:hover': {
-          transform: 'translateY(-8px) scale(1.02)',
-          boxShadow: '0 20px 40px rgba(99, 102, 241, 0.3)',
-          border: '1px solid rgba(99, 102, 241, 0.4)',
-          background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.12) 0%, rgba(139, 92, 246, 0.12) 100%)',
+          transform: 'translateY(-8px)',
+          boxShadow: theme.palette.mode === 'dark'
+            ? '0 20px 40px rgba(99, 102, 241, 0.4), 0 0 20px rgba(99, 102, 241, 0.4) inset'
+            : '0 20px 40px rgba(99, 102, 241, 0.25), 0 0 20px rgba(99, 102, 241, 0.1) inset',
           '&::before': {
-            opacity: 1,
-          }
+            background: `linear-gradient(135deg, ${theme.palette.primary.light}, ${theme.palette.primary.main})`,
+          },
         },
-      },
+      }),
     },
   },
   MuiButton: {
