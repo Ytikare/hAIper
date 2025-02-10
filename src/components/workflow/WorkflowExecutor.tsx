@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { Box, Button, Typography, Paper } from '@mui/material';
+import { Box, Button, Typography, Paper, Card, CardContent, Grid, Chip, Divider } from '@mui/material';
 import { WorkflowProgress } from '../../types/workflow';
 import { WorkflowProgressStepper } from './WorkflowProgressStepper';
 import { WorkflowTemplate } from '../../types/workflow-builder';
@@ -141,58 +141,157 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
   };
 
   const ResultDisplay: React.FC<{ result: ContentTypeResponse }> = ({ result }) => {
+    const renderJsonContent = (data: any) => {
+      if (typeof data !== 'object') {
+        return (
+          <Typography variant="body1" color="text.primary">
+            {String(data)}
+          </Typography>
+        );
+      }
+
+      return (
+        <Grid container spacing={2}>
+          {Object.entries(data).map(([key, value], index) => (
+            <Grid item xs={12} key={index}>
+              <Card variant="outlined" sx={{ 
+                bgcolor: 'background.paper',
+                '&:hover': {
+                  boxShadow: 1,
+                }
+              }}>
+                <CardContent>
+                  <Typography variant="subtitle2" color="text.secondary" gutterBottom sx={{ textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                    {key.replace(/_/g, ' ')}
+                  </Typography>
+                  <Divider sx={{ my: 1 }} />
+                  {typeof value === 'object' ? (
+                    renderJsonContent(value)
+                  ) : (
+                    <Typography variant="body1" color="text.primary">
+                      {String(value)}
+                    </Typography>
+                  )}
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      );
+    };
+
     switch (result.type) {
       case 'json':
         return (
-          <pre style={{ whiteSpace: 'pre-wrap' }}>
-            {JSON.stringify(result.data, null, 2)}
-          </pre>
+          <Box sx={{ mt: 2 }}>
+            {renderJsonContent(result.data)}
+          </Box>
         );
       
       case 'image':
         return (
-          <Box sx={{ mt: 2 }}>
-            <img 
-              src={result.data} 
-              alt="Result" 
-              style={{ maxWidth: '100%', height: 'auto' }} 
-            />
-          </Box>
+          <Card sx={{ mt: 2 }}>
+            <CardContent>
+              <Box sx={{ 
+                display: 'flex', 
+                justifyContent: 'center',
+                p: 2,
+                bgcolor: 'background.paper',
+                borderRadius: 1
+              }}>
+                <img 
+                  src={result.data} 
+                  alt="Result" 
+                  style={{ 
+                    maxWidth: '100%', 
+                    height: 'auto',
+                    borderRadius: '8px',
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+                  }} 
+                />
+              </Box>
+            </CardContent>
+          </Card>
         );
       
       case 'pdf':
         return (
-          <Box sx={{ mt: 2 }}>
-            <iframe
-              src={result.data}
-              style={{ width: '100%', height: '500px', border: 'none' }}
-              title="PDF Result"
-            />
-          </Box>
+          <Card sx={{ mt: 2 }}>
+            <CardContent>
+              <Box sx={{ 
+                height: '500px',
+                bgcolor: 'background.paper',
+                borderRadius: 1,
+                overflow: 'hidden'
+              }}>
+                <iframe
+                  src={result.data}
+                  style={{ width: '100%', height: '100%', border: 'none' }}
+                  title="PDF Result"
+                />
+              </Box>
+            </CardContent>
+          </Card>
         );
       
       case 'text':
         return (
-          <Box sx={{ mt: 2, whiteSpace: 'pre-wrap' }}>
-            <Typography>{result.data}</Typography>
-          </Box>
+          <Card sx={{ mt: 2 }}>
+            <CardContent>
+              <Typography 
+                sx={{ 
+                  whiteSpace: 'pre-wrap',
+                  p: 2,
+                  bgcolor: 'background.paper',
+                  borderRadius: 1,
+                  fontFamily: 'monospace'
+                }}
+              >
+                {result.data}
+              </Typography>
+            </CardContent>
+          </Card>
         );
       
       case 'blob':
         return (
-          <Box sx={{ mt: 2 }}>
-            <Button 
-              variant="contained" 
-              href={result.data} 
-              download
-            >
-              Download File
-            </Button>
-          </Box>
+          <Card sx={{ mt: 2 }}>
+            <CardContent sx={{ 
+              display: 'flex', 
+              alignItems: 'center',
+              gap: 2,
+              p: 3
+            }}>
+              <Chip 
+                label="File Ready" 
+                color="success" 
+                size="small" 
+              />
+              <Button 
+                variant="contained" 
+                href={result.data} 
+                download
+                sx={{
+                  background: 'linear-gradient(45deg, #6366f1, #8b5cf6)',
+                  '&:hover': {
+                    background: 'linear-gradient(45deg, #5558e8, #7c4def)',
+                  }
+                }}
+              >
+                Download File
+              </Button>
+            </CardContent>
+          </Card>
         );
       
       default:
-        return <Typography>Unsupported result type</Typography>;
+        return (
+          <Card sx={{ mt: 2 }}>
+            <CardContent>
+              <Typography color="error">Unsupported result type</Typography>
+            </CardContent>
+          </Card>
+        );
     }
   };
 
