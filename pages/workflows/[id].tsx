@@ -86,13 +86,6 @@ export default function WorkflowPage() {
           boxShadow: (theme) => theme.palette.mode === 'dark'
             ? '0 4px 20px rgba(99, 102, 241, 0.3)'
             : '0 4px 20px rgba(99, 102, 241, 0.15)',
-          transition: 'all 0.3s ease-in-out',
-          '&:hover': {
-            transform: 'translateY(-4px)',
-            boxShadow: (theme) => theme.palette.mode === 'dark'
-              ? '0 8px 30px rgba(99, 102, 241, 0.4)'
-              : '0 8px 30px rgba(99, 102, 241, 0.2)',
-          },
           '&::before': {
             content: '""',
             position: 'absolute',
