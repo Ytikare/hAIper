@@ -32,17 +32,51 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }
         <Toolbar>
           <Link href="/" passHref style={{ textDecoration: 'none', color: 'inherit' }}>
             <Typography 
-              variant="h6" 
+              variant="h5" 
               component="div"
               sx={{
-                background: 'linear-gradient(45deg, #6366f1, #8b5cf6)',
+                background: 'linear-gradient(45deg, #6366f1, #8b5cf6, #d946ef)',
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
-                fontWeight: 700,
+                fontWeight: 800,
+                letterSpacing: '-0.5px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 1,
+                '&::before': {
+                  content: '""',
+                  width: '8px',
+                  height: '8px',
+                  borderRadius: '50%',
+                  background: 'linear-gradient(45deg, #6366f1, #8b5cf6)',
+                  boxShadow: '0 0 15px #6366f1',
+                  animation: 'pulse 2s infinite',
+                },
+                '@keyframes pulse': {
+                  '0%': {
+                    boxShadow: '0 0 0 0 rgba(99, 102, 241, 0.7)',
+                  },
+                  '70%': {
+                    boxShadow: '0 0 0 10px rgba(99, 102, 241, 0)',
+                  },
+                  '100%': {
+                    boxShadow: '0 0 0 0 rgba(99, 102, 241, 0)',
+                  },
+                },
               }}
             >
-              hAIper Platform
+              hAIper
+              <span style={{ 
+                fontSize: '0.7em', 
+                background: 'rgba(99, 102, 241, 0.1)',
+                padding: '4px 8px',
+                borderRadius: '12px',
+                marginLeft: '4px',
+                border: '1px solid rgba(99, 102, 241, 0.2)'
+              }}>
+                AI Platform
+              </span>
             </Typography>
           </Link>
           <Box sx={{ flexGrow: 1 }} />
