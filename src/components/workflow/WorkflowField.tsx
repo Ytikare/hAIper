@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextField, FormControl, Input, MenuItem } from '@mui/material';
+import { TextField, FormControl, Input, MenuItem, Typography } from '@mui/material';
 import { WorkflowField as IWorkflowField } from '../../types/workflow-builder';
 
 interface WorkflowFieldProps {
@@ -109,14 +109,16 @@ export const WorkflowField: React.FC<WorkflowFieldProps> = ({ field, value, onCh
             required={field.required}
           />
           {acceptedTypes && (
-            <small style={{ 
-              marginTop: '4px', 
-              color: (theme) => theme.palette.mode === 'dark' 
-                ? 'rgba(255, 255, 255, 0.7)' 
-                : 'rgba(0, 0, 0, 0.6)'
-            }}>
+            <Typography
+              variant="caption"
+              sx={{
+                display: 'block',
+                mt: 0.5,
+                color: 'text.secondary'
+              }}
+            >
               Accepted file types: {acceptedTypes}
-            </small>
+            </Typography>
           )}
         </FormControl>
       );
