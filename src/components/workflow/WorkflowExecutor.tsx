@@ -3,7 +3,6 @@ import { Box, Button, Typography, Paper } from '@mui/material';
 import { WorkflowProgress } from '../../types/workflow';
 import { WorkflowProgressStepper } from './WorkflowProgressStepper';
 import { WorkflowTemplate } from '../../types/workflow-builder';
-import { workflowService } from '../../services/workflow-service';
 import { WorkflowField } from './WorkflowField';
 
 interface WorkflowExecutorProps {
@@ -31,25 +30,55 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
     });
   }, []);
 
+  const executeWorkflowAPI = async (data: Record<string, any>) => {
+    const { apiConfig } = workflow;
+    
+    if (!workflow.apiConfig?.endpoint) {
+      throw new Error('Workflow API endpoint not configured');
+    }
+
+    // Transform request data if transformer is provided
+    const transformedData = apiConfig.transformRequest 
+      ? apiConfig.transformRequest(data)
+      : data;
+
+    const response = await fetch(apiConfig.endpoint, {
+      method: apiConfig.method,
+      headers: {
+        'Content-Type': 'application/json',
+        ...apiConfig.headers,
+      },
+      body: apiConfig.method !== 'GET' ? JSON.stringify(transformedData) : undefined,
+    });
+
+    if (!response.ok) {
+      throw new Error(`API request failed: ${response.statusText}`);
+    }
+
+    const responseData = await response.json();
+    
+    // Transform response data if transformer is provided
+    return apiConfig.transformResponse 
+      ? apiConfig.transformResponse(responseData)
+      : responseData;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       // Step 1: Preparing workflow
       updateProgress(0, 'in_progress', 'Preparing workflow data...');
       
-      // Step 2: Sending to backend
-      updateProgress(1, 'in_progress', 'Sending data to backend server...');
-      const response = await workflowService.executeWorkflow(workflow.id, formData);
+      // Step 2: Sending to API endpoint
+      updateProgress(1, 'in_progress', 'Sending data to API endpoint...');
+      const response = await executeWorkflowAPI(formData);
       
-      // Step 3: Executing in Airflow
-      updateProgress(2, 'in_progress', 'Executing workflow in Airflow...');
-      // Here you would typically poll the backend for workflow status
-      // For now, we'll simulate a delay
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // Step 3: Processing
+      updateProgress(2, 'in_progress', 'Processing response...');
       
-      // Step 4: Processing results
-      updateProgress(3, 'in_progress', 'Processing results...');
-      setResult(response.result);
+      // Step 4: Completing
+      updateProgress(3, 'in_progress', 'Finalizing...');
+      setResult(response);
       
       // Complete
       updateProgress(4, 'completed', 'Workflow completed successfully');
