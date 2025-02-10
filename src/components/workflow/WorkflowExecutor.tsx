@@ -198,16 +198,38 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
 
   if (isCompleted) {
     return (
-      <Paper 
-        sx={{ 
+      <Paper
+        sx={{
           p: 4,
           borderRadius: 3,
-          background: (theme) => theme.palette.mode === 'dark' 
+          position: 'relative',
+          background: (theme) => theme.palette.mode === 'dark'
             ? 'linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.9))'
             : 'linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(241, 245, 249, 0.9))',
           boxShadow: (theme) => theme.palette.mode === 'dark'
             ? '0 4px 20px rgba(99, 102, 241, 0.3)'
             : '0 4px 20px rgba(99, 102, 241, 0.15)',
+          transition: 'all 0.3s ease-in-out',
+          '&:hover': {
+            transform: 'translateY(-4px)',
+            boxShadow: (theme) => theme.palette.mode === 'dark'
+              ? '0 8px 30px rgba(99, 102, 241, 0.4)'
+              : '0 8px 30px rgba(99, 102, 241, 0.2)',
+          },
+          '&::before': {
+            content: '""',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            borderRadius: 3,
+            border: '1px solid',
+            borderColor: 'transparent',
+            background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1))',
+            transition: 'all 0.3s ease-in-out',
+            zIndex: 0,
+          }
         }}
       >
         <Box>
@@ -250,16 +272,38 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
   }
 
   return (
-    <Paper 
-      sx={{ 
+    <Paper
+      sx={{
         p: 4,
         borderRadius: 3,
-        background: (theme) => theme.palette.mode === 'dark' 
+        position: 'relative',
+        background: (theme) => theme.palette.mode === 'dark'
           ? 'linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.9))'
           : 'linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(241, 245, 249, 0.9))',
         boxShadow: (theme) => theme.palette.mode === 'dark'
           ? '0 4px 20px rgba(99, 102, 241, 0.3)'
           : '0 4px 20px rgba(99, 102, 241, 0.15)',
+        transition: 'all 0.3s ease-in-out',
+        '&:hover': {
+          transform: 'translateY(-4px)',
+          boxShadow: (theme) => theme.palette.mode === 'dark'
+            ? '0 8px 30px rgba(99, 102, 241, 0.4)'
+            : '0 8px 30px rgba(99, 102, 241, 0.2)',
+        },
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          borderRadius: 3,
+          border: '1px solid',
+          borderColor: 'transparent',
+          background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1))',
+          transition: 'all 0.3s ease-in-out',
+          zIndex: 0,
+        }
       }}
     >
       <form onSubmit={handleSubmit}>
