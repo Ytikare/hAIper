@@ -272,7 +272,7 @@ export const WorkflowForm: React.FC<WorkflowFormProps> = ({
                   color: 'primary.main',
                   '&:hover': {
                     borderColor: 'primary.dark',
-                    bgcolor: 'rgba(99, 102, 241, 0.08)',
+                    bgcolor: 'rgba(190, 190, 236, 0.08)',
                   }
                 }}
               >
@@ -292,7 +292,7 @@ export const WorkflowForm: React.FC<WorkflowFormProps> = ({
             sx={{
               color: 'text.secondary',
               '&:hover': {
-                bgcolor: 'rgba(0, 0, 0, 0.04)',
+                bgcolor: 'rgb(252, 252, 252)',
               }
             }}
           >
