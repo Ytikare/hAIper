@@ -76,10 +76,41 @@ export const WorkflowForm: React.FC<WorkflowFormProps> = ({
   };
 
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
+    <Dialog 
+      open={open} 
+      onClose={onClose} 
+      maxWidth="md" 
+      fullWidth
+      PaperProps={{
+        sx: {
+          borderRadius: 2,
+          background: (theme) => theme.palette.mode === 'dark'
+            ? 'linear-gradient(135deg, rgba(30, 41, 59, 1), rgba(15, 23, 42, 1))'
+            : 'linear-gradient(135deg, rgba(255, 255, 255, 1), rgba(241, 245, 249, 1))',
+          boxShadow: (theme) => theme.palette.mode === 'dark'
+            ? '0 8px 32px rgba(0, 0, 0, 0.4)'
+            : '0 8px 32px rgba(0, 0, 0, 0.1)',
+        }
+      }}
+    >
       <form onSubmit={handleSubmit}>
-        <DialogTitle>
-          {workflow ? 'Edit Workflow' : 'Create New Workflow'}
+        <DialogTitle sx={{
+          background: (theme) => theme.palette.mode === 'dark'
+            ? 'linear-gradient(135deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.95))'
+            : 'linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(241, 245, 249, 0.95))',
+          borderBottom: '1px solid',
+          borderColor: 'divider',
+          py: 2,
+        }}>
+          <Typography variant="h5" sx={{ 
+            fontWeight: 600,
+            background: 'linear-gradient(45deg, #6366f1, #8b5cf6)',
+            backgroundClip: 'text',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+          }}>
+            {workflow ? 'Edit Workflow' : 'Create New Workflow'}
+          </Typography>
         </DialogTitle>
         <DialogContent>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 2 }}>
@@ -103,7 +134,16 @@ export const WorkflowForm: React.FC<WorkflowFormProps> = ({
             />
             
             <Box>
-              <Typography variant="h6">API Configuration</Typography>
+              <Typography 
+                variant="h6" 
+                sx={{ 
+                  fontWeight: 600,
+                  color: 'primary.main',
+                  mb: 1
+                }}
+              >
+                API Configuration
+              </Typography>
               <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
                 <TextField
                   fullWidth
@@ -135,9 +175,33 @@ export const WorkflowForm: React.FC<WorkflowFormProps> = ({
             </Box>
 
             <Box>
-              <Typography variant="h6">Fields</Typography>
+              <Typography 
+                variant="h6" 
+                sx={{ 
+                  fontWeight: 600,
+                  color: 'primary.main',
+                  mb: 2
+                }}
+              >
+                Fields
+              </Typography>
               {formData.fields?.map((field, index) => (
-                <Box key={index} sx={{ display: 'flex', gap: 1, mb: 2, alignItems: 'center' }}>
+                <Box 
+                  key={index} 
+                  sx={{ 
+                    display: 'flex', 
+                    gap: 1, 
+                    mb: 2, 
+                    alignItems: 'center',
+                    p: 2,
+                    borderRadius: 1,
+                    bgcolor: (theme) => theme.palette.mode === 'dark'
+                      ? 'rgba(30, 41, 59, 0.4)'
+                      : 'rgba(241, 245, 249, 0.4)',
+                    border: '1px solid',
+                    borderColor: 'divider',
+                  }}
+                >
                   <TextField
                     label="Field Label"
                     value={field.label}
@@ -203,15 +267,47 @@ export const WorkflowForm: React.FC<WorkflowFormProps> = ({
                 startIcon={<AddIcon />}
                 onClick={handleAddField}
                 variant="outlined"
+                sx={{
+                  borderColor: 'primary.main',
+                  color: 'primary.main',
+                  '&:hover': {
+                    borderColor: 'primary.dark',
+                    bgcolor: 'rgba(99, 102, 241, 0.08)',
+                  }
+                }}
               >
                 Add Field
               </Button>
             </Box>
           </Box>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={onClose}>Cancel</Button>
-          <Button type="submit" variant="contained">
+        <DialogActions sx={{ 
+          borderTop: '1px solid',
+          borderColor: 'divider',
+          px: 3,
+          py: 2,
+        }}>
+          <Button 
+            onClick={onClose}
+            sx={{
+              color: 'text.secondary',
+              '&:hover': {
+                bgcolor: 'rgba(0, 0, 0, 0.04)',
+              }
+            }}
+          >
+            Cancel
+          </Button>
+          <Button 
+            type="submit" 
+            variant="contained"
+            sx={{
+              background: 'linear-gradient(45deg, #6366f1, #8b5cf6)',
+              '&:hover': {
+                background: 'linear-gradient(45deg, #5558e8, #7c4def)',
+              }
+            }}
+          >
             Save
           </Button>
         </DialogActions>
