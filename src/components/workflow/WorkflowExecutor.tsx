@@ -371,8 +371,8 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
             zIndex: 0,
           }
         }}
-    >
-      <form onSubmit={handleSubmit}>
+      >
+        <form onSubmit={handleSubmit}>
         <WorkflowProgressStepper progress={progress} />
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3, mt: 4 }}>
           {workflow.fields.map((field, index) => (
@@ -401,6 +401,7 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
           </Box>
         </Box>
       </form>
-    </Paper>
+      </Paper>
+    </Box>
   );
 };
