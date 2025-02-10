@@ -233,19 +233,8 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
         }}
       >
         <Box>
-          <Typography 
-            variant="h5" 
-            gutterBottom
-            sx={{
-              background: 'linear-gradient(45deg, #6366f1, #8b5cf6)',
-              backgroundClip: 'text',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              fontWeight: 700,
-              mb: 3
-            }}
-          >
-            Workflow completed!
+          <Typography variant="h6" color="success.main" sx={{ mb: 3 }}>
+            ✓ Workflow completed successfully!
           </Typography>
           {result && (
             <Box sx={{ mt: 3 }}>
