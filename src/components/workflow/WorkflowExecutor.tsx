@@ -272,11 +272,77 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
   }
 
   return (
-    <Paper
-      sx={{
-        p: 4,
-        borderRadius: 3,
-        position: 'relative',
+    <Box>
+      <Paper
+        elevation={0}
+        sx={{
+          p: 4,
+          mb: 3,
+          borderRadius: 3,
+          position: 'relative',
+          background: (theme) => `linear-gradient(135deg, 
+            ${theme.palette.mode === 'dark' ? 'rgba(99, 102, 241, 0.15)' : 'rgba(99, 102, 241, 0.1)'}, 
+            ${theme.palette.mode === 'dark' ? 'rgba(139, 92, 246, 0.15)' : 'rgba(139, 92, 246, 0.1)'}
+          )`,
+          overflow: 'hidden',
+          '&::before': {
+            content: '""',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: 'linear-gradient(45deg, rgba(99, 102, 241, 0.3), rgba(139, 92, 246, 0.3))',
+            maskImage: 'radial-gradient(circle at 100% 100%, transparent 25%, black 75%)',
+            opacity: 0.1,
+          },
+          '&::after': {
+            content: '""',
+            position: 'absolute',
+            inset: 0,
+            borderRadius: 3,
+            padding: '2px',
+            background: 'linear-gradient(45deg, rgba(99, 102, 241, 0.5), rgba(139, 92, 246, 0.5))',
+            WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+            WebkitMaskComposite: 'xor',
+            maskComposite: 'exclude',
+          }
+        }}
+      >
+        <Box sx={{ position: 'relative', zIndex: 1 }}>
+          <Typography
+            variant="h4"
+            sx={{
+              fontWeight: 700,
+              mb: 2,
+              background: 'linear-gradient(45deg, #6366f1, #8b5cf6)',
+              backgroundClip: 'text',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              textShadow: '0 2px 10px rgba(99, 102, 241, 0.2)',
+            }}
+          >
+            {workflow.name}
+          </Typography>
+          {workflow.description && (
+            <Typography
+              variant="subtitle1"
+              sx={{
+                color: (theme) => theme.palette.text.secondary,
+                maxWidth: '800px',
+                lineHeight: 1.6,
+              }}
+            >
+              {workflow.description}
+            </Typography>
+          )}
+        </Box>
+      </Paper>
+      <Paper
+        sx={{
+          p: 4,
+          borderRadius: 3,
+          position: 'relative',
         background: (theme) => theme.palette.mode === 'dark'
           ? 'linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.9))'
           : 'linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(241, 245, 249, 0.9))',
