@@ -268,11 +268,14 @@ export const WorkflowForm: React.FC<WorkflowFormProps> = ({
                 onClick={handleAddField}
                 variant="outlined"
                 sx={{
-                  borderColor: 'primary.main',
-                  color: 'primary.main',
+                  borderColor: (theme) => theme.palette.mode === 'dark' ? 'primary.main' : 'primary.light',
+                  color: (theme) => theme.palette.mode === 'dark' ? 'primary.main' : 'primary.light',
+                  bgcolor: (theme) => theme.palette.mode === 'dark' ? 'transparent' : 'rgba(99, 102, 241, 0.08)',
                   '&:hover': {
-                    borderColor: 'primary.dark',
-                    bgcolor: 'rgba(190, 190, 236, 0.08)',
+                    borderColor: 'primary.main',
+                    bgcolor: (theme) => theme.palette.mode === 'dark' 
+                      ? 'rgba(99, 102, 241, 0.1)'
+                      : 'rgba(99, 102, 241, 0.15)',
                   }
                 }}
               >
@@ -290,9 +293,11 @@ export const WorkflowForm: React.FC<WorkflowFormProps> = ({
           <Button 
             onClick={onClose}
             sx={{
-              color: 'text.secondary',
+              color: (theme) => theme.palette.mode === 'dark' ? 'grey.400' : 'grey.700',
               '&:hover': {
-                bgcolor: 'rgb(252, 252, 252)',
+                bgcolor: (theme) => theme.palette.mode === 'dark' 
+                  ? 'rgba(255, 255, 255, 0.08)'
+                  : 'rgba(0, 0, 0, 0.04)',
               }
             }}
           >
