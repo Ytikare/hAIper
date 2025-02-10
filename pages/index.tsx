@@ -13,7 +13,7 @@ const Home: NextPage = () => {
       </Typography>
       
       <Grid container spacing={3} sx={{ mt: 4 }}>
-        <Grid item xs={12} md={4}>
+        <Grid item xs={12} md={6}>
           <Paper sx={{ p: 3 }}>
             <Typography variant="h6" gutterBottom>
               Workflows
@@ -24,36 +24,6 @@ const Home: NextPage = () => {
             <Link href="/workflows" passHref>
               <Button variant="contained" color="primary">
                 View Workflows
-              </Button>
-            </Link>
-          </Paper>
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <Paper sx={{ p: 3 }}>
-            <Typography variant="h6" gutterBottom>
-              CV Analysis
-            </Typography>
-            <Typography paragraph>
-              Analyze CVs with AI assistance
-            </Typography>
-            <Link href="/workflows/cv-analysis" passHref>
-              <Button variant="contained" color="primary">
-                Start Analysis
-              </Button>
-            </Link>
-          </Paper>
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <Paper sx={{ p: 3 }}>
-            <Typography variant="h6" gutterBottom>
-              IT Helper
-            </Typography>
-            <Typography paragraph>
-              Get IT support and solutions
-            </Typography>
-            <Link href="/workflows/it-helper" passHref>
-              <Button variant="contained" color="primary">
-                Get Help
               </Button>
             </Link>
           </Paper>
