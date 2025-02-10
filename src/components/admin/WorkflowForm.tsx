@@ -269,7 +269,7 @@ export const WorkflowForm: React.FC<WorkflowFormProps> = ({
                 variant="outlined"
                 sx={{
                   borderColor: (theme) => theme.palette.mode === 'dark' ? 'primary.main' : 'primary.light',
-                  color: (theme) => theme.palette.mode === 'dark' ? 'primary.main' : 'primary.light',
+                  //color: (theme) => theme.palette.mode === 'dark' ? 'primary.main' : 'primary.light',
                   bgcolor: (theme) => theme.palette.mode === 'dark' ? 'transparent' : 'rgba(99, 102, 241, 0.08)',
                   '&:hover': {
                     borderColor: 'primary.main',
@@ -293,7 +293,7 @@ export const WorkflowForm: React.FC<WorkflowFormProps> = ({
           <Button 
             onClick={onClose}
             sx={{
-              color: (theme) => theme.palette.mode === 'dark' ? 'grey.400' : 'grey.700',
+              color: (theme) => theme.palette.mode === 'dark' ? 'white.900' : 'white.1000',
               '&:hover': {
                 bgcolor: (theme) => theme.palette.mode === 'dark' 
                   ? 'rgba(255, 255, 255, 0.08)'
