@@ -45,20 +45,7 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }
               hAIper Platform
             </Typography>
           </Link>
-          <Box sx={{ flexGrow: 1, display: 'flex', gap: 2, ml: 4 }}>
-            <Link href="/workflows" passHref>
-              <Button color="inherit">Workflows</Button>
-            </Link>
-            <Link href="/workflows/cv-analysis" passHref>
-              <Button color="inherit">CV Analysis</Button>
-            </Link>
-            <Link href="/workflows/it-helper" passHref>
-              <Button color="inherit">IT Helper</Button>
-            </Link>
-            <Link href="/admin/workflows" passHref>
-              <Button color="inherit">Admin</Button>
-            </Link>
-          </Box>
+          <Box sx={{ flexGrow: 1 }} />
           <IconButton 
             onClick={toggleTheme} 
             sx={{
