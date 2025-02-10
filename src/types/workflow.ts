@@ -2,7 +2,6 @@ export interface Workflow {
   id: string;
   name: string;
   description: string;
-  icon?: string;
   status: 'available' | 'coming_soon';
 }
 

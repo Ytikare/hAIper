@@ -26,14 +26,7 @@ const WorkflowCard: FC<WorkflowCardProps> = ({ workflow }) => {
   return (
     <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
       <CardContent sx={{ flexGrow: 1 }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-          {workflow.icon && (
-            <img 
-              src={workflow.icon} 
-              alt={workflow.name} 
-              style={{ width: 40, height: 40, marginRight: 12 }} 
-            />
-          )}
+        <Box sx={{ mb: 2 }}>
           <Typography variant="h6" component="h2">
             {workflow.name}
           </Typography>
