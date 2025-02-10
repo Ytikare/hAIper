@@ -5,13 +5,18 @@ import { WorkflowProgressStepper } from './WorkflowProgressStepper';
 import { WorkflowTemplate } from '../../types/workflow-builder';
 import { WorkflowField } from './WorkflowField';
 
+type ContentTypeResponse = {
+  type: string;
+  data: any;
+};
+
 interface WorkflowExecutorProps {
   workflow: WorkflowTemplate;
 }
 
 export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) => {
   const [formData, setFormData] = useState<Record<string, any>>({});
-  const [result, setResult] = useState<any>(null);
+  const [result, setResult] = useState<ContentTypeResponse | null>(null);
   const [error, setError] = useState<string>('');
   const [isCompleted, setIsCompleted] = useState(false);
   const [progress, setProgress] = useState<WorkflowProgress>({
@@ -30,7 +35,7 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
     });
   }, []);
 
-  const executeWorkflowAPI = async (data: Record<string, any>) => {
+  const executeWorkflowAPI = async (data: Record<string, any>): Promise<ContentTypeResponse> => {
     const { apiConfig } = workflow;
     
     if (!workflow.apiConfig?.endpoint) {
@@ -55,12 +60,32 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
       throw new Error(`API request failed: ${response.statusText}`);
     }
 
-    const responseData = await response.json();
-    
-    // Transform response data if transformer is provided
-    return apiConfig.transformResponse 
-      ? apiConfig.transformResponse(responseData)
-      : responseData;
+    const contentType = response.headers.get('content-type') || '';
+
+    // Handle different content types
+    if (contentType.includes('application/json')) {
+      const jsonData = await response.json();
+      return {
+        type: 'json',
+        data: apiConfig.transformResponse ? apiConfig.transformResponse(jsonData) : jsonData
+      };
+    } else if (contentType.includes('image/')) {
+      const blob = await response.blob();
+      const imageUrl = URL.createObjectURL(blob);
+      return { type: 'image', data: imageUrl };
+    } else if (contentType.includes('application/pdf')) {
+      const blob = await response.blob();
+      const pdfUrl = URL.createObjectURL(blob);
+      return { type: 'pdf', data: pdfUrl };
+    } else if (contentType.includes('text/')) {
+      const text = await response.text();
+      return { type: 'text', data: text };
+    } else {
+      // Default to blob download for unknown types
+      const blob = await response.blob();
+      const fileUrl = URL.createObjectURL(blob);
+      return { type: 'blob', data: fileUrl };
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -100,6 +125,9 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
   };
 
   const handleReset = () => {
+    if (result?.type === 'blob' || result?.type === 'image' || result?.type === 'pdf') {
+      URL.revokeObjectURL(result.data);
+    }
     setFormData({});
     setResult(null);
     setError('');
@@ -110,6 +138,62 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
       status: 'pending',
       stepDetails: ''
     });
+  };
+
+  const ResultDisplay: React.FC<{ result: ContentTypeResponse }> = ({ result }) => {
+    switch (result.type) {
+      case 'json':
+        return (
+          <pre style={{ whiteSpace: 'pre-wrap' }}>
+            {JSON.stringify(result.data, null, 2)}
+          </pre>
+        );
+      
+      case 'image':
+        return (
+          <Box sx={{ mt: 2 }}>
+            <img 
+              src={result.data} 
+              alt="Result" 
+              style={{ maxWidth: '100%', height: 'auto' }} 
+            />
+          </Box>
+        );
+      
+      case 'pdf':
+        return (
+          <Box sx={{ mt: 2 }}>
+            <iframe
+              src={result.data}
+              style={{ width: '100%', height: '500px', border: 'none' }}
+              title="PDF Result"
+            />
+          </Box>
+        );
+      
+      case 'text':
+        return (
+          <Box sx={{ mt: 2, whiteSpace: 'pre-wrap' }}>
+            <Typography>{result.data}</Typography>
+          </Box>
+        );
+      
+      case 'blob':
+        return (
+          <Box sx={{ mt: 2 }}>
+            <Button 
+              variant="contained" 
+              href={result.data} 
+              download
+            >
+              Download File
+            </Button>
+          </Box>
+        );
+      
+      default:
+        return <Typography>Unsupported result type</Typography>;
+    }
   };
 
   if (isCompleted) {
@@ -127,9 +211,7 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
               <Typography variant="h6" gutterBottom>
                 Result:
               </Typography>
-              <pre style={{ whiteSpace: 'pre-wrap' }}>
-                {JSON.stringify(result, null, 2)}
-              </pre>
+              <ResultDisplay result={result} />
             </Box>
           )}
           <Button
