@@ -15,7 +15,9 @@ interface WorkflowCardProps {
   workflow: Workflow;
 }
 
-export const WorkflowCard: FC<WorkflowCardProps> = ({ workflow }) => {
+export default WorkflowCard;
+
+const WorkflowCard: FC<WorkflowCardProps> = ({ workflow }) => {
   const router = useRouter();
 
   const handleStart = () => {
