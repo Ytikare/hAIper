@@ -103,6 +103,38 @@ export const WorkflowForm: React.FC<WorkflowFormProps> = ({
             />
             
             <Box>
+              <Typography variant="h6">API Configuration</Typography>
+              <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
+                <TextField
+                  fullWidth
+                  label="API Endpoint"
+                  value={formData.apiConfig?.endpoint || ''}
+                  onChange={(e) => setFormData({
+                    ...formData,
+                    apiConfig: { ...(formData.apiConfig || {}), endpoint: e.target.value }
+                  })}
+                  placeholder="https://api.example.com/endpoint"
+                />
+                <FormControl sx={{ minWidth: 120 }}>
+                  <InputLabel>Method</InputLabel>
+                  <Select
+                    value={formData.apiConfig?.method || 'POST'}
+                    label="Method"
+                    onChange={(e) => setFormData({
+                      ...formData,
+                      apiConfig: { ...(formData.apiConfig || {}), method: e.target.value as 'GET' | 'POST' | 'PUT' | 'DELETE' }
+                    })}
+                  >
+                    <MenuItem value="GET">GET</MenuItem>
+                    <MenuItem value="POST">POST</MenuItem>
+                    <MenuItem value="PUT">PUT</MenuItem>
+                    <MenuItem value="DELETE">DELETE</MenuItem>
+                  </Select>
+                </FormControl>
+              </Box>
+            </Box>
+
+            <Box>
               <Typography variant="h6">Fields</Typography>
               {formData.fields?.map((field, index) => (
                 <Box key={index} sx={{ display: 'flex', gap: 1, mb: 2, alignItems: 'center' }}>
