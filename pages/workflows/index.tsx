@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Grid, Typography, Container, Button, Box } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useWorkflow } from '../../src/contexts/WorkflowContext';
-import { WorkflowCard } from '../../src/components/workflow/WorkflowCard';
+import WorkflowCard from '../../src/components/workflow/WorkflowCard';
 
 export default function WorkflowsPage() {
   const { workflows } = useWorkflow();
