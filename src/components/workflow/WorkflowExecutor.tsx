@@ -198,17 +198,40 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
 
   if (isCompleted) {
     return (
-      <Paper sx={{ p: 3 }}>
-        <Typography variant="h5" gutterBottom>
-          {workflow.name}
-        </Typography>
+      <Paper 
+        sx={{ 
+          p: 4,
+          borderRadius: 3,
+          background: (theme) => theme.palette.mode === 'dark' 
+            ? 'linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.9))'
+            : 'linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(241, 245, 249, 0.9))',
+          boxShadow: (theme) => theme.palette.mode === 'dark'
+            ? '0 4px 20px rgba(99, 102, 241, 0.3)'
+            : '0 4px 20px rgba(99, 102, 241, 0.15)',
+        }}
+      >
         <Box>
-          <Typography variant="h6" gutterBottom>
+          <Typography 
+            variant="h5" 
+            gutterBottom
+            sx={{
+              background: 'linear-gradient(45deg, #6366f1, #8b5cf6)',
+              backgroundClip: 'text',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              fontWeight: 700,
+              mb: 3
+            }}
+          >
             Workflow completed!
           </Typography>
           {result && (
             <Box sx={{ mt: 3 }}>
-              <Typography variant="h6" gutterBottom>
+              <Typography 
+                variant="h6" 
+                gutterBottom
+                sx={{ color: (theme) => theme.palette.text.primary }}
+              >
                 Result:
               </Typography>
               <ResultDisplay result={result} />
@@ -217,7 +240,7 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
           <Button
             variant="contained"
             onClick={handleReset}
-            sx={{ mt: 2 }}
+            sx={{ mt: 3 }}
           >
             Start New Workflow
           </Button>
@@ -227,17 +250,21 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
   }
 
   return (
-    <Paper sx={{ p: 3 }}>
-      <Typography variant="h5" gutterBottom>
-        {workflow.name}
-      </Typography>
-      <Typography variant="body1" color="text.secondary" paragraph>
-        {workflow.description}
-      </Typography>
-
+    <Paper 
+      sx={{ 
+        p: 4,
+        borderRadius: 3,
+        background: (theme) => theme.palette.mode === 'dark' 
+          ? 'linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.9))'
+          : 'linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(241, 245, 249, 0.9))',
+        boxShadow: (theme) => theme.palette.mode === 'dark'
+          ? '0 4px 20px rgba(99, 102, 241, 0.3)'
+          : '0 4px 20px rgba(99, 102, 241, 0.15)',
+      }}
+    >
       <form onSubmit={handleSubmit}>
         <WorkflowProgressStepper progress={progress} />
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3, mt: 4 }}>
           {workflow.fields.map((field, index) => (
             <WorkflowField
               key={index}
@@ -253,7 +280,7 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
             </Typography>
           )}
 
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 4 }}>
             <Button
               type="submit"
               variant="contained"
