@@ -7,11 +7,11 @@ import { WorkflowExecutor } from './components/workflow/WorkflowExecutor';
 export const AppRoutes = () => {
   return (
     <Routes>
-      <Route path="/" element={<WorkflowList />} />
-      <Route path="/admin/workflows" element={<WorkflowList />} />
-      <Route path="/admin/workflows/new" element={<WorkflowForm />} />
-      <Route path="/admin/workflows/:id" element={<WorkflowForm />} />
-      <Route path="/workflows/:id" element={<WorkflowExecutor />} />
+      <Route path="/" element={typeof(WorkflowList)} />
+      <Route path="/admin/workflows" element={typeof(WorkflowList)} />
+      <Route path="/admin/workflows/new" element={typeof(WorkflowForm)} />
+      <Route path="/admin/workflows/:id" element={typeof(WorkflowForm)} />
+      <Route path="/workflows/:id" element={typeof(WorkflowExecutor)} />
     </Routes>
   );
 };

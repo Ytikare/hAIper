@@ -3,7 +3,7 @@ import { Workflow, WorkflowProgress } from './workflow';
 export interface WorkflowField {
   id: string;
   name: string;
-  type: 'text' | 'number' | 'dropdown' | 'file' | 'multiselect' | 'date' | 'textarea';
+  type: 'text' | 'number' | 'dropdown' | 'file' | 'multiselect' | 'date' | 'textarea' | 'email';
   label: string;
   placeholder?: string;
   required: boolean;
@@ -13,11 +13,16 @@ export interface WorkflowField {
     value: string | number;
   }>;
   validation?: {
+    options?: any;
+    maxSize?: number;
+    step?: any;
     min?: number;
     max?: number;
     pattern?: string;
     fileTypes?: string[];
     maxFileSize?: number;
+    minLength?: string;
+    maxLength?: string;
     customValidation?: (value: any) => boolean | string;
   };
   visibility?: {

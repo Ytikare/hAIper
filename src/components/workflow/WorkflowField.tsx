@@ -88,8 +88,7 @@ export const WorkflowField: React.FC<WorkflowFieldProps> = ({ field, value, onCh
               const file = e.target.files?.[0];
               if (file) {
                 // Check file size if maxSize is specified
-                const maxSizeInBytes = field.validation?.maxSize ? field.validation.maxSize * 1024 * 1024 : undefined;
-                if (maxSizeInBytes && file.size > maxSizeInBytes) {
+                if (field.validation?.maxSize && file.size > field.validation.maxSize * 1024 * 1024) {
                   alert(`File size must be less than ${field.validation.maxSize}MB`);
                   e.target.value = '';
                   return;
@@ -124,7 +123,7 @@ export const WorkflowField: React.FC<WorkflowFieldProps> = ({ field, value, onCh
         </FormControl>
       );
     
-    case 'select':
+    case 'dropdown':
       return (
         <TextField
           select

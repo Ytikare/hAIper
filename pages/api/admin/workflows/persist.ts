@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import fs from 'fs';
 import path from 'path';
-import { WorkflowTemplate } from '../../../../types/workflow-builder';
+import { WorkflowTemplate } from '../../../../src/types/workflow-builder';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
