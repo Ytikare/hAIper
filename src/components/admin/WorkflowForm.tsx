@@ -52,13 +52,15 @@ export const WorkflowForm: React.FC<WorkflowFormProps> = ({
   }, [workflow]);
 
   const handleAddField = () => {
-    setFormData(prev => ({
+    setFormData((prev: Partial<WorkflowTemplate>) => ({
       ...prev,
       fields: [...(prev.fields || []), { 
+        id: crypto.randomUUID(),
         label: '', 
-        type: 'text', 
+        type: 'text' as const,
         required: false,
-        validation: {}
+        validation: {},
+        options: []
       }],
     }));
   };
