@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { workflowService } from '../../services/workflow-service';
 import {
   Table,
   TableBody,
@@ -26,10 +27,31 @@ interface WorkflowListProps {
 }
 
 export const WorkflowList: React.FC<WorkflowListProps> = ({
-  workflows,
+  workflows: initialWorkflows,
   onEdit,
   onDelete,
 }) => {
+  const [workflows, setWorkflows] = useState<WorkflowTemplate[]>(initialWorkflows);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchWorkflows = async () => {
+      try {
+        const response = await workflowService.getWorkflows();
+        setWorkflows(response);
+      } catch (error) {
+        console.error('Error fetching workflows:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchWorkflows();
+  }, []);
+
+  if (loading) {
+    return <div>Loading workflows...</div>;
+  }
   return (
     <TableContainer 
       component={Paper} 
