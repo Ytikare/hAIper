@@ -88,19 +88,21 @@ export class WorkflowService {
 
   async executeWorkflow(id: string, data: any): Promise<WorkflowExecution> {
     const workflow = await this.getWorkflow(id);
+    const now = new Date();
     return {
-      workflowId: id,
-      executionId: randomUUID(),
-      status: 'completed',
-      data: data,
-      startTime: new Date().toISOString(),
-      endTime: new Date().toISOString(),
+      id: randomUUID(),
+      templateId: id,
+      values: data,
       progress: {
         currentStep: 1,
         totalSteps: 1,
         status: 'completed',
         stepDetails: 'Workflow execution completed'
-      }
+      },
+      result: data,
+      startedAt: now,
+      completedAt: now,
+      executedBy: 'admin'
     };
   }
 }
