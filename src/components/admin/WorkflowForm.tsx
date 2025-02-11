@@ -19,7 +19,7 @@ import {
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { WorkflowFieldValidation } from './WorkflowFieldValidation';
-import { WorkflowTemplate } from '../../types/workflow-builder';
+import { WorkflowTemplate, WorkflowField } from '../../types/workflow-builder';
 
 interface WorkflowFormProps {
   open: boolean;
@@ -53,10 +53,10 @@ export const WorkflowForm: React.FC<WorkflowFormProps> = ({
 
   const handleAddField = () => {
     setFormData((prev) => {
-      const newField = {
+      const newField: WorkflowField = {
         id: crypto.randomUUID(),
         label: '',
-        type: 'text' as const,
+        type: 'text',
         required: false,
         validation: {},
         options: []
