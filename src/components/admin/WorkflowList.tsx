@@ -43,9 +43,6 @@ export const WorkflowList: React.FC<WorkflowListProps> = ({
     }
   };
 
-  if (loading) {
-    return <div>Loading workflows...</div>;
-  }
   useEffect(() => {
     fetchWorkflows();
     
@@ -56,6 +53,10 @@ export const WorkflowList: React.FC<WorkflowListProps> = ({
       return () => element.removeEventListener('refresh', fetchWorkflows);
     }
   }, []);
+
+  if (loading) {
+    return <div>Loading workflows...</div>;
+  }
 
   return (
     <TableContainer
