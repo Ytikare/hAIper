@@ -55,6 +55,7 @@ export const WorkflowForm: React.FC<WorkflowFormProps> = ({
     setFormData((prev) => {
       const newField: WorkflowField = {
         id: crypto.randomUUID(),
+        name: '',
         label: '',
         type: 'text',
         required: false,
