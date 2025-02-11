@@ -223,7 +223,7 @@ export const WorkflowForm: React.FC<WorkflowFormProps> = ({
                         const newFields = [...(formData.fields || [])];
                         newFields[index] = { 
                           ...field, 
-                          type: e.target.value,
+                          type: e.target.value as 'text' | 'number' | 'dropdown' | 'file' | 'multiselect' | 'date' | 'textarea',
                           validation: {}
                         };
                         setFormData({ ...formData, fields: newFields });
