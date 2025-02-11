@@ -1,7 +1,7 @@
-# Workflow Builder - Your Digital Task Assistant
+# hAIper - Your Digital Task Assistant
 
 ## What is this app?
-This is a friendly web application that helps you create and manage digital forms and workflows. Think of it like a smart form builder that can do more than just collect information - it can also process it and take actions based on what you submit.
+hAIper a friendly web application that helps you create and manage digital forms and workflows. Think of it like a smart form builder that can do more than just collect information - it can also process it and take actions based on what you submit.
 
 ## What can you do with it?
 - Create custom forms with different types of fields (text, numbers, dates, file uploads, etc.)
