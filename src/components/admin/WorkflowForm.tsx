@@ -59,12 +59,17 @@ export const WorkflowForm: React.FC<WorkflowFormProps> = ({
         label: '',
         type: 'text',
         required: false,
+        placeholder: '',
+        defaultValue: '',
         validation: {
           options: undefined,
           maxSize: 0,
-          step: undefined
+          step: undefined,
+          min: undefined,
+          max: undefined,
+          pattern: undefined
         },
-        options: []
+        options: [],
       };
       return {
         ...prev,
