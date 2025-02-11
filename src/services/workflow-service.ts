@@ -1,35 +1,40 @@
 import { WorkflowTemplate, WorkflowExecution } from '../types/workflow-builder';
-import { fileSystemService } from './file-system-service';
 import { randomUUID } from 'crypto';
 
 export class WorkflowService {
   private static instance: WorkflowService;
-  private workflows: WorkflowTemplate[] = [];
+  private baseUrl: string;
 
   constructor() {
     if (WorkflowService.instance) {
       return WorkflowService.instance;
     }
     WorkflowService.instance = this;
-    this.loadWorkflows();
+    this.baseUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.yourservice.com';
   }
 
-  private async loadWorkflows(): Promise<void> {
-    this.workflows = await fileSystemService.readWorkflows();
-  }
+  private async fetchApi(endpoint: string, options?: RequestInit) {
+    const response = await fetch(`${this.baseUrl}${endpoint}`, {
+      ...options,
+      headers: {
+        'Content-Type': 'application/json',
+        ...options?.headers,
+      },
+    });
 
-  private async saveWorkflows(): Promise<void> {
-    await fileSystemService.writeWorkflows(this.workflows);
+    if (!response.ok) {
+      throw new Error(`API call failed: ${response.statusText}`);
+    }
+
+    return response.json();
   }
 
   async getWorkflows(): Promise<WorkflowTemplate[]> {
-    await this.loadWorkflows();
-    return this.workflows;
+    return this.fetchApi('/workflows');
   }
 
   async getWorkflow(id: string): Promise<WorkflowTemplate> {
-    await this.loadWorkflows();
-    const workflow = this.workflows.find(w => w.id === id);
+    const workflow = await this.fetchApi(`/workflows/${id}`);
     if (!workflow) {
       throw new Error('Workflow not found');
     }
@@ -37,73 +42,51 @@ export class WorkflowService {
   }
 
   async createWorkflow(workflow: Partial<WorkflowTemplate>): Promise<WorkflowTemplate> {
-    const newWorkflow = {
-      ...workflow,
-      id: Math.random().toString(36).substr(2, 9),
-      fields: workflow.fields || [],
-      apiConfig: workflow.apiConfig || {
-        endpoint: '',
-        method: 'POST'
-      },
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      version: 1,
-      isPublished: false,
-      status: 'available',
-      createdBy: 'admin'
-    } as WorkflowTemplate;
-    
-    this.workflows.push(newWorkflow);
-    await this.saveWorkflows();
-    return newWorkflow;
+    return this.fetchApi('/workflows', {
+      method: 'POST',
+      body: JSON.stringify(workflow),
+    });
   }
 
   async updateWorkflow(id: string, workflow: Partial<WorkflowTemplate>): Promise<WorkflowTemplate> {
-    const index = this.workflows.findIndex(w => w.id === id);
-    if (index === -1) {
-      throw new Error('Workflow not found');
-    }
-    
-    const updatedWorkflow = {
-      ...this.workflows[index],
-      ...workflow,
-      id,
-      updatedAt: new Date()
-    };
-    
-    this.workflows[index] = updatedWorkflow;
-    await this.saveWorkflows();
-    return updatedWorkflow;
+    return this.fetchApi(`/workflows/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(workflow),
+    });
   }
 
   async deleteWorkflow(id: string): Promise<void> {
-    const index = this.workflows.findIndex(w => w.id === id);
-    if (index === -1) {
-      throw new Error('Workflow not found');
-    }
-    
-    this.workflows.splice(index, 1);
-    await this.saveWorkflows();
+    await this.fetchApi(`/workflows/${id}`, {
+      method: 'DELETE',
+    });
   }
 
   async executeWorkflow(id: string, data: any): Promise<WorkflowExecution> {
-    const workflow = await this.getWorkflow(id);
-    const now = new Date();
-    return {
-      id: randomUUID(),
-      templateId: id,
-      values: data,
-      progress: {
-        currentStep: 1,
-        totalSteps: 1,
-        status: 'completed',
-        stepDetails: 'Workflow execution completed'
-      },
-      result: data,
-      startedAt: now,
-      completedAt: now,
-      executedBy: 'admin'
-    };
+    const execution = await this.fetchApi(`/workflows/${id}/execute`, {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+
+    if (!execution) {
+      const now = new Date();
+      return {
+        id: randomUUID(),
+        templateId: id,
+        values: data,
+        progress: {
+          currentStep: 1,
+          totalSteps: 1,
+          status: 'completed',
+          stepDetails: 'Workflow execution completed'
+        },
+        result: data,
+        startedAt: now,
+        completedAt: now,
+        executedBy: 'admin'
+      };
+    }
+
+    return execution;
   }
 }
 
