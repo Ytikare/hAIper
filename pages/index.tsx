@@ -3,6 +3,7 @@ import { Box, Typography, Grid } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { WorkflowTemplate } from '../src/types/workflow-builder';
 import WorkflowCard from '../src/components/workflow/WorkflowCard';
+import { workflowService, WorkflowService } from '../src/services/workflow-service';
 
 const Home: NextPage = () => {
   const [workflows, setWorkflows] = useState<WorkflowTemplate[]>([]);
@@ -10,9 +11,9 @@ const Home: NextPage = () => {
   useEffect(() => {
     const fetchWorkflows = async () => {
       try {
-        const response = await fetch('/api/workflows');
-        const data = await response.json();
-        setWorkflows(data);
+        const response = await workflowService.getWorkflows();
+        //const data = await response.json();
+        setWorkflows(response);
       } catch (error) {
         console.error('Error fetching workflows:', error);
       }
