@@ -1,83 +1,77 @@
-# hAIper Platform
+# Workflow Builder - Your Digital Task Assistant
 
-hAIper is an AI-powered workflow automation platform that streamlines business processes through intelligent workflows. Our modern, user-friendly interface makes it easy to automate complex tasks and get AI-powered assistance.
+## What is this app?
+This is a friendly web application that helps you create and manage digital forms and workflows. Think of it like a smart form builder that can do more than just collect information - it can also process it and take actions based on what you submit.
 
-## Key Features
+## What can you do with it?
+- Create custom forms with different types of fields (text, numbers, dates, file uploads, etc.)
+- Fill out forms step by step
+- Track your progress as you complete forms
+- Submit information and get responses back
+- Switch between light and dark modes for comfortable viewing
 
-- **Dark/Light Theme** - Choose your preferred viewing experience with our modern, glass-morphism design
-- **Workflow Dashboard** - Easy access to all available workflows from a central location
-- **Real-time Progress Tracking** - Monitor workflow execution with detailed step-by-step progress
-- **Admin Interface** - Manage and customize workflows through an intuitive admin panel
+## For Regular Users
 
-## Available Workflows
+### How to use the app:
+1. Go to the main page
+2. You'll see a list of available workflows (forms)
+3. Click on the workflow you want to use
+4. Fill in the information requested
+5. Submit your form
+6. Track the progress of your submission
 
-### CV Analysis
-Streamline your recruitment process by automatically analyzing CVs and matching candidates with job requirements:
-- Upload CV documents in PDF format
-- Select target job position
-- Get AI-powered matching scores
-- View detailed skill analysis
+### Types of fields you can use:
+- Text boxes for writing
+- Number fields
+- Date pickers
+- Dropdown menus for selecting options
+- File upload areas
+- Email fields
+- Large text areas for longer responses
 
-### IT Helper
-Get instant IT support and troubleshooting assistance:
-- Report software, hardware, network, or security issues
-- Set urgency levels
-- Provide system information
-- Receive step-by-step solutions
-
-### Survey Builder
-Create professional surveys with AI-generated questions:
-- Customize survey appearance with brand colors
-- Set response deadlines
-- Choose target audience
-- Configure reminder settings
-- Enable anonymous responses
-- Get instant notifications
-
-### Contract Generation
-Automate legal document creation (Coming Soon):
-- Generate standard contracts
-- Create NDAs
-- Produce employment contracts
-- Automated contract review
-
-## Getting Started
-
-1. **Access the Platform**
-   - Navigate to the platform URL
-   - Choose your preferred theme (dark/light)
-
-2. **Select a Workflow**
-   - Browse available workflows from the dashboard
-   - Click on your desired workflow
-
-3. **Configure and Execute**
-   - Fill in required information
-   - Upload necessary documents
-   - Click "Execute Workflow"
-
-4. **Track Progress**
-   - Monitor real-time execution status
-   - View detailed step progress
-   - Access results and generated documents
-
-## Admin Features
-
-Administrators can:
+## For Administrators
+You can:
 - Create new workflows
-- Customize workflow steps
-- Manage workflow configurations
-- Monitor system performance
-- Access usage analytics
+- Set up form validation rules
+- Configure what happens after form submission
+- Manage existing workflows
 
-## Support
+## For Developers
 
-For technical support or feature requests, please contact our support team or raise an issue in our repository.
+### Requirements:
+- Node.js
+- npm (comes with Node.js)
 
-## Contributing
+### How to set up:
+1. Get the code:
+   ```bash
+   git clone [repository-url]
+   ```
 
-We welcome contributions to improve the platform. Please refer to our contribution guidelines for more information.
+2. Install dependencies:
+   ```bash
+   cd [project-folder]
+   npm install
+   ```
 
-## License
+3. Start the app:
+   ```bash
+   npm run dev
+   ```
 
-This project is proprietary software. All rights reserved.
+4. Open your web browser and go to: `http://localhost:3000`
+
+## Need Help?
+If you're having trouble:
+- Ask your administrator for help
+- Check with your IT support team
+- Report any technical issues to the development team
+
+## Features Coming Soon
+- More field types
+- Better file handling
+- Enhanced validation options
+- Improved response handling
+
+---
+Made with ❤️ to make form handling easier for everyone
