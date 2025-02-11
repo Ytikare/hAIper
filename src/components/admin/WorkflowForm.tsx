@@ -97,7 +97,7 @@ export const WorkflowForm: React.FC<WorkflowFormProps> = ({
     e.preventDefault();
     const workflowToSave = {
       ...formData,
-      updatedAt: new Date().toISOString(),
+      updatedAt: new Date(),
       fields: formData.fields?.map(field => ({
         ...field,
         validation: field.validation || {
