@@ -59,7 +59,11 @@ export const WorkflowForm: React.FC<WorkflowFormProps> = ({
         label: '',
         type: 'text',
         required: false,
-        validation: {},
+        validation: {
+          options: undefined,
+          maxSize: 0,
+          step: undefined
+        },
         options: []
       };
       return {
@@ -234,7 +238,11 @@ export const WorkflowForm: React.FC<WorkflowFormProps> = ({
                         newFields[index] = { 
                           ...field, 
                           type: e.target.value as 'text' | 'number' | 'dropdown' | 'file' | 'multiselect' | 'date' | 'textarea',
-                          validation: {}
+                          validation: {
+                            options: undefined,
+                            maxSize: 0,
+                            step: undefined
+                          }
                         };
                         setFormData({ ...formData, fields: newFields });
                       }}
