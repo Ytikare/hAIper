@@ -52,17 +52,20 @@ export const WorkflowForm: React.FC<WorkflowFormProps> = ({
   }, [workflow]);
 
   const handleAddField = () => {
-    setFormData((prev: Partial<WorkflowTemplate>) => ({
-      ...prev,
-      fields: [...(prev.fields || []), { 
+    setFormData((prev) => {
+      const newField = {
         id: crypto.randomUUID(),
-        label: '', 
+        label: '',
         type: 'text' as const,
         required: false,
         validation: {},
         options: []
-      }],
-    }));
+      };
+      return {
+        ...prev,
+        fields: [...(prev.fields || []), newField]
+      };
+    });
   };
 
   const handleRemoveField = (index: number) => {
