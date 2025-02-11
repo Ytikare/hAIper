@@ -10,11 +10,11 @@ export class WorkflowService {
       return WorkflowService.instance;
     }
     WorkflowService.instance = this;
-    this.baseUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.yourservice.com';
+    this.baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8002';
   }
 
   private async fetchApi(endpoint: string, options?: RequestInit) {
-    const response = await fetch(`${this.baseUrl}${endpoint}`, {
+    const response = await fetch(`${this.baseUrl}/api${endpoint}`, {
       ...options,
       headers: {
         'Content-Type': 'application/json',
