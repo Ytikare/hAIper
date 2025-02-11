@@ -266,7 +266,14 @@ export const WorkflowForm: React.FC<WorkflowFormProps> = ({
                     validation={field.validation || {}}
                     onChange={(validation) => {
                       const newFields = [...(formData.fields || [])];
-                      newFields[index] = { ...field, validation };
+                      const updatedValidation = field.type === 'number' 
+                        ? {
+                            ...validation,
+                            min: validation.min ? Number(validation.min) : undefined,
+                            max: validation.max ? Number(validation.max) : undefined
+                          }
+                        : validation;
+                      newFields[index] = { ...field, validation: updatedValidation };
                       setFormData({ ...formData, fields: newFields });
                     }}
                   />
