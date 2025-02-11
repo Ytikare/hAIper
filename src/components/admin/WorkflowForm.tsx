@@ -157,7 +157,10 @@ export const WorkflowForm: React.FC<WorkflowFormProps> = ({
                   value={formData.apiConfig?.endpoint || ''}
                   onChange={(e) => setFormData({
                     ...formData,
-                    apiConfig: { ...(formData.apiConfig || {}), endpoint: e.target.value }
+                    apiConfig: { 
+                      ...(formData.apiConfig || { method: 'POST' as const }), 
+                      endpoint: e.target.value 
+                    }
                   })}
                   placeholder="https://api.example.com/endpoint"
                 />
@@ -168,7 +171,10 @@ export const WorkflowForm: React.FC<WorkflowFormProps> = ({
                     label="Method"
                     onChange={(e) => setFormData({
                       ...formData,
-                      apiConfig: { ...(formData.apiConfig || {}), method: e.target.value as 'GET' | 'POST' | 'PUT' | 'DELETE' }
+                      apiConfig: { 
+                        ...(formData.apiConfig || { endpoint: '' }), 
+                        method: e.target.value as 'GET' | 'POST' | 'PUT' | 'DELETE' 
+                      }
                     })}
                   >
                     <MenuItem value="GET">GET</MenuItem>
