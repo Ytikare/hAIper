@@ -158,7 +158,7 @@ export const WorkflowForm: React.FC<WorkflowFormProps> = ({
                 <FormControl sx={{ minWidth: 120 }}>
                   <InputLabel>Method</InputLabel>
                   <Select
-                    value={formData.apiConfig?.method || 'POST'}
+                    value={formData.apiConfig?.method || 'GET'}
                     label="Method"
                     onChange={(e) => setFormData({
                       ...formData,
