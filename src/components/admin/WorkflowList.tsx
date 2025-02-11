@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import { workflowService } from '../../services/workflow-service';
 import {
   Table,
@@ -29,6 +30,7 @@ export const WorkflowList: React.FC<WorkflowListProps> = ({
   onEdit,
   onDelete,
 }) => {
+  const router = useRouter();
   const [workflows, setWorkflows] = useState<WorkflowTemplate[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -189,7 +191,10 @@ export const WorkflowList: React.FC<WorkflowListProps> = ({
                 </Tooltip>
                 <Tooltip title="Delete workflow">
                   <IconButton 
-                    onClick={() => onDelete(workflow.id)}
+                    onClick={() => {
+                      onDelete(workflow.id);
+                      router.push('/admin/workflows');
+                    }}
                     sx={{ 
                       color: 'error.main',
                       '&:hover': { 

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import {
   Dialog,
   DialogTitle,
@@ -34,6 +35,7 @@ export const WorkflowForm: React.FC<WorkflowFormProps> = ({
   onClose,
   onSave,
 }) => {
+  const router = useRouter();
   const [formData, setFormData] = useState<Partial<WorkflowTemplate>>({
     id: crypto.randomUUID(),
     name: '',
@@ -111,6 +113,7 @@ export const WorkflowForm: React.FC<WorkflowFormProps> = ({
       }))
     };
     onSave(workflowToSave);
+    router.push('/admin/workflows');
   };
 
   return (
