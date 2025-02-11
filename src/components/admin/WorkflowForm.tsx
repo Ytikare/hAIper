@@ -247,28 +247,21 @@ export const WorkflowForm: React.FC<WorkflowFormProps> = ({
                   }}
                 >
                   <TextField
-                    label="Field Name"
-                    value={field.name}
+                    label="Field Label"
+                    value={field.label}
                     onChange={(e) => {
                       const newFields = [...(formData.fields || [])];
+                      const newLabel = e.target.value;
+                      const newName = newLabel.toLowerCase().replace(/\s+/g, '_');
                       newFields[index] = { 
                         ...field, 
-                        name: e.target.value.toLowerCase().replace(/\s+/g, '_')
+                        label: newLabel,
+                        name: newName
                       };
                       setFormData({ ...formData, fields: newFields });
                     }}
                     sx={{ flexGrow: 1 }}
                     required
-                  />
-                  <TextField
-                    label="Field Label"
-                    value={field.label}
-                    onChange={(e) => {
-                      const newFields = [...(formData.fields || [])];
-                      newFields[index] = { ...field, label: e.target.value };
-                      setFormData({ ...formData, fields: newFields });
-                    }}
-                    sx={{ flexGrow: 1 }}
                   />
                   <FormControl sx={{ minWidth: 120 }}>
                     <InputLabel>Type</InputLabel>
