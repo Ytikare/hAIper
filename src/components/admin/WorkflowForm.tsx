@@ -53,9 +53,10 @@ export const WorkflowForm: React.FC<WorkflowFormProps> = ({
 
   const handleAddField = () => {
     setFormData((prev) => {
+      const fieldId = crypto.randomUUID();
       const newField: WorkflowField = {
-        id: crypto.randomUUID(),
-        name: '',
+        id: fieldId,
+        name: `field_${fieldId.slice(0, 8)}`,
         label: '',
         type: 'text',
         required: false,
@@ -223,6 +224,20 @@ export const WorkflowForm: React.FC<WorkflowFormProps> = ({
                     borderColor: 'divider',
                   }}
                 >
+                  <TextField
+                    label="Field Name"
+                    value={field.name}
+                    onChange={(e) => {
+                      const newFields = [...(formData.fields || [])];
+                      newFields[index] = { 
+                        ...field, 
+                        name: e.target.value.toLowerCase().replace(/\s+/g, '_')
+                      };
+                      setFormData({ ...formData, fields: newFields });
+                    }}
+                    sx={{ flexGrow: 1 }}
+                    required
+                  />
                   <TextField
                     label="Field Label"
                     value={field.label}
