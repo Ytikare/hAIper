@@ -47,9 +47,9 @@ export const WorkflowForm: React.FC<WorkflowFormProps> = ({
       transformRequest: (data: any) => data,
       transformResponse: (data: any) => data,
     },
-    status: 'active',
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
+    status: 'available',
+    createdAt: new Date(),
+    updatedAt: new Date()
   });
 
   useEffect(() => {
