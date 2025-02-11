@@ -35,6 +35,7 @@ export const WorkflowForm: React.FC<WorkflowFormProps> = ({
   onSave,
 }) => {
   const [formData, setFormData] = useState<Partial<WorkflowTemplate>>({
+    id: crypto.randomUUID(),
     name: '',
     description: '',
     category: '',
@@ -42,7 +43,13 @@ export const WorkflowForm: React.FC<WorkflowFormProps> = ({
     apiConfig: {
       endpoint: '',
       method: 'POST',
+      headers: {},
+      transformRequest: (data: any) => data,
+      transformResponse: (data: any) => data,
     },
+    status: 'active',
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
   });
 
   useEffect(() => {
@@ -88,7 +95,22 @@ export const WorkflowForm: React.FC<WorkflowFormProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSave(formData);
+    const workflowToSave = {
+      ...formData,
+      updatedAt: new Date().toISOString(),
+      fields: formData.fields?.map(field => ({
+        ...field,
+        validation: field.validation || {
+          options: undefined,
+          maxSize: 0,
+          step: undefined,
+          min: undefined,
+          max: undefined,
+          pattern: undefined
+        }
+      }))
+    };
+    onSave(workflowToSave);
   };
 
   return (
