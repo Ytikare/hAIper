@@ -1,16 +1,47 @@
-import { useEffect } from 'react';
-import { Grid, Typography, Container, Button, Box } from '@mui/material';
-import { useRouter } from 'next/router';
-import { useWorkflow } from '../../src/contexts/WorkflowContext';
+import { useEffect, useState } from 'react';
+import { Grid, Typography, Container, CircularProgress } from '@mui/material';
 import WorkflowCard from '../../src/components/workflow/WorkflowCard';
+import { WorkflowTemplate } from '../../src/types/workflow-builder';
 
 export default function WorkflowsPage() {
-  const { workflows } = useWorkflow();
+  const [workflows, setWorkflows] = useState<WorkflowTemplate[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // No need to fetch workflows here since WorkflowContext 
-    // already handles the initial fetch in its useEffect
+    const fetchWorkflows = async () => {
+      try {
+        const response = await fetch('/api/workflows');
+        if (!response.ok) {
+          throw new Error('Failed to fetch workflows');
+        }
+        const data = await response.json();
+        setWorkflows(data);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'An error occurred');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchWorkflows();
   }, []);
+
+  if (loading) {
+    return (
+      <Container sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
+        <CircularProgress />
+      </Container>
+    );
+  }
+
+  if (error) {
+    return (
+      <Container sx={{ py: 4 }}>
+        <Typography color="error">{error}</Typography>
+      </Container>
+    );
+  }
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
