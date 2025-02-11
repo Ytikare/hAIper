@@ -33,18 +33,15 @@ export const WorkflowList: React.FC<WorkflowListProps> = ({
   const [loading, setLoading] = useState(true);
 
   const fetchWorkflows = async () => {
-      try {
-        const response = await workflowService.getWorkflows();
-        setWorkflows(response);
-      } catch (error) {
-        console.error('Error fetching workflows:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchWorkflows();
-  }, []);
+    try {
+      const response = await workflowService.getWorkflows();
+      setWorkflows(response);
+    } catch (error) {
+      console.error('Error fetching workflows:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   if (loading) {
     return <div>Loading workflows...</div>;
