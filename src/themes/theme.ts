@@ -1,6 +1,6 @@
-import { createTheme, alpha } from '@mui/material';
+import { createTheme, alpha, Components, Theme } from '@mui/material';
 
-const commonComponents = {
+const commonComponents: Components<Theme> = {
   MuiCard: {
     styleOverrides: {
       root: ({ theme }) => ({
@@ -91,7 +91,9 @@ export const lightTheme = createTheme({
       fontWeight: 600,
     },
   },
-  components: commonComponents,
+  components: {
+    ...commonComponents
+  },
 });
 
 export const darkTheme = createTheme({
