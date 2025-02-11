@@ -48,6 +48,12 @@ export default function AdminWorkflowsPage() {
         setMessage({ text: 'Workflow created successfully', type: 'success' });
       }
       setIsFormOpen(false);
+      // Force refresh the workflow list
+      const workflowListElement = document.querySelector('.workflow-list');
+      if (workflowListElement) {
+        const event = new Event('refresh');
+        workflowListElement.dispatchEvent(event);
+      }
     } catch (error) {
       setMessage({ text: 'Failed to save workflow', type: 'error' });
     }
@@ -69,7 +75,6 @@ export default function AdminWorkflowsPage() {
       </Box>
 
       <WorkflowList
-        workflows={workflows}
         onEdit={handleEdit}
         onDelete={handleDelete}
       />

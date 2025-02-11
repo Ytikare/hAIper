@@ -21,21 +21,18 @@ import ListAltIcon from '@mui/icons-material/ListAlt';
 import { WorkflowTemplate } from '../../types/workflow-builder';
 
 interface WorkflowListProps {
-  workflows: WorkflowTemplate[];
   onEdit: (workflow: WorkflowTemplate) => void;
   onDelete: (id: string) => void;
 }
 
 export const WorkflowList: React.FC<WorkflowListProps> = ({
-  workflows: initialWorkflows,
   onEdit,
   onDelete,
 }) => {
-  const [workflows, setWorkflows] = useState<WorkflowTemplate[]>(initialWorkflows);
+  const [workflows, setWorkflows] = useState<WorkflowTemplate[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchWorkflows = async () => {
+  const fetchWorkflows = async () => {
       try {
         const response = await workflowService.getWorkflows();
         setWorkflows(response);
@@ -52,8 +49,20 @@ export const WorkflowList: React.FC<WorkflowListProps> = ({
   if (loading) {
     return <div>Loading workflows...</div>;
   }
+  useEffect(() => {
+    fetchWorkflows();
+    
+    // Add refresh event listener
+    const element = document.querySelector('.workflow-list');
+    if (element) {
+      element.addEventListener('refresh', fetchWorkflows);
+      return () => element.removeEventListener('refresh', fetchWorkflows);
+    }
+  }, []);
+
   return (
-    <TableContainer 
+    <TableContainer
+      className="workflow-list"
       component={Paper} 
       sx={{
         borderRadius: 2,
