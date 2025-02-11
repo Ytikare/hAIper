@@ -1,5 +1,6 @@
 import { WorkflowTemplate, WorkflowExecution } from '../types/workflow-builder';
 import { fileSystemService } from './file-system-service';
+import { randomUUID } from 'crypto';
 
 export class WorkflowService {
   private static instance: WorkflowService;
@@ -89,9 +90,17 @@ export class WorkflowService {
     const workflow = await this.getWorkflow(id);
     return {
       workflowId: id,
+      executionId: randomUUID(),
       status: 'completed',
-      result: data,
-      timestamp: new Date().toISOString()
+      data: data,
+      startTime: new Date().toISOString(),
+      endTime: new Date().toISOString(),
+      progress: {
+        currentStep: 1,
+        totalSteps: 1,
+        status: 'completed',
+        stepDetails: 'Workflow execution completed'
+      }
     };
   }
 }
