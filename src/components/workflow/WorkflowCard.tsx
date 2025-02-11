@@ -10,6 +10,7 @@ import {
   Box
 } from '@mui/material';
 import { Workflow } from '../../types/workflow';
+import { workflowService } from '../../services/workflow-service';
 
 interface WorkflowCardProps {
   workflow: Workflow;
@@ -19,8 +20,16 @@ interface WorkflowCardProps {
 const WorkflowCard: FC<WorkflowCardProps> = ({ workflow }) => {
   const router = useRouter();
 
-  const handleStart = () => {
-    router.push(`/workflows/${workflow.id}`);
+  const handleStart = async () => {
+    try {
+      // Fetch the workflow data before navigation
+      await workflowService.getWorkflow(workflow.id);
+      // If successful, navigate to the workflow page
+      router.push(`/workflows/${workflow.id}`);
+    } catch (error) {
+      // You might want to add error handling here, such as showing a snackbar or alert
+      console.error('Failed to fetch workflow:', error);
+    }
   };
 
   return (
