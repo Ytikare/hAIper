@@ -7,7 +7,7 @@ hAIper a friendly web application that helps you create and manage digital forms
 - Create custom forms with different types of fields (text, numbers, dates, file uploads, etc.)
 - Fill out forms step by step
 - Track your progress as you complete forms
-- Submit information and get AI powered responses back
+- Submit information and get responses back
 - Switch between light and dark modes for comfortable viewing
 
 ## For Regular Users
@@ -27,7 +27,7 @@ hAIper a friendly web application that helps you create and manage digital forms
 - Dropdown menus for selecting options
 - File upload areas
 - Email fields
-- Large text areas for longer inputs
+- Large text areas for longer responses
 
 ## For Administrators
 You can:
@@ -38,14 +38,9 @@ You can:
 
 ## For Developers
 
-#### Note
-- Workflow data is assumed to come from a external api or server
-- If its going to be used with a different URL from the one used in this repo, it is adviced to change URL and endpoints in src\services\workflow-service.ts to work properly
-
 ### Requirements:
 - Node.js
 - npm (comes with Node.js)
-
 
 ### How to set up:
 1. Get the code:
