@@ -54,12 +54,17 @@ You can:
    npm install
    ```
 
-3. Start the app:
+3. Build the app:
    ```bash
-   npm run dev
+   npm run build
    ```
 
-4. Open your web browser and go to: `http://localhost:3000`
+4. Start the app:
+   ```bash
+   npm start
+   ```
+
+5. Open your web browser and go to: `http://localhost:3000`
 
 ## Need Help?
 If you're having trouble:
