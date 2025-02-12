@@ -5,7 +5,6 @@ export const initialWorkflows: WorkflowTemplate[] = [
     id: '1',
     name: 'CV Analysis',
     description: 'Analyze CVs and extract key information',
-    icon: '/icons/cv.png',
     status: 'available',
     fields: [
       {
@@ -37,7 +36,6 @@ export const initialWorkflows: WorkflowTemplate[] = [
     id: '2',
     name: 'IT Helper',
     description: 'Get AI assistance for IT issues',
-    icon: '/icons/it.png',
     status: 'available',
     fields: [
       {

@@ -38,6 +38,11 @@ You can:
 
 ## For Developers
 
+#### Note
+- Workflow data is assumed to come from a external api or server
+- If its going to be used with a different URL for workflow information from the one used in this repo, it is adviced to change URL and endpoints in src\services\workflow-service.ts to work properly
+- If you want the app to work on another port, you can change it at the package.json @ scripts: start
+
 ### Requirements:
 - Node.js
 - npm (comes with Node.js)
@@ -54,12 +59,17 @@ You can:
    npm install
    ```
 
-3. Start the app:
+3. Build the app:
    ```bash
-   npm run dev
+   npm run build
    ```
 
-4. Open your web browser and go to: `http://localhost:3000`
+4. Start the app:
+   ```bash
+   npm start
+   ```
+
+5. Open your web browser and go to: `http://localhost:7777`
 
 ## Need Help?
 If you're having trouble:
