@@ -40,7 +40,7 @@ You can:
 
 #### Note
 - Workflow data is assumed to come from a external api or server
-- If its going to be used with a different URL from the one used in this repo, it is adviced to change URL and endpoints in src\services\workflow-service.ts to work properly
+- If its going to be used with a different URL for workflow information from the one used in this repo, it is adviced to change URL and endpoints in src\services\workflow-service.ts to work properly
 
 ### Requirements:
 - Node.js
