@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { Box, Button, Typography, Paper, Card, CardContent, Grid, Chip, Divider } from '@mui/material';
+import { WorkflowFeedback } from './WorkflowFeedback';
 import { WorkflowProgress } from '../../types/workflow';
 import { WorkflowProgressStepper } from './WorkflowProgressStepper';
 import { WorkflowTemplate } from '../../types/workflow-builder';
@@ -349,58 +350,10 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
               <ResultDisplay result={result} />
             </Box>
           )}
-          <Box sx={{ 
-            mt: 4, 
-            display: 'flex', 
-            flexDirection: 'column', 
-            alignItems: 'center',
-            gap: 2 
-          }}>
-            <Typography variant="subtitle1" color="text.secondary">
-              Was this result helpful?
-            </Typography>
-            <Box sx={{ display: 'flex', gap: 2 }}>
-              <Button
-                variant={feedback === 'positive' ? 'contained' : 'outlined'}
-                onClick={() => setFeedback('positive')}
-                sx={{
-                  minWidth: '120px',
-                  color: feedback === 'positive' ? 'white' : 'success.main',
-                  borderColor: 'success.main',
-                  bgcolor: feedback === 'positive' ? 'success.main' : 'transparent',
-                  '&:hover': {
-                    bgcolor: feedback === 'positive' ? 'success.dark' : 'success.light',
-                    borderColor: 'success.main',
-                  }
-                }}
-              >
-                👍 Yes
-              </Button>
-              <Button
-                variant={feedback === 'negative' ? 'contained' : 'outlined'}
-                onClick={() => setFeedback('negative')}
-                sx={{
-                  minWidth: '120px',
-                  color: feedback === 'negative' ? 'white' : 'error.main',
-                  borderColor: 'error.main',
-                  bgcolor: feedback === 'negative' ? 'error.main' : 'transparent',
-                  '&:hover': {
-                    bgcolor: feedback === 'negative' ? 'error.dark' : 'error.light',
-                    borderColor: 'error.main',
-                  }
-                }}
-              >
-                👎 No
-              </Button>
-            </Box>
-            {feedback && (
-              <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-                {feedback === 'positive' 
-                  ? 'Thank you for your feedback!' 
-                  : 'Thanks for letting us know. We\'ll work on improving this.'}
-              </Typography>
-            )}
-          </Box>
+          <WorkflowFeedback 
+            feedback={feedback}
+            onFeedbackChange={setFeedback}
+          />
           <Button
             variant="contained"
             onClick={handleReset}
