@@ -193,7 +193,7 @@ export const WorkflowForm: React.FC<WorkflowFormProps> = ({
                   onChange={(e) => setFormData({
                     ...formData,
                     apiConfig: { 
-                      ...(formData.apiConfig || { method: 'POST' as const }), 
+                      ...(formData.apiConfig || { method: 'GET' as const }), 
                       endpoint: e.target.value 
                     }
                   })}
