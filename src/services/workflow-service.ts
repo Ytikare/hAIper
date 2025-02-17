@@ -88,6 +88,17 @@ export class WorkflowService {
 
     return execution;
   }
+
+  async submitFeedback(workflowId: string, feedback: 'positive' | 'negative'): Promise<any> {
+    return this.fetchApi('/workflow-feedback', {
+      method: 'POST',
+      body: JSON.stringify({
+        workflowId,
+        feedback,
+        submittedAt: new Date().toISOString(),
+      }),
+    });
+  }
 }
 
 export const workflowService = new WorkflowService();

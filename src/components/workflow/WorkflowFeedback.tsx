@@ -1,15 +1,28 @@
 import React from 'react';
 import { Box, Button, Typography } from '@mui/material';
+import { workflowService } from '../../services/workflow-service';
 
 interface WorkflowFeedbackProps {
   feedback: 'positive' | 'negative' | null;
   onFeedbackChange: (feedback: 'positive' | 'negative') => void;
+  workflowId: string;
 }
 
 export const WorkflowFeedback: React.FC<WorkflowFeedbackProps> = ({
   feedback,
   onFeedbackChange,
+  workflowId,
 }) => {
+  const handleFeedback = async (newFeedback: 'positive' | 'negative') => {
+    try {
+      await workflowService.submitFeedback(workflowId, newFeedback);
+      onFeedbackChange(newFeedback);
+    } catch (error) {
+      console.error('Failed to submit feedback:', error);
+      // Still update UI state even if API call fails
+      onFeedbackChange(newFeedback);
+    }
+  };
   return (
     <Box sx={{ 
       mt: 4, 
@@ -24,7 +37,7 @@ export const WorkflowFeedback: React.FC<WorkflowFeedbackProps> = ({
       <Box sx={{ display: 'flex', gap: 2 }}>
         <Button
           variant={feedback === 'positive' ? 'contained' : 'outlined'}
-          onClick={() => onFeedbackChange('positive')}
+          onClick={() => handleFeedback('positive')}
           sx={{
             minWidth: '120px',
             color: feedback === 'positive' ? 'white' : 'success.main',
@@ -40,7 +53,7 @@ export const WorkflowFeedback: React.FC<WorkflowFeedbackProps> = ({
         </Button>
         <Button
           variant={feedback === 'negative' ? 'contained' : 'outlined'}
-          onClick={() => onFeedbackChange('negative')}
+          onClick={() => handleFeedback('negative')}
           sx={{
             minWidth: '120px',
             color: feedback === 'negative' ? 'white' : 'error.main',

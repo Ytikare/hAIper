@@ -353,6 +353,7 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
           <WorkflowFeedback 
             feedback={feedback}
             onFeedbackChange={setFeedback}
+            workflowId={workflow.id}
           />
           <Button
             variant="contained"
