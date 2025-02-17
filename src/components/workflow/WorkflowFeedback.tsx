@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, Button, Typography } from '@mui/material';
 import { workflowService } from '../../services/workflow-service';
 
@@ -13,14 +13,18 @@ export const WorkflowFeedback: React.FC<WorkflowFeedbackProps> = ({
   onFeedbackChange,
   workflowId,
 }) => {
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
   const handleFeedback = async (newFeedback: 'positive' | 'negative') => {
+    if (isSubmitted) return; // Prevent multiple submissions
+    
     try {
       await workflowService.submitFeedback(workflowId, newFeedback);
       onFeedbackChange(newFeedback);
+      setIsSubmitted(true); // Mark as submitted after successful feedback
     } catch (error) {
       console.error('Failed to submit feedback:', error);
-      // Still update UI state even if API call fails
-      onFeedbackChange(newFeedback);
+      // Only update UI state if API call succeeds
     }
   };
   return (
@@ -38,6 +42,7 @@ export const WorkflowFeedback: React.FC<WorkflowFeedbackProps> = ({
         <Button
           variant={feedback === 'positive' ? 'contained' : 'outlined'}
           onClick={() => handleFeedback('positive')}
+          disabled={isSubmitted}
           sx={{
             minWidth: '120px',
             color: feedback === 'positive' ? 'white' : 'success.main',
@@ -54,6 +59,7 @@ export const WorkflowFeedback: React.FC<WorkflowFeedbackProps> = ({
         <Button
           variant={feedback === 'negative' ? 'contained' : 'outlined'}
           onClick={() => handleFeedback('negative')}
+          disabled={isSubmitted}
           sx={{
             minWidth: '120px',
             color: feedback === 'negative' ? 'white' : 'error.main',
