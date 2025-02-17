@@ -96,10 +96,10 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
       
       // Step 2: Sending to API endpoint
       updateProgress(1, 'in_progress', 'Sending data to API endpoint...');
-      const response = await executeWorkflowAPI(formData);
       
       // Step 3: Processing
       updateProgress(2, 'in_progress', 'Processing response...');
+      const response = await executeWorkflowAPI(formData);
       
       // Step 4: Completing
       updateProgress(3, 'in_progress', 'Finalizing...');
