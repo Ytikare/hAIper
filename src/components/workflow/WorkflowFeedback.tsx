@@ -38,48 +38,56 @@ export const WorkflowFeedback: React.FC<WorkflowFeedbackProps> = ({
       <Typography variant="subtitle1" color="text.secondary">
         Was this result helpful?
       </Typography>
-      <Box sx={{ display: 'flex', gap: 2 }}>
-        <Button
-          variant={feedback === 'positive' ? 'contained' : 'outlined'}
-          onClick={() => handleFeedback('positive')}
-          disabled={isSubmitted}
-          sx={{
-            minWidth: '120px',
-            color: feedback === 'positive' ? 'white' : 'success.main',
-            borderColor: 'success.main',
-            bgcolor: feedback === 'positive' ? 'success.main' : 'transparent',
-            '&:hover': {
-              bgcolor: feedback === 'positive' ? 'success.dark' : 'success.light',
+      {!isSubmitted ? (
+        <Box sx={{ display: 'flex', gap: 2 }}>
+          <Button
+            variant={feedback === 'positive' ? 'contained' : 'outlined'}
+            onClick={() => handleFeedback('positive')}
+            sx={{
+              minWidth: '120px',
+              color: feedback === 'positive' ? 'white' : 'success.main',
               borderColor: 'success.main',
-            }
-          }}
-        >
-          👍 Yes
-        </Button>
-        <Button
-          variant={feedback === 'negative' ? 'contained' : 'outlined'}
-          onClick={() => handleFeedback('negative')}
-          disabled={isSubmitted}
-          sx={{
-            minWidth: '120px',
-            color: feedback === 'negative' ? 'white' : 'error.main',
-            borderColor: 'error.main',
-            bgcolor: feedback === 'negative' ? 'error.main' : 'transparent',
-            '&:hover': {
-              bgcolor: feedback === 'negative' ? 'error.dark' : 'error.light',
+              bgcolor: feedback === 'positive' ? 'success.main' : 'transparent',
+              '&:hover': {
+                bgcolor: feedback === 'positive' ? 'success.dark' : 'success.light',
+                borderColor: 'success.main',
+              }
+            }}
+          >
+            👍 Yes
+          </Button>
+          <Button
+            variant={feedback === 'negative' ? 'contained' : 'outlined'}
+            onClick={() => handleFeedback('negative')}
+            sx={{
+              minWidth: '120px',
+              color: feedback === 'negative' ? 'white' : 'error.main',
               borderColor: 'error.main',
-            }
-          }}
-        >
-          👎 No
-        </Button>
-      </Box>
-      {feedback && (
-        <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-          {feedback === 'positive' 
-            ? 'Thank you for your feedback!' 
-            : 'Thanks for letting us know. We\'ll work on improving this.'}
-        </Typography>
+              bgcolor: feedback === 'negative' ? 'error.main' : 'transparent',
+              '&:hover': {
+                bgcolor: feedback === 'negative' ? 'error.dark' : 'error.light',
+                borderColor: 'error.main',
+              }
+            }}
+          >
+            👎 No
+          </Button>
+        </Box>
+      ) : (
+        <Box sx={{ 
+          p: 2, 
+          border: 1, 
+          borderColor: feedback === 'positive' ? 'success.main' : 'error.main',
+          borderRadius: 1,
+          bgcolor: feedback === 'positive' ? 'success.light' : 'error.light',
+          color: feedback === 'positive' ? 'success.dark' : 'error.dark'
+        }}>
+          <Typography variant="body1" sx={{ fontWeight: 500 }}>
+            {feedback === 'positive' 
+              ? '👍 Thank you for your positive feedback!' 
+              : '👎 Thanks for letting us know. We\'ll work on improving this.'}
+          </Typography>
+        </Box>
       )}
     </Box>
   );
