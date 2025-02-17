@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { WorkflowTemplate } from '../types/workflow-builder';
 import { WorkflowService } from '../services/workflow-service';
-import { initialWorkflows } from '../mocks/initial-workflows';
 
 interface WorkflowContextType {
   workflows: WorkflowTemplate[];
@@ -16,7 +15,7 @@ interface WorkflowContextType {
 const WorkflowContext = createContext<WorkflowContextType>({} as WorkflowContextType);
 
 export const WorkflowProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [workflows, setWorkflows] = useState<WorkflowTemplate[]>(initialWorkflows);
+  const [workflows, setWorkflows] = useState<WorkflowTemplate[]| null>(null);
   const [activeWorkflow, setActiveWorkflow] = useState<WorkflowTemplate>();
   const [workflowService] = useState(() => new WorkflowService());
 
@@ -27,8 +26,6 @@ export const WorkflowProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         setWorkflows(data);
       } catch (error) {
         console.error('Failed to fetch workflows:', error);
-        // Fallback to initial workflows if API fails
-        setWorkflows(initialWorkflows);
       }
     };
 
