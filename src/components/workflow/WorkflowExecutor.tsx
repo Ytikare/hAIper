@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { Box, Button, Typography, Paper, Card, CardContent, Grid, Chip, Divider } from '@mui/material';
+import { WorkflowFeedback } from './WorkflowFeedback';
 import { WorkflowProgress } from '../../types/workflow';
 import { WorkflowProgressStepper } from './WorkflowProgressStepper';
 import { WorkflowTemplate } from '../../types/workflow-builder';
@@ -19,6 +20,7 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
   const [result, setResult] = useState<ContentTypeResponse | null>(null);
   const [error, setError] = useState<string>('');
   const [isCompleted, setIsCompleted] = useState(false);
+  const [feedback, setFeedback] = useState<'positive' | 'negative' | null>(null);
   const [progress, setProgress] = useState<WorkflowProgress>({
     currentStep: 0,
     totalSteps: 4,
@@ -96,10 +98,10 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
       
       // Step 2: Sending to API endpoint
       updateProgress(1, 'in_progress', 'Sending data to API endpoint...');
-      const response = await executeWorkflowAPI(formData);
       
       // Step 3: Processing
       updateProgress(2, 'in_progress', 'Processing response...');
+      const response = await executeWorkflowAPI(formData);
       
       // Step 4: Completing
       updateProgress(3, 'in_progress', 'Finalizing...');
@@ -132,6 +134,7 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
     setResult(null);
     setError('');
     setIsCompleted(false);
+    setFeedback(null);
     setProgress({
       currentStep: 0,
       totalSteps: 4,
@@ -347,6 +350,11 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
               <ResultDisplay result={result} />
             </Box>
           )}
+          <WorkflowFeedback 
+            feedback={feedback}
+            onFeedbackChange={setFeedback}
+            workflowId={workflow.id}
+          />
           <Button
             variant="contained"
             onClick={handleReset}
