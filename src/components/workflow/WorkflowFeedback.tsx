@@ -80,7 +80,7 @@ export const WorkflowFeedback: React.FC<WorkflowFeedbackProps> = ({
           borderColor: feedback === 'positive' ? 'success.main' : 'error.main',
           borderRadius: 1,
           bgcolor: feedback === 'positive' ? 'success.light' : 'error.light',
-          color: feedback === 'positive' ? 'success.dark' : 'error.dark'
+          color: '#ffffff'
         }}>
           <Typography variant="body1" sx={{ fontWeight: 500 }}>
             {feedback === 'positive' 
