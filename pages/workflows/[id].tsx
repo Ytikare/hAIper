@@ -11,6 +11,7 @@ import {
 } from '@mui/material';
 import { useWorkflow } from '../../src/contexts/WorkflowContext';
 import { WorkflowExecutor } from '../../src/components/workflow/WorkflowExecutor';
+import { workflowService } from '../../src/services/workflow-service'
 
 export default function WorkflowPage() {
   const router = useRouter();
@@ -27,7 +28,7 @@ export default function WorkflowPage() {
 
       try {
         const workflowId = Array.isArray(id) ? id[0] : id;
-        const workflow = workflows.find(w => w.id === workflowId);
+        const workflow = await workflowService.getWorkflow(workflowId);
         
         if (!workflow) {
           console.error('Workflow not found');
