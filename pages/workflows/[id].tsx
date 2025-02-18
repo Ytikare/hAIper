@@ -32,16 +32,17 @@ export default function WorkflowPage() {
         
         if (!workflow) {
           console.error('Workflow not found');
-          router.push('/workflows');
+          setLoading(false);
+          setActiveWorkflow(null);
           return;
         }
         
         setActiveWorkflow(workflow);
+        setLoading(false);
       } catch (error) {
         console.error('Error loading workflow:', error);
-        router.push('/workflows');
-      } finally {
         setLoading(false);
+        setActiveWorkflow(null);
       }
     };
 
@@ -49,7 +50,26 @@ export default function WorkflowPage() {
   }, [id]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <Container maxWidth="md" sx={{ py: 4 }}>
+        <Paper 
+          elevation={0}
+          sx={{ 
+            p: 4,
+            borderRadius: 3,
+            textAlign: 'center',
+            background: (theme) => theme.palette.mode === 'dark'
+              ? 'linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.9))'
+              : 'linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(241, 245, 249, 0.9))',
+            boxShadow: (theme) => theme.palette.mode === 'dark'
+              ? '0 4px 20px rgba(99, 102, 241, 0.3)'
+              : '0 4px 20px rgba(99, 102, 241, 0.15)',
+          }}
+        >
+          <Typography variant="h6">Loading workflow...</Typography>
+        </Paper>
+      </Container>
+    );
   }
 
   if (!activeWorkflow) {
