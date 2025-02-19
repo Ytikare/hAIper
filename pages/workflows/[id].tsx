@@ -9,13 +9,14 @@ import {
   StepLabel,
   Box
 } from '@mui/material';
-import { useWorkflow } from '../../src/contexts/WorkflowContext';
 import { WorkflowExecutor } from '../../src/components/workflow/WorkflowExecutor';
+import { workflowService } from '../../src/services/workflow-service'
+import { WorkflowTemplate } from '../../src/types/workflow-builder';
 
 export default function WorkflowPage() {
   const router = useRouter();
   const { id } = router.query;
-  const { activeWorkflow, setActiveWorkflow, workflows } = useWorkflow();
+  const [activeWorkflow, setActiveWorkflow] = useState<WorkflowTemplate | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -27,20 +28,21 @@ export default function WorkflowPage() {
 
       try {
         const workflowId = Array.isArray(id) ? id[0] : id;
-        const workflow = workflows.find(w => w.id === workflowId);
+        const workflow = await workflowService.getWorkflow(workflowId);
         
         if (!workflow) {
           console.error('Workflow not found');
-          router.push('/workflows');
+          setLoading(false);
+          setActiveWorkflow(null);
           return;
         }
         
         setActiveWorkflow(workflow);
+        setLoading(false);
       } catch (error) {
         console.error('Error loading workflow:', error);
-        router.push('/workflows');
-      } finally {
         setLoading(false);
+        setActiveWorkflow(null);
       }
     };
 
@@ -48,7 +50,26 @@ export default function WorkflowPage() {
   }, [id]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <Container maxWidth="md" sx={{ py: 4 }}>
+        <Paper 
+          elevation={0}
+          sx={{ 
+            p: 4,
+            borderRadius: 3,
+            textAlign: 'center',
+            background: (theme) => theme.palette.mode === 'dark'
+              ? 'linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.9))'
+              : 'linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(241, 245, 249, 0.9))',
+            boxShadow: (theme) => theme.palette.mode === 'dark'
+              ? '0 4px 20px rgba(99, 102, 241, 0.3)'
+              : '0 4px 20px rgba(99, 102, 241, 0.15)',
+          }}
+        >
+          <Typography variant="h6">Loading workflow...</Typography>
+        </Paper>
+      </Container>
+    );
   }
 
   if (!activeWorkflow) {

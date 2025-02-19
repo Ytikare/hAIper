@@ -24,10 +24,9 @@ const WorkflowCard: FC<WorkflowCardProps> = ({ workflow }) => {
     try {
       // Fetch the workflow data before navigation
       await workflowService.getWorkflow(workflow.id);
-      // If successful, navigate to the workflow page
-      router.push(`/workflows/${workflow.id}`);
+      // Use window.location for a full page refresh
+      window.location.href = `/workflows/${workflow.id}`;
     } catch (error) {
-      // You might want to add error handling here, such as showing a snackbar or alert
       console.error('Failed to fetch workflow:', error);
     }
   };
