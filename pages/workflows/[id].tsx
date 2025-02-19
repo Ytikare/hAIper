@@ -9,14 +9,14 @@ import {
   StepLabel,
   Box
 } from '@mui/material';
-import { useWorkflow } from '../../src/contexts/WorkflowContext';
 import { WorkflowExecutor } from '../../src/components/workflow/WorkflowExecutor';
 import { workflowService } from '../../src/services/workflow-service'
+import { WorkflowTemplate } from '../../src/types/workflow-builder';
 
 export default function WorkflowPage() {
   const router = useRouter();
   const { id } = router.query;
-  const { activeWorkflow, setActiveWorkflow, workflows } = useWorkflow();
+  const [activeWorkflow, setActiveWorkflow] = useState<WorkflowTemplate | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
