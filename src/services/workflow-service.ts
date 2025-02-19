@@ -10,7 +10,7 @@ export class WorkflowService {
       return WorkflowService.instance;
     }
     WorkflowService.instance = this;
-    this.baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8002';
+    this.baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
   }
 
   private async fetchApi(endpoint: string, options?: RequestInit) {
