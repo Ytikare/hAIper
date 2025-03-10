@@ -29,15 +29,24 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }
           justifyContent: 'space-between'
         }}
       >
-        <Link href="/" passHref style={{ textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center' }}>
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Link href="/" passHref style={{ textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center' }}>
+            <Image 
+              src={mySvg}
+              alt="PostBank Logo"
+              width={250}
+              height={108}
+              style={{ marginRight: '20px' }}
+            />
+          </Link>
           <Image 
-            src={mySvg}
-            alt="PostBank Logo"
-            width={250}
-            height={108}
-            style={{ marginRight: '0' }}
+            src={logoImg}
+            alt="Haiper Logo"
+            width={80}
+            height={80}
+            style={{ marginLeft: '20px' }}
           />
-        </Link>
+        </Box>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, paddingRight: 3 }}>
           <Button
           component={Link}
