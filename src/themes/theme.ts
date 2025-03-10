@@ -4,40 +4,14 @@ const commonComponents: Components<Theme> = {
   MuiCard: {
     styleOverrides: {
       root: ({ theme }) => ({
-        backdropFilter: 'blur(20px)',
-        borderRadius: 24,
-        padding: '1px', // Space for gradient border
-        background: `linear-gradient(135deg, ${theme.palette.primary.main}40, ${theme.palette.primary.light}40)`,
+        borderRadius: 4,
+        padding: '1px',
+        background: theme.palette.background.paper,
         position: 'relative',
-        transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-        '&::before': {
-          content: '""',
-          position: 'absolute',
-          inset: 0,
-          borderRadius: 24,
-          padding: '1px',
-          background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.primary.light})`,
-          WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
-          WebkitMaskComposite: 'xor',
-          maskComposite: 'exclude',
-        },
-        '& > *:first-of-type': {
-          borderRadius: 23,
-          background: theme.palette.mode === 'dark' 
-            ? 'linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.9))'
-            : 'linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(241, 245, 249, 0.9))',
-        },
-        boxShadow: theme.palette.mode === 'dark'
-          ? '0 4px 20px rgba(99, 102, 241, 0.3)'
-          : '0 4px 20px rgba(99, 102, 241, 0.15)',
+        transition: 'transform 0.3s ease',
+        boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)',
         '&:hover': {
-          transform: 'translateY(-8px)',
-          boxShadow: theme.palette.mode === 'dark'
-            ? '0 20px 40px rgba(99, 102, 241, 0.4), 0 0 20px rgba(99, 102, 241, 0.4) inset'
-            : '0 20px 40px rgba(99, 102, 241, 0.25), 0 0 20px rgba(99, 102, 241, 0.1) inset',
-          '&::before': {
-            background: `linear-gradient(135deg, ${theme.palette.primary.light}, ${theme.palette.primary.main})`,
-          },
+          transform: 'translateY(-5px)',
         },
       }),
     },
@@ -45,16 +19,16 @@ const commonComponents: Components<Theme> = {
   MuiButton: {
     styleOverrides: {
       root: {
-        borderRadius: 12,
+        borderRadius: 4,
         textTransform: 'none',
-        fontWeight: 600,
-        padding: '10px 24px',
-        background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
-        color: 'white',
-        transition: 'all 0.3s ease-in-out',
-        '&:hover': {
-          transform: 'translateY(-2px)',
-          boxShadow: '0 8px 20px rgba(99, 102, 241, 0.3)',
+        fontWeight: 'bold',
+        padding: '0.7rem 1.2rem',
+        '&.MuiButton-contained': {
+          backgroundColor: '#E60000',
+          color: '#FFFFFF',
+          '&:hover': {
+            backgroundColor: '#CC0000',
+          },
         },
       },
     },
@@ -62,7 +36,7 @@ const commonComponents: Components<Theme> = {
   MuiAppBar: {
     styleOverrides: {
       root: {
-        backdropFilter: 'blur(10px)',
+        backgroundColor: '#0F318C',
       },
     },
   },
@@ -72,27 +46,32 @@ export const lightTheme = createTheme({
   palette: {
     mode: 'light',
     primary: {
-      main: '#6366f1',
-      light: '#818cf8',
-      dark: '#4f46e5',
+      main: '#0F318C',
+      light: '#2850B8',
+      dark: '#0A2066',
+    },
+    secondary: {
+      main: '#E60000',
+      light: '#FF1A1A',
+      dark: '#CC0000',
     },
     background: {
-      default: '#f0f4ff',
-      paper: alpha('#ffffff', 0.7),
+      default: '#FFFFFF',
+      paper: '#FFFFFF',
     },
     text: {
-      primary: '#1e293b',
-      secondary: '#475569',
+      primary: '#333333',
+      secondary: '#666666',
     },
   },
   typography: {
-    fontFamily: '"Plus Jakarta Sans", "Helvetica", "Arial", sans-serif',
+    fontFamily: '"Arial", "Helvetica", sans-serif',
     h6: {
       fontWeight: 600,
     },
   },
   components: {
-    ...commonComponents
+    ...commonComponents,
   },
 });
 
@@ -100,21 +79,26 @@ export const darkTheme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: '#818cf8',
-      light: '#93c5fd',
-      dark: '#6366f1',
+      main: '#0F318C',
+      light: '#2850B8',
+      dark: '#0A2066',
+    },
+    secondary: {
+      main: '#E60000',
+      light: '#FF1A1A',
+      dark: '#CC0000',
     },
     background: {
-      default: '#030712',
-      paper: alpha('#1e293b', 0.6),
+      default: '#1A1A1A',
+      paper: '#262626',
     },
     text: {
-      primary: '#f1f5f9',
-      secondary: '#cbd5e1',
+      primary: '#FFFFFF',
+      secondary: '#E5E5E5',
     },
   },
   typography: {
-    fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
+    fontFamily: '"Arial", "Helvetica", sans-serif',
     h6: {
       fontWeight: 600,
     },
