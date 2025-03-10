@@ -3,16 +3,15 @@ import { Box, Typography } from "@mui/material";
 export const renderJsonContent = (data: any, level: number = 0) => {
       if (typeof data !== 'object' || data === null) {
         return (
-          <Typography 
-            variant="body2" 
-            sx={{ 
-              fontFamily: 'monospace',
-              color: typeof data === 'string' ? '#10B981' : '#3B82F6',
-              wordBreak: 'break-word'
-            }}
-          >
-            {typeof data === 'string' ? `"${data}"` : String(data)}
-          </Typography>
+          <span
+          style={{ 
+            fontFamily: 'monospace',
+            color: typeof data === 'string' ? '#10B981' : '#3B82F6',
+            wordBreak: 'break-word'
+          }}
+        >
+          {typeof data === 'string' ? `"${data}"` : String(data)}
+        </span>
         );
       }
 
