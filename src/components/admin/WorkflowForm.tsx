@@ -131,6 +131,13 @@ export const WorkflowForm: React.FC<WorkflowFormProps> = ({
           boxShadow: (theme) => theme.palette.mode === 'dark'
             ? '0 8px 32px rgba(0, 0, 0, 0.4)'
             : '0 8px 32px rgba(0, 0, 0, 0.1)',
+          '& .MuiDialogContent-root': {
+            position: 'relative',
+            zIndex: 1
+          },
+          '&::before': {
+            zIndex: 0
+          }
         }
       }}
     >
