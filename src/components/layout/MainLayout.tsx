@@ -8,6 +8,7 @@ import { Brightness4, Brightness7 } from '@mui/icons-material';
 import { useTheme } from '../../contexts/ThemeContext';
 import Link from 'next/link';
 import Image from 'next/image';
+import mySvg from '../../../media/postbank-logo--bg.svg';
 
 export const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { isDarkMode, toggleTheme } = useTheme();
@@ -17,16 +18,12 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }
       <header className="app-header">
         <Link href="/" passHref style={{ textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center' }}>
           <Image 
-            src="/images/postbank-logo--bg.svg"
+            src={mySvg}
             alt="PostBank Logo"
-            width={120}
-            height={52}
+            width={240}
+            height={104}
             style={{ marginRight: '10px' }}
           />
-          <Typography component="div" className="app-title">
-            hAIper
-            <span className="app-badge">AI Platform</span>
-          </Typography>
         </Link>
         <div style={{ flexGrow: 1 }} />
         <Button
