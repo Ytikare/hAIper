@@ -10,6 +10,7 @@ import { useTheme } from '../../contexts/ThemeContext';
 import Link from 'next/link';
 import Image from 'next/image';
 import mySvg from '../../../media/postbank-logo--bg.svg';
+import logoImg from '../../../media/haiper_logo.png';
 
 export const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { isDarkMode, toggleTheme } = useTheme();
