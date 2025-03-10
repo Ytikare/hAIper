@@ -197,3 +197,33 @@
 .progress-stepper {
   margin-bottom: 24px;
 }
+
+/* Field validation */
+.field-validation {
+  display: flex;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.field-validation-container {
+  margin-top: 16px;
+}
+
+.field-validation-header {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.field-options-container {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.field-option-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}

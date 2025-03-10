@@ -48,7 +48,7 @@ export const WorkflowFieldValidation: React.FC<ValidationProps> = ({
   switch (type) {
     case 'number':
       return (
-        <Box sx={{ display: 'flex', gap: 2, mt: 2 }}>
+        <Box className="field-validation">
           <TextField
             label="Min"
             type="number"
@@ -76,7 +76,7 @@ export const WorkflowFieldValidation: React.FC<ValidationProps> = ({
     case 'text':
     case 'textarea':
       return (
-        <Box sx={{ display: 'flex', gap: 2, mt: 2 }}>
+        <Box className="field-validation">
           <TextField
             label="Min Length"
             type="number"
@@ -102,16 +102,16 @@ export const WorkflowFieldValidation: React.FC<ValidationProps> = ({
 
     case 'file':
       return (
-        <Box sx={{ mt: 2 }}>
-          <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+        <Box className="field-validation-container">
+          <Box className="field-validation-header">
             <InputLabel>Accepted File Types</InputLabel>
             <IconButton size="small" onClick={handleAddFileType}>
               <AddIcon />
             </IconButton>
           </Box>
-          <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', mt: 1 }}>
+          <Box className="field-options-container">
             {(validation.fileTypes || []).map((type: string, index: number) => (
-              <Box key={index} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <Box key={index} className="field-option-item">
                 <TextField
                   value={type}
                   onChange={(e) => {
@@ -145,16 +145,16 @@ export const WorkflowFieldValidation: React.FC<ValidationProps> = ({
 
     case 'select':
       return (
-        <Box sx={{ mt: 2 }}>
-          <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+        <Box className="field-validation-container">
+          <Box className="field-validation-header">
             <InputLabel>Options</InputLabel>
             <IconButton size="small" onClick={handleAddOption}>
               <AddIcon />
             </IconButton>
           </Box>
-          <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', mt: 1 }}>
+          <Box className="field-options-container">
             {(validation.options || []).map((option: string, index: number) => (
-              <Box key={index} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <Box key={index} className="field-option-item">
                 <TextField
                   value={option}
                   onChange={(e) => {
