@@ -180,24 +180,29 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
       }
 
       return (
-        <Grid container spacing={2}>
+        <Grid container spacing={1}>
           {Object.entries(data).map(([key, value], index) => (
             <Grid item xs={12} key={index}>
               <Card variant="outlined" sx={{ 
                 bgcolor: 'background.paper',
-                '&:hover': {
-                  boxShadow: 1,
-                }
+                boxShadow: 'none',
+                border: '1px solid',
+                borderColor: 'divider',
               }}>
-                <CardContent>
-                  <Typography variant="subtitle2" color="text.secondary" gutterBottom sx={{ textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                <CardContent sx={{ p: 1.5 }}>
+                  <Typography variant="subtitle2" color="text.secondary" sx={{ 
+                    textTransform: 'uppercase',
+                    fontSize: '0.75rem',
+                    letterSpacing: '0.5px',
+                    mb: 0.5
+                  }}>
                     {key.replace(/_/g, ' ')}
                   </Typography>
-                  <Divider sx={{ my: 1 }} />
+                  <Divider sx={{ my: 0.5 }} />
                   {typeof value === 'object' ? (
                     renderJsonContent(value)
                   ) : (
-                    <Typography variant="body1" color="text.primary">
+                    <Typography variant="body2" color="text.primary">
                       {String(value)}
                     </Typography>
                   )}
@@ -212,21 +217,20 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
     switch (result.type) {
       case 'json':
         return (
-          <Box sx={{ mt: 2 }}>
+          <Box sx={{ mt: 1 }}>
             {renderJsonContent(result.data)}
           </Box>
         );
       
       case 'image':
         return (
-          <Card sx={{ mt: 2 }}>
-            <CardContent>
+          <Card sx={{ mt: 1, boxShadow: 'none', border: '1px solid', borderColor: 'divider' }}>
+            <CardContent sx={{ p: 1 }}>
               <Box sx={{ 
                 display: 'flex', 
                 justifyContent: 'center',
-                p: 2,
+                p: 1,
                 bgcolor: 'background.paper',
-                borderRadius: 1
               }}>
                 <img 
                   src={result.data} 
@@ -234,8 +238,7 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
                   style={{ 
                     maxWidth: '100%', 
                     height: 'auto',
-                    borderRadius: '8px',
-                    boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+                    borderRadius: '4px',
                   }} 
                 />
               </Box>
@@ -245,12 +248,16 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
       
       case 'pdf':
         return (
-          <Card sx={{ mt: 2 }}>
-            <CardContent>
+          <Card sx={{ 
+            mt: 1, 
+            boxShadow: 'none',
+            border: '1px solid',
+            borderColor: 'divider'
+          }}>
+            <CardContent sx={{ p: 1 }}>
               <Box sx={{ 
-                height: '500px',
+                height: '400px',
                 bgcolor: 'background.paper',
-                borderRadius: 1,
                 overflow: 'hidden'
               }}>
                 <iframe
@@ -265,14 +272,19 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
       
       case 'text':
         return (
-          <Card sx={{ mt: 2 }}>
-            <CardContent>
+          <Card sx={{ 
+            mt: 1,
+            boxShadow: 'none',
+            border: '1px solid',
+            borderColor: 'divider'
+          }}>
+            <CardContent sx={{ p: 1 }}>
               <Typography 
+                variant="body2"
                 sx={{ 
                   whiteSpace: 'pre-wrap',
-                  p: 2,
+                  p: 1,
                   bgcolor: 'background.paper',
-                  borderRadius: 1,
                   fontFamily: 'monospace'
                 }}
               >
@@ -284,12 +296,17 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
       
       case 'blob':
         return (
-          <Card sx={{ mt: 2 }}>
+          <Card sx={{ 
+            mt: 1,
+            boxShadow: 'none',
+            border: '1px solid',
+            borderColor: 'divider'
+          }}>
             <CardContent sx={{ 
               display: 'flex', 
               alignItems: 'center',
               gap: 2,
-              p: 3
+              p: 2
             }}>
               <Chip 
                 label="File Ready" 
@@ -300,10 +317,11 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
                 variant="contained" 
                 href={result.data} 
                 download
+                size="small"
                 sx={{
-                  background: 'linear-gradient(45deg, #6366f1, #8b5cf6)',
+                  bgcolor: 'primary.main',
                   '&:hover': {
-                    background: 'linear-gradient(45deg, #5558e8, #7c4def)',
+                    bgcolor: 'primary.dark',
                   }
                 }}
               >
@@ -328,40 +346,16 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
     return (
       <Paper
         sx={{
-          p: 4,
-          borderRadius: 3,
-          position: 'relative',
-          background: (theme) => theme.palette.mode === 'dark'
-            ? 'linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.9))'
-            : 'linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(241, 245, 249, 0.9))',
-          boxShadow: (theme) => theme.palette.mode === 'dark'
-            ? '0 4px 20px rgba(99, 102, 241, 0.3)'
-            : '0 4px 20px rgba(99, 102, 241, 0.15)',
-          transition: 'all 0.3s ease-in-out',
-          '&:hover': {
-            transform: 'translateY(-4px)',
-            boxShadow: (theme) => theme.palette.mode === 'dark'
-              ? '0 8px 30px rgba(99, 102, 241, 0.4)'
-              : '0 8px 30px rgba(99, 102, 241, 0.2)',
-          },
-          '&::before': {
-            content: '""',
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            borderRadius: 3,
-            border: '1px solid',
-            borderColor: 'transparent',
-            background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1))',
-            transition: 'all 0.3s ease-in-out',
-            zIndex: 0,
-          }
+          p: 2,
+          borderRadius: 1,
+          bgcolor: 'background.paper',
+          border: '1px solid',
+          borderColor: 'divider',
+          boxShadow: 'none'
         }}
       >
         <Box>
-          <Typography variant="h6" color="success.main" sx={{ mb: 3 }}>
+          <Typography variant="subtitle1" color="success.main" sx={{ mb: 2 }}>
             ✓ Workflow completed successfully!
           </Typography>
           {result && (
@@ -382,9 +376,10 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
             workflowId={workflow.id}
           />
           <Button
-            variant="contained"
+            variant="outlined"
             onClick={handleReset}
-            sx={{ mt: 3 }}
+            size="small"
+            sx={{ mt: 2 }}
           >
             Start New Workflow
           </Button>
