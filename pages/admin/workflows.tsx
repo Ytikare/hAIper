@@ -69,6 +69,9 @@ export default function AdminWorkflowsPage() {
           variant="contained"
           startIcon={<AddIcon />}
           onClick={handleCreate}
+          sx={{ 
+            borderRadius: '25px',  // Use any value you want
+          }}
         >
           Create Workflow
         </Button>

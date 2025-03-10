@@ -54,6 +54,9 @@ const WorkflowCard: FC<WorkflowCardProps> = ({ workflow }) => {
           fullWidth 
           variant="contained" 
           onClick={handleStart}
+          sx={{ 
+            borderRadius: '25px',  // Use any value you want
+          }}
           disabled={workflow.status !== 'available'}
         >
           {workflow.status === 'available' ? 'Start Workflow' : 'Coming Soon'}
