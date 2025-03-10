@@ -44,18 +44,30 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
       throw new Error('Workflow API endpoint not configured');
     }
 
+    // Create FormData for file uploads
+    const formData = new FormData();
+    
+    // Handle files and other data separately
+    Object.entries(data).forEach(([key, value]) => {
+      if (value instanceof File) {
+        formData.append(key, value);
+      } else {
+        formData.append(key, JSON.stringify(value));
+      }
+    });
+
     // Transform request data if transformer is provided
-    const transformedData = apiConfig.transformRequest 
-      ? apiConfig.transformRequest(data)
-      : data;
+    const finalData = apiConfig.transformRequest 
+      ? apiConfig.transformRequest(formData)
+      : formData;
 
     const response = await fetch(apiConfig.endpoint, {
       method: apiConfig.method,
       headers: {
-        'Content-Type': 'application/json',
         ...apiConfig.headers,
+        // Let browser set Content-Type with boundary for FormData
       },
-      body: apiConfig.method !== 'GET' ? JSON.stringify(transformedData) : undefined,
+      body: finalData,
     });
 
     if (!response.ok) {
