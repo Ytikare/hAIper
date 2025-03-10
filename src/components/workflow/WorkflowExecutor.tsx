@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { Box, Button, Typography, Paper, Card, CardContent, Grid, Chip, Divider } from '@mui/material';
+import { Box, Button, Typography, Paper, Card, CardContent, Grid, Chip, Divider, useTheme } from '@mui/material';
 import { WorkflowFeedback } from './WorkflowFeedback';
 import { WorkflowProgress } from '../../types/workflow';
 import { WorkflowProgressStepper } from './WorkflowProgressStepper';
@@ -44,19 +44,45 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
       throw new Error('Workflow API endpoint not configured');
     }
 
-    // Transform request data if transformer is provided
-    const transformedData = apiConfig.transformRequest 
-      ? apiConfig.transformRequest(data)
-      : data;
-
-    const response = await fetch(apiConfig.endpoint, {
+    let url = apiConfig.endpoint;
+    const requestOptions: RequestInit = {
       method: apiConfig.method,
       headers: {
-        'Content-Type': 'application/json',
         ...apiConfig.headers,
       },
-      body: apiConfig.method !== 'GET' ? JSON.stringify(transformedData) : undefined,
-    });
+    };
+
+    // Handle different HTTP methods
+    if (!apiConfig.method || !['GET', 'HEAD'].includes(apiConfig.method.toUpperCase())) {
+      // For POST, PUT, DELETE, PATCH etc.
+      const formData = new FormData();
+      Object.entries(data).forEach(([key, value]) => {
+        if (value instanceof File) {
+          formData.append(key, value);
+        } else {
+          formData.append(key, typeof value === 'object' ? JSON.stringify(value) : String(value));
+        }
+      });
+
+      // Transform request data if transformer is provided
+      const finalData = apiConfig.transformRequest 
+        ? apiConfig.transformRequest(formData)
+        : formData;
+
+      requestOptions.body = finalData;
+    } else {
+      // For GET/HEAD, convert data to URL parameters
+      const params = new URLSearchParams();
+      Object.entries(data).forEach(([key, value]) => {
+        if (!(value instanceof File)) { // Skip files for GET requests
+          params.append(key, typeof value === 'object' ? JSON.stringify(value) : String(value));
+        }
+      });
+      // Append params to URL
+      url = `${url}${url.includes('?') ? '&' : '?'}${params.toString()}`;
+    }
+
+    const response = await fetch(url, requestOptions);
 
     if (!response.ok) {
       throw new Error(`API request failed: ${response.statusText}`);
@@ -144,156 +170,180 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
   };
 
   const ResultDisplay: React.FC<{ result: ContentTypeResponse }> = ({ result }) => {
-    const renderJsonContent = (data: any) => {
-      if (typeof data !== 'object') {
+    const renderJsonContent = (data: any, level: number = 0) => {
+      if (typeof data !== 'object' || data === null) {
         return (
-          <Typography variant="body1" color="text.primary">
-            {String(data)}
+          <Typography 
+            variant="body2" 
+            sx={{ 
+              fontFamily: 'monospace',
+              color: typeof data === 'string' ? '#10B981' : '#3B82F6',
+              wordBreak: 'break-word'
+            }}
+          >
+            {typeof data === 'string' ? `"${data}"` : String(data)}
           </Typography>
         );
       }
 
       return (
-        <Grid container spacing={2}>
+        <Box sx={{ ml: level > 0 ? 2 : 0 }}>
           {Object.entries(data).map(([key, value], index) => (
-            <Grid item xs={12} key={index}>
-              <Card variant="outlined" sx={{ 
-                bgcolor: 'background.paper',
-                '&:hover': {
-                  boxShadow: 1,
-                }
+            <Box 
+              key={index} 
+              sx={{ 
+                mb: 1.5,
+                pl: level > 0 ? 2 : 0,
+                borderLeft: level > 0 ? '2px solid' : 'none',
+                borderColor: 'divider',
+              }}
+            >
+              <Typography 
+                variant="subtitle2" 
+                sx={{ 
+                  color: 'text.secondary',
+                  fontSize: '0.85rem',
+                  mb: 0.5,
+                  fontWeight: 600,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.5px'
+                }}
+              >
+                {key.replace(/_/g, ' ')}
+              </Typography>
+              <Box sx={{ 
+                pl: 1,
+                py: typeof value === 'object' && value !== null ? 1 : 0
               }}>
-                <CardContent>
-                  <Typography variant="subtitle2" color="text.secondary" gutterBottom sx={{ textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                    {key.replace(/_/g, ' ')}
-                  </Typography>
-                  <Divider sx={{ my: 1 }} />
-                  {typeof value === 'object' ? (
-                    renderJsonContent(value)
-                  ) : (
-                    <Typography variant="body1" color="text.primary">
-                      {String(value)}
-                    </Typography>
-                  )}
-                </CardContent>
-              </Card>
-            </Grid>
+                {renderJsonContent(value, level + 1)}
+              </Box>
+            </Box>
           ))}
-        </Grid>
+        </Box>
       );
     };
 
     switch (result.type) {
       case 'json':
         return (
-          <Box sx={{ mt: 2 }}>
+          <Box sx={{ 
+            mt: 2,
+            p: 3,
+            borderRadius: 1,
+            bgcolor: (theme) => theme.palette.mode === 'dark' 
+              ? 'rgba(30, 41, 59, 0.2)' 
+              : 'rgba(241, 245, 249, 0.2)',
+            border: '1px solid',
+            borderColor: 'divider',
+            fontFamily: 'monospace'
+          }}>
             {renderJsonContent(result.data)}
           </Box>
         );
       
       case 'image':
         return (
-          <Card sx={{ mt: 2 }}>
-            <CardContent>
-              <Box sx={{ 
-                display: 'flex', 
-                justifyContent: 'center',
-                p: 2,
-                bgcolor: 'background.paper',
-                borderRadius: 1
-              }}>
-                <img 
-                  src={result.data} 
-                  alt="Result" 
-                  style={{ 
-                    maxWidth: '100%', 
-                    height: 'auto',
-                    borderRadius: '8px',
-                    boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
-                  }} 
-                />
-              </Box>
-            </CardContent>
-          </Card>
+          <Box sx={{ 
+            mt: 2,
+            p: 2,
+            borderRadius: 1,
+            bgcolor: (theme) => theme.palette.mode === 'dark' 
+              ? 'rgba(30, 41, 59, 0.2)' 
+              : 'rgba(241, 245, 249, 0.2)',
+            border: '1px solid',
+            borderColor: 'divider'
+          }}>
+            <img 
+              src={result.data} 
+              alt="Result" 
+              style={{ 
+                maxWidth: '100%', 
+                height: 'auto',
+                borderRadius: '4px',
+              }} 
+            />
+          </Box>
         );
       
       case 'pdf':
         return (
-          <Card sx={{ mt: 2 }}>
-            <CardContent>
-              <Box sx={{ 
-                height: '500px',
-                bgcolor: 'background.paper',
-                borderRadius: 1,
-                overflow: 'hidden'
-              }}>
-                <iframe
-                  src={result.data}
-                  style={{ width: '100%', height: '100%', border: 'none' }}
-                  title="PDF Result"
-                />
-              </Box>
-            </CardContent>
-          </Card>
+          <Box sx={{ 
+            mt: 2,
+            height: '600px',
+            borderRadius: 1,
+            overflow: 'hidden',
+            border: '1px solid',
+            borderColor: 'divider'
+          }}>
+            <iframe
+              src={result.data}
+              style={{ width: '100%', height: '100%', border: 'none' }}
+              title="PDF Result"
+            />
+          </Box>
         );
       
       case 'text':
         return (
-          <Card sx={{ mt: 2 }}>
-            <CardContent>
-              <Typography 
-                sx={{ 
-                  whiteSpace: 'pre-wrap',
-                  p: 2,
-                  bgcolor: 'background.paper',
-                  borderRadius: 1,
-                  fontFamily: 'monospace'
-                }}
-              >
-                {result.data}
-              </Typography>
-            </CardContent>
-          </Card>
+          <Box sx={{ 
+            mt: 2,
+            p: 2,
+            borderRadius: 1,
+            bgcolor: (theme) => theme.palette.mode === 'dark' 
+              ? 'rgba(30, 41, 59, 0.2)' 
+              : 'rgba(241, 245, 249, 0.2)',
+            border: '1px solid',
+            borderColor: 'divider'
+          }}>
+            <Typography 
+              variant="body2"
+              sx={{ 
+                whiteSpace: 'pre-wrap',
+                fontFamily: 'monospace',
+                color: 'text.primary'
+              }}
+            >
+              {result.data}
+            </Typography>
+          </Box>
         );
       
       case 'blob':
         return (
-          <Card sx={{ mt: 2 }}>
-            <CardContent sx={{ 
-              display: 'flex', 
-              alignItems: 'center',
-              gap: 2,
-              p: 3
-            }}>
-              <Chip 
-                label="File Ready" 
-                color="success" 
-                size="small" 
-              />
-              <Button 
-                variant="contained" 
-                href={result.data} 
-                download
-                sx={{
-                  background: 'linear-gradient(45deg, #6366f1, #8b5cf6)',
-                  '&:hover': {
-                    background: 'linear-gradient(45deg, #5558e8, #7c4def)',
-                  }
-                }}
-              >
-                Download File
-              </Button>
-            </CardContent>
-          </Card>
-        );
-      
-      default:
-        return (
-          <Card sx={{ mt: 2 }}>
-            <CardContent>
-              <Typography color="error">Unsupported result type</Typography>
-            </CardContent>
-          </Card>
+          <Box sx={{ 
+            mt: 2,
+            p: 2,
+            borderRadius: 1,
+            bgcolor: (theme) => theme.palette.mode === 'dark' 
+              ? 'rgba(30, 41, 59, 0.2)' 
+              : 'rgba(241, 245, 249, 0.2)',
+            border: '1px solid',
+            borderColor: 'divider',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 2
+          }}>
+            <Chip 
+              label="File Ready" 
+              color="success" 
+              size="small" 
+              variant="outlined"
+            />
+            <Button 
+              variant="contained" 
+              href={result.data} 
+              download
+              size="small"
+              sx={{
+                bgcolor: 'primary.main',
+                '&:hover': {
+                  bgcolor: 'primary.dark',
+                }
+              }}
+            >
+              Download File
+            </Button>
+          </Box>
         );
     }
   };
@@ -302,40 +352,16 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
     return (
       <Paper
         sx={{
-          p: 4,
-          borderRadius: 3,
-          position: 'relative',
-          background: (theme) => theme.palette.mode === 'dark'
-            ? 'linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.9))'
-            : 'linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(241, 245, 249, 0.9))',
-          boxShadow: (theme) => theme.palette.mode === 'dark'
-            ? '0 4px 20px rgba(99, 102, 241, 0.3)'
-            : '0 4px 20px rgba(99, 102, 241, 0.15)',
-          transition: 'all 0.3s ease-in-out',
-          '&:hover': {
-            transform: 'translateY(-4px)',
-            boxShadow: (theme) => theme.palette.mode === 'dark'
-              ? '0 8px 30px rgba(99, 102, 241, 0.4)'
-              : '0 8px 30px rgba(99, 102, 241, 0.2)',
-          },
-          '&::before': {
-            content: '""',
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            borderRadius: 3,
-            border: '1px solid',
-            borderColor: 'transparent',
-            background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1))',
-            transition: 'all 0.3s ease-in-out',
-            zIndex: 0,
-          }
+          p: 2,
+          borderRadius: 1,
+          bgcolor: 'background.paper',
+          border: '1px solid',
+          borderColor: 'divider',
+          boxShadow: 'none'
         }}
       >
         <Box>
-          <Typography variant="h6" color="success.main" sx={{ mb: 3 }}>
+          <Typography variant="subtitle1" color="success.main" sx={{ mb: 2 }}>
             ✓ Workflow completed successfully!
           </Typography>
           {result && (
@@ -356,9 +382,10 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
             workflowId={workflow.id}
           />
           <Button
-            variant="contained"
+            variant="outlined"
             onClick={handleReset}
-            sx={{ mt: 3 }}
+            size="small"
+            sx={{ mt: 2 }}
           >
             Start New Workflow
           </Button>
@@ -369,38 +396,19 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
 
   return (
       <Paper
-        sx={{
+        elevation={3}
+        sx={(theme) => ({
           p: 4,
           borderRadius: 3,
           position: 'relative',
-          background: (theme) => theme.palette.mode === 'dark'
-            ? 'linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.9))'
-            : 'linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(241, 245, 249, 0.9))',
-          boxShadow: (theme) => theme.palette.mode === 'dark'
-            ? '0 4px 20px rgba(99, 102, 241, 0.3)'
-            : '0 4px 20px rgba(99, 102, 241, 0.15)',
+          background: theme.palette.background.paper,
+          boxShadow: theme.shadows[3],
           transition: 'all 0.3s ease-in-out',
           '&:hover': {
             transform: 'translateY(-4px)',
-            boxShadow: (theme) => theme.palette.mode === 'dark'
-              ? '0 8px 30px rgba(99, 102, 241, 0.4)'
-              : '0 8px 30px rgba(99, 102, 241, 0.2)',
-          },
-          '&::before': {
-            content: '""',
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            borderRadius: 3,
-            border: '1px solid',
-            borderColor: 'transparent',
-            background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1))',
-            transition: 'all 0.3s ease-in-out',
-            zIndex: 0,
+            boxShadow: theme.shadows[6],
           }
-        }}
+        })}
       >
         <form onSubmit={handleSubmit}>
         <WorkflowProgressStepper progress={progress} />

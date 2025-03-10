@@ -122,39 +122,16 @@ export const WorkflowForm: React.FC<WorkflowFormProps> = ({
       onClose={onClose} 
       maxWidth="md" 
       fullWidth
-      PaperProps={{
-        sx: {
-          borderRadius: 2,
-          background: (theme) => theme.palette.mode === 'dark'
-            ? 'linear-gradient(135deg, rgba(30, 41, 59, 1), rgba(15, 23, 42, 1))'
-            : 'linear-gradient(135deg, rgba(255, 255, 255, 1), rgba(241, 245, 249, 1))',
-          boxShadow: (theme) => theme.palette.mode === 'dark'
-            ? '0 8px 32px rgba(0, 0, 0, 0.4)'
-            : '0 8px 32px rgba(0, 0, 0, 0.1)',
-        }
-      }}
+      className="workflow-form"
     >
       <form onSubmit={handleSubmit}>
-        <DialogTitle sx={{
-          background: (theme) => theme.palette.mode === 'dark'
-            ? 'linear-gradient(135deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.95))'
-            : 'linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(241, 245, 249, 0.95))',
-          borderBottom: '1px solid',
-          borderColor: 'divider',
-          py: 2,
-        }}>
-          <Typography variant="h5" sx={{ 
-            fontWeight: 600,
-            background: 'linear-gradient(45deg, #6366f1, #8b5cf6)',
-            backgroundClip: 'text',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-          }}>
+        <DialogTitle className="form-header">
+          <Typography variant="h5" className="app-title">
             {workflow ? 'Edit Workflow' : 'Create New Workflow'}
           </Typography>
         </DialogTitle>
-        <DialogContent>
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 2 }}>
+        <DialogContent className="form-content">
+          <Box className="field-container">
             <TextField
               label="Name"
               value={formData.name}
@@ -234,20 +211,8 @@ export const WorkflowForm: React.FC<WorkflowFormProps> = ({
               </Typography>
               {formData.fields?.map((field, index) => (
                 <Box 
-                  key={index} 
-                  sx={{ 
-                    display: 'flex', 
-                    gap: 1, 
-                    mb: 2, 
-                    alignItems: 'center',
-                    p: 2,
-                    borderRadius: 1,
-                    bgcolor: (theme) => theme.palette.mode === 'dark'
-                      ? 'rgba(30, 41, 59, 0.4)'
-                      : 'rgba(241, 245, 249, 0.4)',
-                    border: '1px solid',
-                    borderColor: 'divider',
-                  }}
+                  key={index}
+                  className="card"
                 >
                   <TextField
                     label="Field Label"
@@ -349,35 +314,11 @@ export const WorkflowForm: React.FC<WorkflowFormProps> = ({
             </Box>
           </Box>
         </DialogContent>
-        <DialogActions sx={{ 
-          borderTop: '1px solid',
-          borderColor: 'divider',
-          px: 3,
-          py: 2,
-        }}>
-          <Button 
-            onClick={onClose}
-            sx={{
-              color: (theme) => theme.palette.mode === 'dark' ? 'white.900' : 'white.1000',
-              '&:hover': {
-                bgcolor: (theme) => theme.palette.mode === 'dark' 
-                  ? 'rgba(255, 255, 255, 0.08)'
-                  : 'rgba(0, 0, 0, 0.04)',
-              }
-            }}
-          >
+        <DialogActions className="form-footer">
+          <Button onClick={onClose} className="btn btn-outline">
             Cancel
           </Button>
-          <Button 
-            type="submit" 
-            variant="contained"
-            sx={{
-              background: 'linear-gradient(45deg, #6366f1, #8b5cf6)',
-              '&:hover': {
-                background: 'linear-gradient(45deg, #5558e8, #7c4def)',
-              }
-            }}
-          >
+          <Button type="submit" className="btn btn-primary">
             Save
           </Button>
         </DialogActions>

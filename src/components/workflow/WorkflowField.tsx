@@ -70,56 +70,71 @@ export const WorkflowField: React.FC<WorkflowFieldProps> = ({ field, value, onCh
       );
     
     case 'file':
-      const acceptedTypes = field.validation?.fileTypes?.map(type => 
-        type.startsWith('.') ? type : `.${type}`
-      ).join(',');
-      
+      const handleFileValidation = (file: File): boolean => {
+        // Check file size
+        if (field.validation?.maxFileSize && 
+            file.size > field.validation.maxFileSize * 1024 * 1024) {
+          alert(`File size must be less than ${field.validation.maxFileSize}MB`);
+          return false;
+        }
+        
+        // Check file type
+        if (field.validation?.fileTypes && field.validation.fileTypes.length > 0) {
+          const fileExt = `.${file.name.split('.').pop()?.toLowerCase()}`;
+          const fileType = file.type.toLowerCase();
+          
+          const isValidType = field.validation.fileTypes.some(type => {
+            const normalizedType = type.toLowerCase();
+            return normalizedType.startsWith('.') 
+              ? fileExt === normalizedType  // Check extension (e.g. .pdf)
+              : fileType.includes(normalizedType); // Check MIME type (e.g. pdf)
+          });
+          
+          if (!isValidType) {
+            alert(`Invalid file type. Accepted types: ${field.validation.fileTypes.join(', ')}`);
+            return false;
+          }
+        }
+        
+        return true;
+      };
+
       return (
         <FormControl fullWidth margin="normal">
           <TextField
             type="file"
             fullWidth
+            label={field.label}
             InputProps={{
               inputProps: {
-                accept: acceptedTypes
+                accept: field.validation?.fileTypes
+                  ?.map(type => type.startsWith('.') ? type : `.${type}`)
+                  .join(',')
               }
             }}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               const file = e.target.files?.[0];
               if (file) {
-                // Check file size if maxSize is specified
-                if (field.validation?.maxSize && file.size > field.validation.maxSize * 1024 * 1024) {
-                  alert(`File size must be less than ${field.validation.maxSize}MB`);
-                  e.target.value = '';
-                  return;
+                if (handleFileValidation(file)) {
+                  onChange(file);
+                } else {
+                  e.target.value = ''; // Reset input if validation fails
                 }
-                
-                // Check file type
-                if (acceptedTypes && !acceptedTypes.split(',').some(type => 
-                  file.name.toLowerCase().endsWith(type.toLowerCase())
-                )) {
-                  alert(`File type not allowed. Accepted types: ${acceptedTypes}`);
-                  e.target.value = '';
-                  return;
-                }
-                
-                onChange(file);
               }
             }}
             required={field.required}
           />
-          {acceptedTypes && (
-            <Typography
-              variant="caption"
-              sx={{
-                display: 'block',
-                mt: 0.5,
-                color: 'text.secondary'
-              }}
-            >
-              Accepted file types: {acceptedTypes}
-            </Typography>
-          )}
+          <Typography
+            variant="caption"
+            sx={{
+              display: 'block',
+              mt: 0.5,
+              color: 'text.secondary'
+            }}
+          >
+            Accepted types: {field.validation?.fileTypes?.join(', ') || '*'}. 
+            Max size: {field.validation?.maxFileSize || 10}MB
+          </Typography>
         </FormControl>
       );
     
