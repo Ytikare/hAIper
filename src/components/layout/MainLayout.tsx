@@ -23,7 +23,7 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }
           padding: '8px 20px',
           display: 'flex',
           alignItems: 'center',
-          height: '64px',
+          height: '80px',
           width: '100%'
         }}
       >
@@ -31,8 +31,8 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }
           <Image 
             src={mySvg}
             alt="PostBank Logo"
-            width={120}
-            height={52}
+            width={180}
+            height={78}
             style={{ marginRight: '10px' }}
           />
         </Link>
