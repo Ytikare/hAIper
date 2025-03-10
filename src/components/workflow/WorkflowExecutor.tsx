@@ -433,6 +433,9 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
               type="submit"
               variant="contained"
               color="primary"
+              sx={{ 
+                borderRadius: '25px',  // Use any value you want
+              }}
             >
               Execute Workflow
             </Button>
