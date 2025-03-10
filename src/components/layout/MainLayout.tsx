@@ -20,10 +20,10 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }
         component="header" 
         sx={{
           backgroundColor: '#0047AB',
-          padding: '8px 20px',
+          padding: '0',
           display: 'flex',
-          alignItems: 'center',
-          height: '80px',
+          alignItems: 'flex-start',
+          height: '100px',
           width: '100%'
         }}
       >
@@ -31,9 +31,9 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }
           <Image 
             src={mySvg}
             alt="PostBank Logo"
-            width={180}
-            height={78}
-            style={{ marginRight: '10px' }}
+            width={250}
+            height={108}
+            style={{ marginRight: '20px' }}
           />
         </Link>
         <div style={{ flexGrow: 1 }} />
