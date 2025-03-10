@@ -10,6 +10,7 @@ import { useTheme } from '../../contexts/ThemeContext';
 import Link from 'next/link';
 import Image from 'next/image';
 import mySvg from '../../../media/postbank-logo--bg.svg';
+import logoImg from '../../../media/haiper_logo.png';
 
 export const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { isDarkMode, toggleTheme } = useTheme();
@@ -28,15 +29,26 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }
           justifyContent: 'space-between'
         }}
       >
-        <Link href="/" passHref style={{ textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center' }}>
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Link href="/" passHref style={{ textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center' }}>
+            <Image 
+              src={mySvg}
+              alt="PostBank Logo"
+              width={250}
+              height={108}
+              style={{ marginRight: '20px' }}
+            />
+          </Link>
           <Image 
-            src={mySvg}
-            alt="PostBank Logo"
-            width={250}
-            height={108}
-            style={{ marginRight: '0' }}
+            src={logoImg}
+            alt="Haiper Logo"
+            style={{ 
+              width: 'auto',
+              height: '60px',   // Maintain the height you want
+              marginLeft: '20px' 
+            }}
           />
-        </Link>
+        </Box>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, paddingRight: 3 }}>
           <Button
           component={Link}
