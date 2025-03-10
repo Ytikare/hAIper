@@ -70,11 +70,34 @@ export const WorkflowField: React.FC<WorkflowFieldProps> = ({ field, value, onCh
       );
     
     case 'file':
-      const acceptedTypes = field.validation?.fileTypes?.join(', ') || '*';
-      const maxSize = field.validation?.maxFileSize || 10;
-      const acceptedFileTypes = field.validation?.fileTypes?.map(type => 
-        type.startsWith('.') ? type : `.${type}`
-      ).join(',');
+      const handleFileValidation = (file: File): boolean => {
+        // Check file size
+        if (field.validation?.maxFileSize && 
+            file.size > field.validation.maxFileSize * 1024 * 1024) {
+          alert(`File size must be less than ${field.validation.maxFileSize}MB`);
+          return false;
+        }
+        
+        // Check file type
+        if (field.validation?.fileTypes && field.validation.fileTypes.length > 0) {
+          const fileExt = `.${file.name.split('.').pop()?.toLowerCase()}`;
+          const fileType = file.type.toLowerCase();
+          
+          const isValidType = field.validation.fileTypes.some(type => {
+            const normalizedType = type.toLowerCase();
+            return normalizedType.startsWith('.') 
+              ? fileExt === normalizedType  // Check extension (e.g. .pdf)
+              : fileType.includes(normalizedType); // Check MIME type (e.g. pdf)
+          });
+          
+          if (!isValidType) {
+            alert(`Invalid file type. Accepted types: ${field.validation.fileTypes.join(', ')}`);
+            return false;
+          }
+        }
+        
+        return true;
+      };
 
       return (
         <FormControl fullWidth margin="normal">
@@ -84,36 +107,19 @@ export const WorkflowField: React.FC<WorkflowFieldProps> = ({ field, value, onCh
             label={field.label}
             InputProps={{
               inputProps: {
-                accept: acceptedFileTypes
+                accept: field.validation?.fileTypes
+                  ?.map(type => type.startsWith('.') ? type : `.${type}`)
+                  .join(',')
               }
             }}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               const file = e.target.files?.[0];
               if (file) {
-                // Check file size
-                if (field.validation?.maxFileSize && 
-                    file.size > field.validation.maxFileSize * 1024 * 1024) {
-                  alert(`File size must be less than ${field.validation.maxFileSize}MB`);
-                  e.target.value = '';
-                  return;
+                if (handleFileValidation(file)) {
+                  onChange(file);
+                } else {
+                  e.target.value = ''; // Reset input if validation fails
                 }
-                
-                // Check file type
-                if (field.validation?.fileTypes) {
-                  const fileExt = file.name.split('.').pop()?.toLowerCase();
-                  const isValidType = field.validation.fileTypes.some(type => 
-                    type.toLowerCase() === fileExt ||
-                    file.type.includes(type.toLowerCase())
-                  );
-                  
-                  if (!isValidType) {
-                    alert(`Invalid file type. Accepted types: ${acceptedTypes}`);
-                    e.target.value = '';
-                    return;
-                  }
-                }
-
-                onChange(file);
               }
             }}
             required={field.required}
@@ -126,7 +132,8 @@ export const WorkflowField: React.FC<WorkflowFieldProps> = ({ field, value, onCh
               color: 'text.secondary'
             }}
           >
-            Accepted types: {acceptedTypes}. Max size: {maxSize}MB
+            Accepted types: {field.validation?.fileTypes?.join(', ') || '*'}. 
+            Max size: {field.validation?.maxFileSize || 10}MB
           </Typography>
         </FormControl>
       );
