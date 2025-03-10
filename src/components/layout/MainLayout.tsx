@@ -24,59 +24,48 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }
         elevation={0}
         sx={{
           background: theme.palette.mode === 'light' 
-            ? 'rgba(255, 255, 255, 0.8)'
-            : 'rgba(15, 23, 42, 0.8)',
-          borderBottom: `1px solid ${theme.palette.divider}`,
+            ? 'rgba(255, 255, 255, 0.9)'
+            : 'rgba(15, 23, 42, 0.9)',
+          backdropFilter: 'blur(10px)',
+          borderBottom: '1px solid',
+          borderColor: 'divider',
         }}
       >
         <Toolbar>
           <Link href="/" passHref style={{ textDecoration: 'none', color: 'inherit' }}>
             <Typography 
-              variant="h5" 
+              variant="h6" 
               component="div"
               sx={{
-                background: 'linear-gradient(45deg, #6366f1, #8b5cf6, #d946ef)',
+                background: 'linear-gradient(45deg, #6366f1, #8b5cf6)',
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
-                fontWeight: 800,
+                fontWeight: 700,
                 letterSpacing: '-0.5px',
                 display: 'flex',
                 alignItems: 'center',
-                gap: 1,
-                '&::before': {
-                  content: '""',
-                  width: '8px',
-                  height: '8px',
-                  borderRadius: '50%',
-                  background: 'linear-gradient(45deg, #6366f1, #8b5cf6)',
-                  boxShadow: '0 0 15px #6366f1',
-                  animation: 'pulse 2s infinite',
-                },
-                '@keyframes pulse': {
-                  '0%': {
-                    boxShadow: '0 0 0 0 rgba(99, 102, 241, 0.7)',
-                  },
-                  '70%': {
-                    boxShadow: '0 0 0 10px rgba(99, 102, 241, 0)',
-                  },
-                  '100%': {
-                    boxShadow: '0 0 0 0 rgba(99, 102, 241, 0)',
-                  },
-                },
               }}
             >
               hAIper
-              <span style={{ 
-                fontSize: '0.7em', 
-                background: 'rgba(99, 102, 241, 0.1)',
-                padding: '4px 8px',
-                borderRadius: '12px',
-                marginLeft: '4px',
-                border: '1px solid rgba(99, 102, 241, 0.2)'
-              }}>
+              <Box 
+                component="span" 
+                sx={{ 
+                  ml: 1,
+                  fontSize: '0.7em',
+                  py: 0.5,
+                  px: 1,
+                  borderRadius: '6px',
+                  background: (theme) => theme.palette.mode === 'dark' 
+                    ? 'rgba(99, 102, 241, 0.2)'
+                    : 'rgba(99, 102, 241, 0.1)',
+                  border: '1px solid',
+                  borderColor: 'primary.main',
+                  color: 'primary.main',
+                }}
+              >
                 AI Platform
-              </span>
+              </Box>
             </Typography>
           </Link>
           <Box sx={{ flexGrow: 1 }} />
