@@ -2,7 +2,8 @@ import React from 'react';
 import { 
   IconButton, 
   Typography, 
-  Button
+  Button,
+  Box
 } from '@mui/material';
 import { Brightness4, Brightness7 } from '@mui/icons-material';
 import { useTheme } from '../../contexts/ThemeContext';
@@ -15,13 +16,23 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }
 
   return (
     <div className="main-layout">
-      <header className="app-header">
+      <Box 
+        component="header" 
+        sx={{
+          backgroundColor: '#0047AB',
+          padding: '8px 20px',
+          display: 'flex',
+          alignItems: 'center',
+          height: '64px',
+          width: '100%'
+        }}
+      >
         <Link href="/" passHref style={{ textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center' }}>
           <Image 
             src={mySvg}
             alt="PostBank Logo"
-            width={240}
-            height={104}
+            width={120}
+            height={52}
             style={{ marginRight: '10px' }}
           />
         </Link>
@@ -30,16 +41,31 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }
           component={Link}
           href="/admin"
           className="btn btn-outline"
+          sx={{
+            color: 'white',
+            borderColor: 'white',
+            '&:hover': {
+              borderColor: 'white',
+              backgroundColor: 'rgba(255, 255, 255, 0.1)'
+            },
+            marginRight: '10px'
+          }}
         >
           Admin
         </Button>
         <IconButton 
           onClick={toggleTheme}
           className="btn btn-icon"
+          sx={{
+            color: 'white',
+            '&:hover': {
+              backgroundColor: 'rgba(255, 255, 255, 0.1)'
+            }
+          }}
         >
           {isDarkMode ? <Brightness7 /> : <Brightness4 />}
         </IconButton>
-      </header>
+      </Box>
       <main className="main-content">
         {children}
       </main>
