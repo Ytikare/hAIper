@@ -177,7 +177,7 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
             variant="body2" 
             sx={{ 
               fontFamily: 'monospace',
-              color: typeof data === 'string' ? 'success.main' : 'info.main',
+              color: typeof data === 'string' ? '#10B981' : '#3B82F6',
               wordBreak: 'break-word'
             }}
           >
@@ -192,10 +192,10 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
             <Box 
               key={index} 
               sx={{ 
-                mb: 1,
+                mb: 1.5,
+                pl: level > 0 ? 2 : 0,
                 borderLeft: level > 0 ? '2px solid' : 'none',
                 borderColor: 'divider',
-                pl: level > 0 ? 2 : 0,
               }}
             >
               <Typography 
@@ -204,31 +204,19 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
                   color: 'text.secondary',
                   fontSize: '0.85rem',
                   mb: 0.5,
-                  fontWeight: 600
+                  fontWeight: 600,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.5px'
                 }}
               >
-                {key.replace(/_/g, ' ').toUpperCase()}
+                {key.replace(/_/g, ' ')}
               </Typography>
-              {typeof value === 'object' && value !== null ? (
-                <Card 
-                  variant="outlined" 
-                  sx={{ 
-                    bgcolor: (theme) => theme.palette.mode === 'dark' 
-                      ? 'rgba(30, 41, 59, 0.4)' 
-                      : 'rgba(241, 245, 249, 0.4)',
-                    border: '1px solid',
-                    borderColor: 'divider',
-                    boxShadow: 'none',
-                    overflow: 'visible'
-                  }}
-                >
-                  <CardContent sx={{ p: 1.5, '&:last-child': { pb: 1.5 } }}>
-                    {renderJsonContent(value, level + 1)}
-                  </CardContent>
-                </Card>
-              ) : (
-                renderJsonContent(value, level + 1)
-              )}
+              <Box sx={{ 
+                pl: 1,
+                py: typeof value === 'object' && value !== null ? 1 : 0
+              }}>
+                {renderJsonContent(value, level + 1)}
+              </Box>
             </Box>
           ))}
         </Box>
@@ -240,13 +228,14 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
         return (
           <Box sx={{ 
             mt: 2,
-            p: 2,
+            p: 3,
             borderRadius: 1,
             bgcolor: (theme) => theme.palette.mode === 'dark' 
               ? 'rgba(30, 41, 59, 0.2)' 
               : 'rgba(241, 245, 249, 0.2)',
             border: '1px solid',
-            borderColor: 'divider'
+            borderColor: 'divider',
+            fontFamily: 'monospace'
           }}>
             {renderJsonContent(result.data)}
           </Box>
