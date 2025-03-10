@@ -80,6 +80,19 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }
             </Typography>
           </Link>
           <Box sx={{ flexGrow: 1 }} />
+          <Button
+            component={Link}
+            href="/admin"
+            sx={{
+              mr: 2,
+              bgcolor: theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.08)' : 'rgba(255, 255, 255, 0.08)',
+              '&:hover': {
+                bgcolor: theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.15)' : 'rgba(255, 255, 255, 0.15)',
+              },
+            }}
+          >
+            Admin
+          </Button>
           <IconButton 
             onClick={toggleTheme} 
             sx={{
