@@ -27,7 +27,7 @@ export const renderJsonContent = (data: any, level: number = 0) => {
                 borderColor: 'divider',
               }}
             >
-              {typeof value === 'string' ? (
+              {typeof value !== 'object' ? (
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                   <Typography 
                     variant="subtitle2" 
