@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { Box, Button, Typography, Paper, Card, CardContent, Grid, Chip, Divider } from '@mui/material';
+import { Box, Button, Typography, Paper, Card, CardContent, Grid, Chip, Divider, useTheme } from '@mui/material';
 import { WorkflowFeedback } from './WorkflowFeedback';
 import { WorkflowProgress } from '../../types/workflow';
 import { WorkflowProgressStepper } from './WorkflowProgressStepper';
@@ -396,38 +396,19 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
 
   return (
       <Paper
-        sx={{
+        elevation={3}
+        sx={(theme) => ({
           p: 4,
           borderRadius: 3,
           position: 'relative',
-          background: (theme) => theme.palette.mode === 'dark'
-            ? 'linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.9))'
-            : 'linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(241, 245, 249, 0.9))',
-          boxShadow: (theme) => theme.palette.mode === 'dark'
-            ? '0 4px 20px rgba(99, 102, 241, 0.3)'
-            : '0 4px 20px rgba(99, 102, 241, 0.15)',
+          background: theme.palette.background.paper,
+          boxShadow: theme.shadows[3],
           transition: 'all 0.3s ease-in-out',
           '&:hover': {
             transform: 'translateY(-4px)',
-            boxShadow: (theme) => theme.palette.mode === 'dark'
-              ? '0 8px 30px rgba(99, 102, 241, 0.4)'
-              : '0 8px 30px rgba(99, 102, 241, 0.2)',
-          },
-          '&::before': {
-            content: '""',
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            borderRadius: 3,
-            border: '1px solid',
-            borderColor: 'transparent',
-            background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1))',
-            transition: 'all 0.3s ease-in-out',
-            zIndex: 0,
+            boxShadow: theme.shadows[6],
           }
-        }}
+        })}
       >
         <form onSubmit={handleSubmit}>
         <WorkflowProgressStepper progress={progress} />
