@@ -170,174 +170,191 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
   };
 
   const ResultDisplay: React.FC<{ result: ContentTypeResponse }> = ({ result }) => {
-    const renderJsonContent = (data: any) => {
-      if (typeof data !== 'object') {
+    const renderJsonContent = (data: any, level: number = 0) => {
+      if (typeof data !== 'object' || data === null) {
         return (
-          <Typography variant="body1" color="text.primary">
-            {String(data)}
+          <Typography 
+            variant="body2" 
+            sx={{ 
+              fontFamily: 'monospace',
+              color: typeof data === 'string' ? 'success.main' : 'info.main',
+              wordBreak: 'break-word'
+            }}
+          >
+            {typeof data === 'string' ? `"${data}"` : String(data)}
           </Typography>
         );
       }
 
       return (
-        <Grid container spacing={1}>
+        <Box sx={{ ml: level > 0 ? 2 : 0 }}>
           {Object.entries(data).map(([key, value], index) => (
-            <Grid item xs={12} key={index}>
-              <Card variant="outlined" sx={{ 
-                bgcolor: 'background.paper',
-                boxShadow: 'none',
-                border: '1px solid',
+            <Box 
+              key={index} 
+              sx={{ 
+                mb: 1,
+                borderLeft: level > 0 ? '2px solid' : 'none',
                 borderColor: 'divider',
-              }}>
-                <CardContent sx={{ p: 1.5 }}>
-                  <Typography variant="subtitle2" color="text.secondary" sx={{ 
-                    textTransform: 'uppercase',
-                    fontSize: '0.75rem',
-                    letterSpacing: '0.5px',
-                    mb: 0.5
-                  }}>
-                    {key.replace(/_/g, ' ')}
-                  </Typography>
-                  <Divider sx={{ my: 0.5 }} />
-                  {typeof value === 'object' ? (
-                    renderJsonContent(value)
-                  ) : (
-                    <Typography variant="body2" color="text.primary">
-                      {String(value)}
-                    </Typography>
-                  )}
-                </CardContent>
-              </Card>
-            </Grid>
+                pl: level > 0 ? 2 : 0,
+              }}
+            >
+              <Typography 
+                variant="subtitle2" 
+                sx={{ 
+                  color: 'text.secondary',
+                  fontSize: '0.85rem',
+                  mb: 0.5,
+                  fontWeight: 600
+                }}
+              >
+                {key.replace(/_/g, ' ').toUpperCase()}
+              </Typography>
+              {typeof value === 'object' && value !== null ? (
+                <Card 
+                  variant="outlined" 
+                  sx={{ 
+                    bgcolor: (theme) => theme.palette.mode === 'dark' 
+                      ? 'rgba(30, 41, 59, 0.4)' 
+                      : 'rgba(241, 245, 249, 0.4)',
+                    border: '1px solid',
+                    borderColor: 'divider',
+                    boxShadow: 'none',
+                    overflow: 'visible'
+                  }}
+                >
+                  <CardContent sx={{ p: 1.5, '&:last-child': { pb: 1.5 } }}>
+                    {renderJsonContent(value, level + 1)}
+                  </CardContent>
+                </Card>
+              ) : (
+                renderJsonContent(value, level + 1)
+              )}
+            </Box>
           ))}
-        </Grid>
+        </Box>
       );
     };
 
     switch (result.type) {
       case 'json':
         return (
-          <Box sx={{ mt: 1 }}>
+          <Box sx={{ 
+            mt: 2,
+            p: 2,
+            borderRadius: 1,
+            bgcolor: (theme) => theme.palette.mode === 'dark' 
+              ? 'rgba(30, 41, 59, 0.2)' 
+              : 'rgba(241, 245, 249, 0.2)',
+            border: '1px solid',
+            borderColor: 'divider'
+          }}>
             {renderJsonContent(result.data)}
           </Box>
         );
       
       case 'image':
         return (
-          <Card sx={{ mt: 1, boxShadow: 'none', border: '1px solid', borderColor: 'divider' }}>
-            <CardContent sx={{ p: 1 }}>
-              <Box sx={{ 
-                display: 'flex', 
-                justifyContent: 'center',
-                p: 1,
-                bgcolor: 'background.paper',
-              }}>
-                <img 
-                  src={result.data} 
-                  alt="Result" 
-                  style={{ 
-                    maxWidth: '100%', 
-                    height: 'auto',
-                    borderRadius: '4px',
-                  }} 
-                />
-              </Box>
-            </CardContent>
-          </Card>
+          <Box sx={{ 
+            mt: 2,
+            p: 2,
+            borderRadius: 1,
+            bgcolor: (theme) => theme.palette.mode === 'dark' 
+              ? 'rgba(30, 41, 59, 0.2)' 
+              : 'rgba(241, 245, 249, 0.2)',
+            border: '1px solid',
+            borderColor: 'divider'
+          }}>
+            <img 
+              src={result.data} 
+              alt="Result" 
+              style={{ 
+                maxWidth: '100%', 
+                height: 'auto',
+                borderRadius: '4px',
+              }} 
+            />
+          </Box>
         );
       
       case 'pdf':
         return (
-          <Card sx={{ 
-            mt: 1, 
-            boxShadow: 'none',
+          <Box sx={{ 
+            mt: 2,
+            height: '600px',
+            borderRadius: 1,
+            overflow: 'hidden',
             border: '1px solid',
             borderColor: 'divider'
           }}>
-            <CardContent sx={{ p: 1 }}>
-              <Box sx={{ 
-                height: '400px',
-                bgcolor: 'background.paper',
-                overflow: 'hidden'
-              }}>
-                <iframe
-                  src={result.data}
-                  style={{ width: '100%', height: '100%', border: 'none' }}
-                  title="PDF Result"
-                />
-              </Box>
-            </CardContent>
-          </Card>
+            <iframe
+              src={result.data}
+              style={{ width: '100%', height: '100%', border: 'none' }}
+              title="PDF Result"
+            />
+          </Box>
         );
       
       case 'text':
         return (
-          <Card sx={{ 
-            mt: 1,
-            boxShadow: 'none',
+          <Box sx={{ 
+            mt: 2,
+            p: 2,
+            borderRadius: 1,
+            bgcolor: (theme) => theme.palette.mode === 'dark' 
+              ? 'rgba(30, 41, 59, 0.2)' 
+              : 'rgba(241, 245, 249, 0.2)',
             border: '1px solid',
             borderColor: 'divider'
           }}>
-            <CardContent sx={{ p: 1 }}>
-              <Typography 
-                variant="body2"
-                sx={{ 
-                  whiteSpace: 'pre-wrap',
-                  p: 1,
-                  bgcolor: 'background.paper',
-                  fontFamily: 'monospace'
-                }}
-              >
-                {result.data}
-              </Typography>
-            </CardContent>
-          </Card>
+            <Typography 
+              variant="body2"
+              sx={{ 
+                whiteSpace: 'pre-wrap',
+                fontFamily: 'monospace',
+                color: 'text.primary'
+              }}
+            >
+              {result.data}
+            </Typography>
+          </Box>
         );
       
       case 'blob':
         return (
-          <Card sx={{ 
-            mt: 1,
-            boxShadow: 'none',
+          <Box sx={{ 
+            mt: 2,
+            p: 2,
+            borderRadius: 1,
+            bgcolor: (theme) => theme.palette.mode === 'dark' 
+              ? 'rgba(30, 41, 59, 0.2)' 
+              : 'rgba(241, 245, 249, 0.2)',
             border: '1px solid',
-            borderColor: 'divider'
+            borderColor: 'divider',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 2
           }}>
-            <CardContent sx={{ 
-              display: 'flex', 
-              alignItems: 'center',
-              gap: 2,
-              p: 2
-            }}>
-              <Chip 
-                label="File Ready" 
-                color="success" 
-                size="small" 
-              />
-              <Button 
-                variant="contained" 
-                href={result.data} 
-                download
-                size="small"
-                sx={{
-                  bgcolor: 'primary.main',
-                  '&:hover': {
-                    bgcolor: 'primary.dark',
-                  }
-                }}
-              >
-                Download File
-              </Button>
-            </CardContent>
-          </Card>
-        );
-      
-      default:
-        return (
-          <Card sx={{ mt: 2 }}>
-            <CardContent>
-              <Typography color="error">Unsupported result type</Typography>
-            </CardContent>
-          </Card>
+            <Chip 
+              label="File Ready" 
+              color="success" 
+              size="small" 
+              variant="outlined"
+            />
+            <Button 
+              variant="contained" 
+              href={result.data} 
+              download
+              size="small"
+              sx={{
+                bgcolor: 'primary.main',
+                '&:hover': {
+                  bgcolor: 'primary.dark',
+                }
+              }}
+            >
+              Download File
+            </Button>
+          </Box>
         );
     }
   };
