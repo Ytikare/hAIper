@@ -124,20 +124,12 @@ export const WorkflowForm: React.FC<WorkflowFormProps> = ({
       fullWidth
       PaperProps={{
         sx: {
-          borderRadius: 2,
-          background: (theme) => theme.palette.mode === 'dark'
-            ? 'linear-gradient(135deg, rgba(30, 41, 59, 1), rgba(15, 23, 42, 1))'
-            : 'linear-gradient(135deg, rgba(255, 255, 255, 1), rgba(241, 245, 249, 1))',
-          boxShadow: (theme) => theme.palette.mode === 'dark'
-            ? '0 8px 32px rgba(0, 0, 0, 0.4)'
-            : '0 8px 32px rgba(0, 0, 0, 0.1)',
-          '& .MuiDialogContent-root': {
-            position: 'relative',
-            zIndex: 1
-          },
-          '&::before': {
-            zIndex: 0
-          }
+          borderRadius: '12px',
+          background: theme => theme.palette.mode === 'dark'
+            ? '#1a1f2e'
+            : '#ffffff',
+          backgroundImage: 'none',
+          overflow: 'hidden',
         }
       }}
     >
@@ -244,16 +236,21 @@ export const WorkflowForm: React.FC<WorkflowFormProps> = ({
                   key={index} 
                   sx={{ 
                     display: 'flex', 
-                    gap: 1, 
+                    gap: 2, 
                     mb: 2, 
-                    alignItems: 'center',
                     p: 2,
-                    borderRadius: 1,
-                    bgcolor: (theme) => theme.palette.mode === 'dark'
-                      ? 'rgba(30, 41, 59, 0.4)'
-                      : 'rgba(241, 245, 249, 0.4)',
+                    borderRadius: '8px',
+                    bgcolor: theme => theme.palette.mode === 'dark'
+                      ? 'rgba(30, 41, 59, 0.3)'
+                      : 'rgba(241, 245, 249, 0.3)',
                     border: '1px solid',
                     borderColor: 'divider',
+                    transition: 'background-color 0.2s',
+                    '&:hover': {
+                      bgcolor: theme => theme.palette.mode === 'dark'
+                        ? 'rgba(30, 41, 59, 0.4)'
+                        : 'rgba(241, 245, 249, 0.4)',
+                    }
                   }}
                 >
                   <TextField
@@ -379,9 +376,14 @@ export const WorkflowForm: React.FC<WorkflowFormProps> = ({
             type="submit" 
             variant="contained"
             sx={{
+              borderRadius: '8px',
+              textTransform: 'none',
               background: 'linear-gradient(45deg, #6366f1, #8b5cf6)',
+              boxShadow: 'none',
+              px: 3,
               '&:hover': {
                 background: 'linear-gradient(45deg, #5558e8, #7c4def)',
+                boxShadow: '0 2px 8px rgba(99, 102, 241, 0.2)',
               }
             }}
           >
