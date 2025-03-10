@@ -170,7 +170,7 @@ export const WorkflowForm: React.FC<WorkflowFormProps> = ({
           </Typography>
         </DialogTitle>
         <DialogContent sx={formStyles.formContent}>
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 , mt: 3}}>
             <TextField
               label="Name"
               value={formData.name}
