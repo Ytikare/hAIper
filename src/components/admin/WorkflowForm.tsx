@@ -22,6 +22,45 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { WorkflowFieldValidation } from './WorkflowFieldValidation';
 import { WorkflowTemplate, WorkflowField } from '../../types/workflow-builder';
 
+const formStyles = {
+  dialog: {
+    '& .MuiDialog-paper': {
+      borderRadius: '12px',
+    }
+  },
+  formHeader: {
+    backgroundColor: '#0047AB',
+    color: 'white',
+    padding: '20px 24px',
+  },
+  formContent: {
+    padding: '24px',
+  },
+  sectionTitle: {
+    color: '#0047AB',
+    fontWeight: 600,
+    fontSize: '1.1rem',
+    marginTop: '24px',
+    marginBottom: '16px',
+  },
+  fieldCard: {
+    backgroundColor: (theme: any) => theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 71, 171, 0.02)',
+    padding: '16px',
+    borderRadius: '8px',
+    marginBottom: '16px',
+    border: '1px solid',
+    borderColor: (theme: any) => theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 71, 171, 0.1)',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '16px',
+  },
+  footer: {
+    padding: '16px 24px',
+    borderTop: '1px solid',
+    borderColor: (theme: any) => theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
+  }
+};
+
 interface WorkflowFormProps {
   open: boolean;
   workflow?: WorkflowTemplate;
@@ -122,21 +161,22 @@ export const WorkflowForm: React.FC<WorkflowFormProps> = ({
       onClose={onClose} 
       maxWidth="md" 
       fullWidth
-      className="workflow-form"
+      sx={formStyles.dialog}
     >
       <form onSubmit={handleSubmit}>
-        <DialogTitle className="form-header">
-          <Typography variant="h5" className="app-title">
+        <DialogTitle sx={formStyles.formHeader}>
+          <Typography variant="h5" fontWeight="500">
             {workflow ? 'Edit Workflow' : 'Create New Workflow'}
           </Typography>
         </DialogTitle>
-        <DialogContent className="form-content">
-          <Box className="field-container">
+        <DialogContent sx={formStyles.formContent}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
             <TextField
               label="Name"
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               required
+              fullWidth
             />
             <TextField
               label="Description"
@@ -144,22 +184,17 @@ export const WorkflowForm: React.FC<WorkflowFormProps> = ({
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               multiline
               rows={3}
+              fullWidth
             />
             <TextField
               label="Category"
               value={formData.category}
               onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+              fullWidth
             />
             
             <Box>
-              <Typography 
-                variant="h6" 
-                sx={{ 
-                  fontWeight: 600,
-                  color: 'primary.main',
-                  mb: 1
-                }}
-              >
+              <Typography sx={formStyles.sectionTitle}>
                 API Configuration
               </Typography>
               <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
@@ -199,20 +234,13 @@ export const WorkflowForm: React.FC<WorkflowFormProps> = ({
             </Box>
 
             <Box>
-              <Typography 
-                variant="h6" 
-                sx={{ 
-                  fontWeight: 600,
-                  color: 'primary.main',
-                  mb: 2
-                }}
-              >
+              <Typography sx={formStyles.sectionTitle}>
                 Fields
               </Typography>
               {formData.fields?.map((field, index) => (
                 <Box 
                   key={index}
-                  className="card"
+                  sx={formStyles.fieldCard}
                 >
                   <TextField
                     label="Field Label"
@@ -297,15 +325,15 @@ export const WorkflowForm: React.FC<WorkflowFormProps> = ({
                 startIcon={<AddIcon />}
                 onClick={handleAddField}
                 variant="outlined"
+                fullWidth
                 sx={{
-                  borderColor: (theme) => theme.palette.mode === 'dark' ? 'primary.main' : 'primary.light',
-                  //color: (theme) => theme.palette.mode === 'dark' ? 'primary.main' : 'primary.light',
-                  bgcolor: (theme) => theme.palette.mode === 'dark' ? 'transparent' : 'rgba(99, 102, 241, 0.08)',
+                  mt: 2,
+                  py: 1.5,
+                  borderColor: '#0047AB',
+                  color: '#0047AB',
                   '&:hover': {
-                    borderColor: 'primary.main',
-                    bgcolor: (theme) => theme.palette.mode === 'dark' 
-                      ? 'rgba(99, 102, 241, 0.1)'
-                      : 'rgba(99, 102, 241, 0.15)',
+                    backgroundColor: 'rgba(0, 71, 171, 0.08)',
+                    borderColor: '#0047AB',
                   }
                 }}
               >
@@ -314,11 +342,28 @@ export const WorkflowForm: React.FC<WorkflowFormProps> = ({
             </Box>
           </Box>
         </DialogContent>
-        <DialogActions className="form-footer">
-          <Button onClick={onClose} className="btn btn-outline">
+        <DialogActions sx={formStyles.footer}>
+          <Button 
+            onClick={onClose}
+            sx={{
+              color: 'text.secondary',
+              '&:hover': {
+                backgroundColor: 'action.hover',
+              }
+            }}
+          >
             Cancel
           </Button>
-          <Button type="submit" className="btn btn-primary">
+          <Button 
+            type="submit"
+            variant="contained"
+            sx={{
+              backgroundColor: '#0047AB',
+              '&:hover': {
+                backgroundColor: '#003d91',
+              }
+            }}
+          >
             Save
           </Button>
         </DialogActions>
