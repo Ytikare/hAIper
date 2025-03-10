@@ -44,31 +44,45 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
       throw new Error('Workflow API endpoint not configured');
     }
 
-    // Create FormData for file uploads
-    const formData = new FormData();
-    
-    // Handle files and other data separately
-    Object.entries(data).forEach(([key, value]) => {
-      if (value instanceof File) {
-        formData.append(key, value);
-      } else {
-        formData.append(key, JSON.stringify(value));
-      }
-    });
-
-    // Transform request data if transformer is provided
-    const finalData = apiConfig.transformRequest 
-      ? apiConfig.transformRequest(formData)
-      : formData;
-
-    const response = await fetch(apiConfig.endpoint, {
+    let url = apiConfig.endpoint;
+    const requestOptions: RequestInit = {
       method: apiConfig.method,
       headers: {
         ...apiConfig.headers,
-        // Let browser set Content-Type with boundary for FormData
       },
-      body: finalData,
-    });
+    };
+
+    // Handle different HTTP methods
+    if (apiConfig.method === 'GET' || apiConfig.method === 'HEAD') {
+      // For GET/HEAD, convert data to URL parameters
+      const params = new URLSearchParams();
+      Object.entries(data).forEach(([key, value]) => {
+        if (!(value instanceof File)) { // Skip files for GET requests
+          params.append(key, typeof value === 'object' ? JSON.stringify(value) : String(value));
+        }
+      });
+      // Append params to URL
+      url = `${url}${url.includes('?') ? '&' : '?'}${params.toString()}`;
+    } else {
+      // For POST, PUT, DELETE, etc.
+      const formData = new FormData();
+      Object.entries(data).forEach(([key, value]) => {
+        if (value instanceof File) {
+          formData.append(key, value);
+        } else {
+          formData.append(key, typeof value === 'object' ? JSON.stringify(value) : String(value));
+        }
+      });
+
+      // Transform request data if transformer is provided
+      const finalData = apiConfig.transformRequest 
+        ? apiConfig.transformRequest(formData)
+        : formData;
+
+      requestOptions.body = finalData;
+    }
+
+    const response = await fetch(url, requestOptions);
 
     if (!response.ok) {
       throw new Error(`API request failed: ${response.statusText}`);
