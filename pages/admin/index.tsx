@@ -1,12 +1,15 @@
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 import type { NextPage } from 'next';
-import { Box, Typography } from '@mui/material';
 
 const Admin: NextPage = () => {
-  return (
-    <Box>
-      <Typography variant="h4">Admin Dashboard</Typography>
-    </Box>
-  );
+  const router = useRouter();
+
+  useEffect(() => {
+    router.replace('/admin/workflows');
+  }, [router]);
+
+  return null; // No need to render anything as we're redirecting
 };
 
 export default Admin;
