@@ -122,38 +122,16 @@ export const WorkflowForm: React.FC<WorkflowFormProps> = ({
       onClose={onClose} 
       maxWidth="md" 
       fullWidth
-      PaperProps={{
-        sx: {
-          borderRadius: '12px',
-          background: theme => theme.palette.mode === 'dark'
-            ? '#1a1f2e'
-            : '#ffffff',
-          backgroundImage: 'none',
-          overflow: 'hidden',
-        }
-      }}
+      className="workflow-form"
     >
       <form onSubmit={handleSubmit}>
-        <DialogTitle sx={{
-          background: (theme) => theme.palette.mode === 'dark'
-            ? 'linear-gradient(135deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.95))'
-            : 'linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(241, 245, 249, 0.95))',
-          borderBottom: '1px solid',
-          borderColor: 'divider',
-          py: 2,
-        }}>
-          <Typography variant="h5" sx={{ 
-            fontWeight: 600,
-            background: 'linear-gradient(45deg, #6366f1, #8b5cf6)',
-            backgroundClip: 'text',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-          }}>
+        <DialogTitle className="form-header">
+          <Typography variant="h5" className="app-title">
             {workflow ? 'Edit Workflow' : 'Create New Workflow'}
           </Typography>
         </DialogTitle>
-        <DialogContent>
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 2 }}>
+        <DialogContent className="form-content">
+          <Box className="field-container">
             <TextField
               label="Name"
               value={formData.name}
@@ -233,25 +211,8 @@ export const WorkflowForm: React.FC<WorkflowFormProps> = ({
               </Typography>
               {formData.fields?.map((field, index) => (
                 <Box 
-                  key={index} 
-                  sx={{ 
-                    display: 'flex', 
-                    gap: 2, 
-                    mb: 2, 
-                    p: 2,
-                    borderRadius: '8px',
-                    bgcolor: theme => theme.palette.mode === 'dark'
-                      ? 'rgba(30, 41, 59, 0.3)'
-                      : 'rgba(241, 245, 249, 0.3)',
-                    border: '1px solid',
-                    borderColor: 'divider',
-                    transition: 'background-color 0.2s',
-                    '&:hover': {
-                      bgcolor: theme => theme.palette.mode === 'dark'
-                        ? 'rgba(30, 41, 59, 0.4)'
-                        : 'rgba(241, 245, 249, 0.4)',
-                    }
-                  }}
+                  key={index}
+                  className="card"
                 >
                   <TextField
                     label="Field Label"
@@ -353,40 +314,11 @@ export const WorkflowForm: React.FC<WorkflowFormProps> = ({
             </Box>
           </Box>
         </DialogContent>
-        <DialogActions sx={{ 
-          borderTop: '1px solid',
-          borderColor: 'divider',
-          px: 3,
-          py: 2,
-        }}>
-          <Button 
-            onClick={onClose}
-            sx={{
-              color: (theme) => theme.palette.mode === 'dark' ? 'white.900' : 'white.1000',
-              '&:hover': {
-                bgcolor: (theme) => theme.palette.mode === 'dark' 
-                  ? 'rgba(255, 255, 255, 0.08)'
-                  : 'rgba(0, 0, 0, 0.04)',
-              }
-            }}
-          >
+        <DialogActions className="form-footer">
+          <Button onClick={onClose} className="btn btn-outline">
             Cancel
           </Button>
-          <Button 
-            type="submit" 
-            variant="contained"
-            sx={{
-              borderRadius: '8px',
-              textTransform: 'none',
-              background: 'linear-gradient(45deg, #6366f1, #8b5cf6)',
-              boxShadow: 'none',
-              px: 3,
-              '&:hover': {
-                background: 'linear-gradient(45deg, #5558e8, #7c4def)',
-                boxShadow: '0 2px 8px rgba(99, 102, 241, 0.2)',
-              }
-            }}
-          >
+          <Button type="submit" className="btn btn-primary">
             Save
           </Button>
         </DialogActions>
