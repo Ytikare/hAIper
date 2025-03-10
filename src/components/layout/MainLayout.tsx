@@ -42,9 +42,11 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }
           <Image 
             src={logoImg}
             alt="Haiper Logo"
-            width={80}
-            height={80}
-            style={{ marginLeft: '20px' }}
+            style={{ 
+              width: 'auto',
+              height: '60px',   // Maintain the height you want
+              marginLeft: '20px' 
+            }}
           />
         </Box>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, paddingRight: 3 }}>
