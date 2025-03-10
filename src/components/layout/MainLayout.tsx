@@ -22,9 +22,10 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }
           backgroundColor: '#0047AB',
           padding: '0',
           display: 'flex',
-          alignItems: 'flex-start',
-          height: '100px',
-          width: '100%'
+          alignItems: 'center',
+          height: '108px',
+          width: '100%',
+          justifyContent: 'space-between'
         }}
       >
         <Link href="/" passHref style={{ textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center' }}>
@@ -33,11 +34,11 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }
             alt="PostBank Logo"
             width={250}
             height={108}
-            style={{ marginRight: '20px' }}
+            style={{ marginRight: '0' }}
           />
         </Link>
-        <div style={{ flexGrow: 1 }} />
-        <Button
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, paddingRight: 3 }}>
+          <Button
           component={Link}
           href="/admin"
           className="btn btn-outline"
@@ -65,6 +66,7 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }
         >
           {isDarkMode ? <Brightness7 /> : <Brightness4 />}
         </IconButton>
+        </Box>
       </Box>
       <main className="main-content">
         {children}
