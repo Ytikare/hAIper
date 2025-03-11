@@ -16,7 +16,11 @@ export const renderJsonContent = (data: any, level: number = 0) => {
       }
 
       return (
-        <Box sx={{ ml: level > 0 ? 2 : 0 }}>
+        <Box sx={{ 
+          ml: level > 0 ? 2 : 0,
+          userSelect: 'text',
+          pointerEvents: 'auto'
+        }}>
           {Object.entries(data).map(([key, value], index) => (
             <Box 
               key={index} 

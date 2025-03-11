@@ -67,6 +67,7 @@ export const ResultDisplay: React.FC<{ result: ContentTypeResponse }> = ({ resul
               style={{ width: '100%', height: '100%', border: 'none' }}
               title="PDF Result"
               allowFullScreen={true}
+              allow="fullscreen"
             />
           </Box>
         );
@@ -81,7 +82,9 @@ export const ResultDisplay: React.FC<{ result: ContentTypeResponse }> = ({ resul
               ? 'rgba(30, 41, 59, 0.2)' 
               : 'rgba(241, 245, 249, 0.2)',
             border: '1px solid',
-            borderColor: 'divider'
+            borderColor: 'divider',
+            userSelect: 'text',
+            pointerEvents: 'auto'
           }}>
             <Typography 
               variant="body2"

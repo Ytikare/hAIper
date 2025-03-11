@@ -152,7 +152,9 @@ export const WorkflowField: React.FC<WorkflowFieldProps> = ({ field, value, onCh
                 borderRadius: 1,
                 overflow: 'hidden',
                 border: '1px solid',
-                borderColor: 'divider'
+                borderColor: 'divider',
+                userSelect: 'text',
+                pointerEvents: 'auto'
               }}>
                 <iframe
                   src={objectUrl}
