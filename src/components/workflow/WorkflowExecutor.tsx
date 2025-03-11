@@ -154,9 +154,17 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
   };
 
   const handleReset = () => {
+    // Cleanup result URLs
     if (result?.type === 'blob' || result?.type === 'image' || result?.type === 'pdf') {
       URL.revokeObjectURL(result.data);
     }
+    
+    // Cleanup file preview URLs
+    workflow.fields.forEach(field => {
+      if (field.type === 'file' && field.visualizeFile && formData[field.name || field.label]) {
+        URL.revokeObjectURL(URL.createObjectURL(formData[field.name || field.label]));
+      }
+    });
     setFormData({});
     setResult(null);
     setError('');
@@ -186,6 +194,7 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
           <Typography variant="subtitle1" color="success.main" sx={{ mb: 2 }}>
             ✓ Workflow completed successfully!
           </Typography>
+          {/* Show API Result */}
           {result && (
             <Box sx={{ mt: 3 }}>
               <Typography 
@@ -198,6 +207,37 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
               <ResultDisplay result={result} />
             </Box>
           )}
+
+          {/* Show File Previews */}
+          {workflow.fields.map((field, index) => (
+            field.type === 'file' && 
+            field.visualizeFile && 
+            formData[field.name || field.label] && (
+              <Box key={index} sx={{ mt: 3 }}>
+                <Typography 
+                  variant="h6" 
+                  gutterBottom
+                  sx={{ color: (theme) => theme.palette.text.primary }}
+                >
+                  {field.label}:
+                </Typography>
+                <Box sx={{ 
+                  mt: 2,
+                  height: '600px',
+                  borderRadius: 1,
+                  overflow: 'hidden',
+                  border: '1px solid',
+                  borderColor: 'divider'
+                }}>
+                  <iframe
+                    src={URL.createObjectURL(formData[field.name || field.label])}
+                    style={{ width: '100%', height: '100%', border: 'none' }}
+                    title={`${field.label} Preview`}
+                  />
+                </Box>
+              </Box>
+            )
+          ))}
           <WorkflowFeedback 
             feedback={feedback}
             onFeedbackChange={setFeedback}
