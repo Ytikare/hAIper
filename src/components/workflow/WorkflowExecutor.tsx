@@ -209,10 +209,15 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
             ✓ Workflow completed successfully!
           </Typography>
           
-          {/* New Grid Layout for side-by-side view */}
-          <Grid container spacing={3}>
+          {/* Flexbox Layout for side-by-side view */}
+          <Box sx={{ 
+            display: 'flex', 
+            flexDirection: { xs: 'column', md: 'row' }, 
+            gap: 3,
+            width: '100%'
+          }}>
             {/* File Previews */}
-            <Grid item xs={12} md={6}>
+            <Box sx={{ flex: 1 }}>
               {workflow.fields.map((field, index) => (
                 field.type === 'file' && 
                 field.visualizeFile && 
@@ -242,10 +247,10 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
                   </Box>
                 )
               ))}
-            </Grid>
+            </Box>
 
             {/* API Result */}
-            <Grid item xs={12} md={6}>
+            <Box sx={{ flex: 1 }}>
               {result && (
                 <Box sx={{ mt: 3 }}>
                   <Typography variant="h6" gutterBottom>
@@ -266,8 +271,8 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
                   </Box>
                 </Box>
               )}
-            </Grid>
-          </Grid>
+            </Box>
+          </Box>
 
           <WorkflowFeedback 
             feedback={feedback}
