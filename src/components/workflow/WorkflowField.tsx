@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextField, FormControl, Input, MenuItem, Typography } from '@mui/material';
+import { TextField, FormControl, Input, MenuItem, Typography, Box } from '@mui/material';
 import { WorkflowField as IWorkflowField } from '../../types/workflow-builder';
 
 interface WorkflowFieldProps {
@@ -135,6 +135,24 @@ export const WorkflowField: React.FC<WorkflowFieldProps> = ({ field, value, onCh
             Accepted types: {field.validation?.fileTypes?.join(', ') || '*'}. 
             Max size: {field.validation?.maxFileSize || 10}MB
           </Typography>
+          
+          {/* Add the PDF preview here */}
+          {field.visualizeFile && value && (
+            <Box sx={{ 
+              mt: 2,
+              height: '600px',
+              borderRadius: 1,
+              overflow: 'hidden',
+              border: '1px solid',
+              borderColor: 'divider'
+            }}>
+              <iframe
+                src={URL.createObjectURL(value)}
+                style={{ width: '100%', height: '100%', border: 'none' }}
+                title="PDF Preview"
+              />
+            </Box>
+          )}
         </FormControl>
       );
     
