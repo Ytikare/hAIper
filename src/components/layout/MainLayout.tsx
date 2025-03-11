@@ -81,6 +81,7 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }
         </Box>
       </Box>
       <main className="main-content" style={{
+        width: '100%',
         maxWidth: 'none',
         padding: '20px 0',
         margin: '0'
