@@ -198,8 +198,10 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
           borderColor: 'divider',
           boxShadow: 'none',
           width: '100%',
-          margin: '0 auto',
-          maxWidth: '2400px'
+          margin: '0',
+          maxWidth: 'none',
+          paddingLeft: 0,
+          paddingRight: 0
         }}
       >
         <Box>
@@ -284,14 +286,16 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
         elevation={3}
         sx={(theme) => ({
           p: 4,
+          paddingLeft: 0,
+          paddingRight: 0,
           borderRadius: 3,
           position: 'relative',
           background: theme.palette.background.paper,
           boxShadow: theme.shadows[3],
           transition: 'all 0.3s ease-in-out',
           width: '100%',
-          margin: '0 auto',
-          maxWidth: '2400px',
+          margin: '0',
+          maxWidth: 'none',
           '&:hover': {
             transform: 'translateY(-4px)',
             boxShadow: theme.shadows[6],
