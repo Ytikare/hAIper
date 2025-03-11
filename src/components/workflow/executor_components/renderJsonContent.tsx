@@ -20,8 +20,6 @@ export const renderJsonContent = (data: any, level: number = 0) => {
           ml: level > 0 ? 2 : 0,
           userSelect: 'text !important',
           pointerEvents: 'auto !important',
-          userSelect: 'text',
-          pointerEvents: 'auto',
           '& *': {
             userSelect: 'text',
             pointerEvents: 'auto'
