@@ -296,7 +296,7 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
       <Paper
         elevation={3}
         sx={(theme) => ({
-          p: 4,
+          p: 3,
           paddingLeft: 0,
           paddingRight: 0,
           borderRadius: 3,
@@ -351,10 +351,11 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
             </Typography>
           )}
 
+          <Divider sx={{ mt: 4, mb: 3 }} />
           <Box sx={{ 
             display: 'flex', 
-            justifyContent: 'flex-end', 
-            mt: 5,
+            justifyContent: 'center', 
+            mt: 3,
             pb: 2 
           }}>
             <Button
@@ -364,8 +365,8 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
               size="large"
               sx={{ 
                 borderRadius: '12px',
-                px: 4,
-                py: 1.5,
+                px: 6,
+                py: 2,
                 fontSize: '1.1rem',
                 fontWeight: 500,
                 transition: 'all 0.2s ease-in-out',

@@ -100,7 +100,7 @@ export const WorkflowField: React.FC<WorkflowFieldProps> = ({ field, value, onCh
       };
 
       return (
-        <FormControl fullWidth margin="normal" sx={{ mt: 3, position: 'relative' }}>
+        <FormControl fullWidth margin="normal" sx={{ mt: 1, position: 'relative' }}>
           <TextField
             type="file"
             fullWidth
