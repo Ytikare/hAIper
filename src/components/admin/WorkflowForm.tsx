@@ -110,6 +110,7 @@ export const WorkflowForm: React.FC<WorkflowFormProps> = ({
         required: false,
         placeholder: '',
         defaultValue: '',
+        visualizeFile: false,
         validation: {
           options: undefined,
           maxSize: 0,
@@ -316,6 +317,21 @@ export const WorkflowForm: React.FC<WorkflowFormProps> = ({
                     }
                     label="Required"
                   />
+                  {field.type === 'file' && (
+                    <FormControlLabel
+                      control={
+                        <Switch
+                          checked={field.visualizeFile || false}
+                          onChange={(e) => {
+                            const newFields = [...(formData.fields || [])];
+                            newFields[index] = { ...field, visualizeFile: e.target.checked };
+                            setFormData({ ...formData, fields: newFields });
+                          }}
+                        />
+                      }
+                      label="Visualize File"
+                    />
+                  )}
                   <IconButton onClick={() => handleRemoveField(index)}>
                     <DeleteIcon />
                   </IconButton>
