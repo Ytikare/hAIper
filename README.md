@@ -71,6 +71,21 @@ You can:
 
 5. Open your web browser and go to: `http://localhost:7777`
 
+## Changelog
+
+### Version 0.2.0 (2024-03-11)
+#### Enhancements
+- Improved form layout and spacing for better user experience
+- Enhanced file input styling with modern appearance
+- Added better content interaction with selectable text and interactive elements
+- Optimized workflow execution layout with flexbox
+- Improved responsive design for workflow cards
+- Updated landing page with benefit-focused messaging
+- Enhanced container widths and margins for better content display
+- Added fullscreen support for PDF viewers
+- Improved button styling and positioning
+- Enhanced form field grouping and validation feedback
+
 ## Need Help?
 If you're having trouble:
 - Ask your administrator for help
