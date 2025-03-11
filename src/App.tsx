@@ -13,7 +13,7 @@ function App() {
           components: {
             MuiContainer: {
               defaultProps: {
-                maxWidth: 'none'
+                maxWidth: false
               }
             }
           }
