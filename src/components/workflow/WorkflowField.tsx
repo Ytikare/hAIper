@@ -160,6 +160,8 @@ export const WorkflowField: React.FC<WorkflowFieldProps> = ({ field, value, onCh
                   src={objectUrl}
                   style={{ width: '100%', height: '100%', border: 'none' }}
                   title="PDF Preview"
+                  allowFullScreen={true}
+                  allow="fullscreen"
                 />
               </Box>
             );

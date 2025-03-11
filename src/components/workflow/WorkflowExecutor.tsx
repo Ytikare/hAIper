@@ -235,6 +235,8 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
                         src={URL.createObjectURL(formData[field.name || field.label])}
                         style={{ width: '100%', height: '100%', border: 'none' }}
                         title={`${field.label} Preview`}
+                        allowFullScreen={true}
+                        allow="fullscreen"
                       />
                     </Box>
                   </Box>

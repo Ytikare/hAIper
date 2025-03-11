@@ -20,7 +20,9 @@ export const ResultDisplay: React.FC<{ result: ContentTypeResponse }> = ({ resul
               : 'rgba(241, 245, 249, 0.2)',
             border: '1px solid',
             borderColor: 'divider',
-            fontFamily: 'monospace'
+            fontFamily: 'monospace',
+            userSelect: 'text !important',
+            pointerEvents: 'auto !important'
           }}>
             {renderJsonContent(result.data)}
           </Box>
