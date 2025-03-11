@@ -8,6 +8,7 @@ export interface WorkflowField {
   placeholder?: string;
   required: boolean;
   defaultValue?: any;
+  visualizeFile?: boolean;
   options?: Array<{
     label: string;
     value: string | number;

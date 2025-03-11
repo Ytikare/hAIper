@@ -5,7 +5,7 @@ import { WorkflowProgress } from '../../types/workflow';
 import { WorkflowProgressStepper } from './WorkflowProgressStepper';
 import { WorkflowTemplate } from '../../types/workflow-builder';
 import { WorkflowField } from './WorkflowField';
-import { renderJsonContent } from './executor_components/renderJsonContent';
+import { ResultDisplay } from './executor_components/resultDisplayFC';
 
 type ContentTypeResponse = {
   type: string;
@@ -154,9 +154,26 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
   };
 
   const handleReset = () => {
+    // Cleanup result URLs
     if (result?.type === 'blob' || result?.type === 'image' || result?.type === 'pdf') {
       URL.revokeObjectURL(result.data);
     }
+    
+    // Cleanup file preview URLs
+    Object.entries(formData).forEach(([key, value]) => {
+      if (value instanceof File) {
+        const field = workflow.fields.find(f => f.name === key || f.label === key);
+        if (field?.type === 'file' && field.visualizeFile) {
+          // Revoke any existing object URLs
+          const fileInput = document.querySelector(`input[type="file"][name="${key}"]`) as HTMLInputElement;
+          if (fileInput) {
+            fileInput.value = ''; // Clear the file input
+          }
+        }
+      }
+    });
+
+    // Reset all state
     setFormData({});
     setResult(null);
     setError('');
@@ -170,132 +187,6 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
     });
   };
 
-  const ResultDisplay: React.FC<{ result: ContentTypeResponse }> = ({ result }) => {
-    switch (result.type) {
-      case 'json':
-        return (
-          <Box sx={{ 
-            mt: 2,
-            p: 3,
-            borderRadius: 1,
-            bgcolor: (theme) => theme.palette.mode === 'dark' 
-              ? 'rgba(30, 41, 59, 0.2)' 
-              : 'rgba(241, 245, 249, 0.2)',
-            border: '1px solid',
-            borderColor: 'divider',
-            fontFamily: 'monospace'
-          }}>
-            {renderJsonContent(result.data)}
-          </Box>
-        );
-      
-      case 'image':
-        return (
-          <Box sx={{ 
-            mt: 2,
-            p: 2,
-            borderRadius: 1,
-            bgcolor: (theme) => theme.palette.mode === 'dark' 
-              ? 'rgba(30, 41, 59, 0.2)' 
-              : 'rgba(241, 245, 249, 0.2)',
-            border: '1px solid',
-            borderColor: 'divider'
-          }}>
-            <img 
-              src={result.data} 
-              alt="Result" 
-              style={{ 
-                maxWidth: '100%', 
-                height: 'auto',
-                borderRadius: '4px',
-              }} 
-            />
-          </Box>
-        );
-      
-      case 'pdf':
-        return (
-          <Box sx={{ 
-            mt: 2,
-            height: '600px',
-            borderRadius: 1,
-            overflow: 'hidden',
-            border: '1px solid',
-            borderColor: 'divider'
-          }}>
-            <iframe
-              src={result.data}
-              style={{ width: '100%', height: '100%', border: 'none' }}
-              title="PDF Result"
-            />
-          </Box>
-        );
-      
-      case 'text':
-        return (
-          <Box sx={{ 
-            mt: 2,
-            p: 2,
-            borderRadius: 1,
-            bgcolor: (theme) => theme.palette.mode === 'dark' 
-              ? 'rgba(30, 41, 59, 0.2)' 
-              : 'rgba(241, 245, 249, 0.2)',
-            border: '1px solid',
-            borderColor: 'divider'
-          }}>
-            <Typography 
-              variant="body2"
-              sx={{ 
-                whiteSpace: 'pre-wrap',
-                fontFamily: 'monospace',
-                color: 'text.primary'
-              }}
-            >
-              {result.data}
-            </Typography>
-          </Box>
-        );
-      
-      case 'blob':
-        return (
-          <Box sx={{ 
-            mt: 2,
-            p: 2,
-            borderRadius: 1,
-            bgcolor: (theme) => theme.palette.mode === 'dark' 
-              ? 'rgba(30, 41, 59, 0.2)' 
-              : 'rgba(241, 245, 249, 0.2)',
-            border: '1px solid',
-            borderColor: 'divider',
-            display: 'flex',
-            alignItems: 'center',
-            gap: 2
-          }}>
-            <Chip 
-              label="File Ready" 
-              color="success" 
-              size="small" 
-              variant="outlined"
-            />
-            <Button 
-              variant="contained" 
-              href={result.data} 
-              download
-              size="small"
-              sx={{
-                bgcolor: 'primary.main',
-                '&:hover': {
-                  bgcolor: 'primary.dark',
-                }
-              }}
-            >
-              Download File
-            </Button>
-          </Box>
-        );
-    }
-  };
-
   if (isCompleted) {
     return (
       <Paper
@@ -305,25 +196,84 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
           bgcolor: 'background.paper',
           border: '1px solid',
           borderColor: 'divider',
-          boxShadow: 'none'
+          boxShadow: 'none',
+          width: '95%',
+          margin: '0 auto',
+          maxWidth: 'none',
+          paddingLeft: 0,
+          paddingRight: 0
         }}
       >
         <Box>
           <Typography variant="subtitle1" color="success.main" sx={{ mb: 2 }}>
             ✓ Workflow completed successfully!
           </Typography>
-          {result && (
-            <Box sx={{ mt: 3 }}>
-              <Typography 
-                variant="h6" 
-                gutterBottom
-                sx={{ color: (theme) => theme.palette.text.primary }}
-              >
-                Result:
-              </Typography>
-              <ResultDisplay result={result} />
+          
+          {/* Flexbox Layout for side-by-side view */}
+          <Box sx={{ 
+            display: 'flex', 
+            flexDirection: { xs: 'column', md: 'row' }, 
+            gap: 3,
+            width: '100%'
+          }}>
+            {/* File Previews */}
+            <Box sx={{ flex: 1 }}>
+              {workflow.fields.map((field, index) => (
+                field.type === 'file' && 
+                field.visualizeFile && 
+                formData[field.name || field.label] && (
+                  <Box key={index} sx={{ mt: 3 }}>
+                    <Typography variant="h6" gutterBottom>
+                      {field.label}:
+                    </Typography>
+                    <Box sx={{ 
+                      mt: 2,
+                      height: '700px',
+                      borderRadius: 1,
+                      overflow: 'hidden',
+                      border: '1px solid',
+                      borderColor: 'divider',
+                      userSelect: 'text',
+                      pointerEvents: 'auto'
+                    }}>
+                      <iframe
+                        src={URL.createObjectURL(formData[field.name || field.label])}
+                        style={{ width: '100%', height: '100%', border: 'none' }}
+                        title={`${field.label} Preview`}
+                        allowFullScreen={true}
+                        allow="fullscreen"
+                      />
+                    </Box>
+                  </Box>
+                )
+              ))}
             </Box>
-          )}
+
+            {/* API Result */}
+            <Box sx={{ flex: 1 }}>
+              {result && (
+                <Box sx={{ mt: 3 }}>
+                  <Typography variant="h6" gutterBottom>
+                    API Result:
+                  </Typography>
+                  <Box sx={{ 
+                    mt: 2,
+                    height: '700px',
+                    overflowY: 'auto',
+                    borderRadius: 1,
+                    border: '1px solid',
+                    borderColor: 'divider',
+                    p: 2,
+                    userSelect: 'text',
+                    pointerEvents: 'auto'
+                  }}>
+                    <ResultDisplay result={result} />
+                  </Box>
+                </Box>
+              )}
+            </Box>
+          </Box>
+
           <WorkflowFeedback 
             feedback={feedback}
             onFeedbackChange={setFeedback}
@@ -346,12 +296,17 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
       <Paper
         elevation={3}
         sx={(theme) => ({
-          p: 4,
+          p: 3,
+          paddingLeft: 0,
+          paddingRight: 0,
           borderRadius: 3,
           position: 'relative',
           background: theme.palette.background.paper,
           boxShadow: theme.shadows[3],
           transition: 'all 0.3s ease-in-out',
+          width: '100%',
+          margin: '0',
+          maxWidth: 'none',
           '&:hover': {
             transform: 'translateY(-4px)',
             boxShadow: theme.shadows[6],
@@ -360,7 +315,27 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
       >
         <form onSubmit={handleSubmit}>
         <WorkflowProgressStepper progress={progress} />
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3, mt: 4 }}>
+        <Box sx={{ 
+          display: 'flex', 
+          flexDirection: 'column', 
+          gap: 4, 
+          mt: 4,
+          '& .MuiFormControl-root': {
+            backgroundColor: (theme) => 
+              theme.palette.mode === 'dark' 
+                ? 'rgba(255, 255, 255, 0.02)'
+                : 'rgba(0, 0, 0, 0.01)',
+            padding: 2,
+            borderRadius: 1,
+            transition: 'all 0.2s ease-in-out',
+            '&:hover': {
+              backgroundColor: (theme) =>
+                theme.palette.mode === 'dark'
+                  ? 'rgba(255, 255, 255, 0.04)'
+                  : 'rgba(0, 0, 0, 0.02)'
+            }
+          }
+        }}>
           {workflow.fields.map((field, index) => (
             <WorkflowField
               key={index}
@@ -376,13 +351,29 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
             </Typography>
           )}
 
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 4 }}>
+          <Divider sx={{ mt: 4, mb: 3 }} />
+          <Box sx={{ 
+            display: 'flex', 
+            justifyContent: 'center', 
+            mt: 3,
+            pb: 2 
+          }}>
             <Button
               type="submit"
               variant="contained"
               color="primary"
+              size="large"
               sx={{ 
-                borderRadius: '25px',  // Use any value you want
+                borderRadius: '12px',
+                px: 6,
+                py: 2,
+                fontSize: '1.1rem',
+                fontWeight: 500,
+                transition: 'all 0.2s ease-in-out',
+                '&:hover': {
+                  transform: 'translateY(-2px)',
+                  boxShadow: (theme) => theme.shadows[4]
+                }
               }}
             >
               Execute Workflow

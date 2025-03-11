@@ -21,7 +21,7 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }
         component="header" 
         sx={{
           backgroundColor: '#0047AB',
-          padding: '0',
+          padding: '20px 40px',
           display: 'flex',
           alignItems: 'center',
           height: '108px',
@@ -80,7 +80,12 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }
         </IconButton>
         </Box>
       </Box>
-      <main className="main-content">
+      <main className="main-content" style={{
+        width: '100%',
+        maxWidth: 'none',
+        padding: '5px 0',
+        margin: '0 auto'
+      }}>
         {children}
       </main>
     </div>

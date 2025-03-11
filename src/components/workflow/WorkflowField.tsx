@@ -1,5 +1,5 @@
-import React from 'react';
-import { TextField, FormControl, Input, MenuItem, Typography } from '@mui/material';
+import React, { useEffect } from 'react';
+import { TextField, FormControl, Input, MenuItem, Typography, Box } from '@mui/material';
 import { WorkflowField as IWorkflowField } from '../../types/workflow-builder';
 
 interface WorkflowFieldProps {
@@ -100,12 +100,37 @@ export const WorkflowField: React.FC<WorkflowFieldProps> = ({ field, value, onCh
       };
 
       return (
-        <FormControl fullWidth margin="normal">
+        <FormControl fullWidth margin="normal" sx={{ mt: 1, position: 'relative' }}>
           <TextField
             type="file"
             fullWidth
             label={field.label}
+            InputLabelProps={{ 
+              shrink: true,
+              sx: { 
+                position: 'relative',
+                transform: 'none',
+                marginBottom: 1
+              }
+            }}
             InputProps={{
+              sx: {
+                '& .MuiOutlinedInput-input': {
+                  padding: '12px',
+                  cursor: 'pointer',
+                  backgroundColor: (theme) => 
+                    theme.palette.mode === 'dark' 
+                      ? 'rgba(255, 255, 255, 0.05)'
+                      : 'rgba(0, 0, 0, 0.02)',
+                  borderRadius: 1,
+                  '&:hover': {
+                    backgroundColor: (theme) =>
+                      theme.palette.mode === 'dark'
+                        ? 'rgba(255, 255, 255, 0.08)'
+                        : 'rgba(0, 0, 0, 0.04)'
+                  }
+                }
+              },
               inputProps: {
                 accept: field.validation?.fileTypes
                   ?.map(type => type.startsWith('.') ? type : `.${type}`)
@@ -135,6 +160,37 @@ export const WorkflowField: React.FC<WorkflowFieldProps> = ({ field, value, onCh
             Accepted types: {field.validation?.fileTypes?.join(', ') || '*'}. 
             Max size: {field.validation?.maxFileSize || 10}MB
           </Typography>
+          
+          {/* Add the PDF preview here */}
+          {field.visualizeFile && value && (() => {
+            const objectUrl = URL.createObjectURL(value);
+            useEffect(() => {
+              return () => {
+                URL.revokeObjectURL(objectUrl);
+              };
+            }, []);
+            
+            return (
+              <Box sx={{ 
+                mt: 2,
+                height: '700px',
+                borderRadius: 1,
+                overflow: 'hidden',
+                border: '1px solid',
+                borderColor: 'divider',
+                userSelect: 'text',
+                pointerEvents: 'auto'
+              }}>
+                <iframe
+                  src={objectUrl}
+                  style={{ width: '100%', height: '100%', border: 'none' }}
+                  title="PDF Preview"
+                  allowFullScreen={true}
+                  allow="fullscreen"
+                />
+              </Box>
+            );
+          })()}
         </FormControl>
       );
     
