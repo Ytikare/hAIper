@@ -196,7 +196,10 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
           bgcolor: 'background.paper',
           border: '1px solid',
           borderColor: 'divider',
-          boxShadow: 'none'
+          boxShadow: 'none',
+          width: '90%',
+          margin: '0 auto',
+          maxWidth: '1800px'
         }}
       >
         <Box>
