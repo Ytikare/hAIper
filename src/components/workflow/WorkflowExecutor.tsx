@@ -160,11 +160,20 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
     }
     
     // Cleanup file preview URLs
-    workflow.fields.forEach(field => {
-      if (field.type === 'file' && field.visualizeFile && formData[field.name || field.label]) {
-        URL.revokeObjectURL(URL.createObjectURL(formData[field.name || field.label]));
+    Object.entries(formData).forEach(([key, value]) => {
+      if (value instanceof File) {
+        const field = workflow.fields.find(f => f.name === key || f.label === key);
+        if (field?.type === 'file' && field.visualizeFile) {
+          // Revoke any existing object URLs
+          const fileInput = document.querySelector(`input[type="file"][name="${key}"]`) as HTMLInputElement;
+          if (fileInput) {
+            fileInput.value = ''; // Clear the file input
+          }
+        }
       }
     });
+
+    // Reset all state
     setFormData({});
     setResult(null);
     setError('');
@@ -194,50 +203,61 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
           <Typography variant="subtitle1" color="success.main" sx={{ mb: 2 }}>
             ✓ Workflow completed successfully!
           </Typography>
-          {/* Show API Result */}
-          {result && (
-            <Box sx={{ mt: 3 }}>
-              <Typography 
-                variant="h6" 
-                gutterBottom
-                sx={{ color: (theme) => theme.palette.text.primary }}
-              >
-                Result:
-              </Typography>
-              <ResultDisplay result={result} />
-            </Box>
-          )}
+          
+          {/* New Grid Layout for side-by-side view */}
+          <Grid container spacing={2}>
+            {/* File Previews */}
+            <Grid item xs={12} md={6}>
+              {workflow.fields.map((field, index) => (
+                field.type === 'file' && 
+                field.visualizeFile && 
+                formData[field.name || field.label] && (
+                  <Box key={index} sx={{ mt: 3 }}>
+                    <Typography variant="h6" gutterBottom>
+                      {field.label}:
+                    </Typography>
+                    <Box sx={{ 
+                      mt: 2,
+                      height: '600px',
+                      borderRadius: 1,
+                      overflow: 'hidden',
+                      border: '1px solid',
+                      borderColor: 'divider'
+                    }}>
+                      <iframe
+                        src={URL.createObjectURL(formData[field.name || field.label])}
+                        style={{ width: '100%', height: '100%', border: 'none' }}
+                        title={`${field.label} Preview`}
+                      />
+                    </Box>
+                  </Box>
+                )
+              ))}
+            </Grid>
 
-          {/* Show File Previews */}
-          {workflow.fields.map((field, index) => (
-            field.type === 'file' && 
-            field.visualizeFile && 
-            formData[field.name || field.label] && (
-              <Box key={index} sx={{ mt: 3 }}>
-                <Typography 
-                  variant="h6" 
-                  gutterBottom
-                  sx={{ color: (theme) => theme.palette.text.primary }}
-                >
-                  {field.label}:
-                </Typography>
-                <Box sx={{ 
-                  mt: 2,
-                  height: '600px',
-                  borderRadius: 1,
-                  overflow: 'hidden',
-                  border: '1px solid',
-                  borderColor: 'divider'
-                }}>
-                  <iframe
-                    src={URL.createObjectURL(formData[field.name || field.label])}
-                    style={{ width: '100%', height: '100%', border: 'none' }}
-                    title={`${field.label} Preview`}
-                  />
+            {/* API Result */}
+            <Grid item xs={12} md={6}>
+              {result && (
+                <Box sx={{ mt: 3 }}>
+                  <Typography variant="h6" gutterBottom>
+                    API Result:
+                  </Typography>
+                  <Box sx={{ 
+                    mt: 2,
+                    height: '600px',
+                    overflowY: 'auto',
+                    borderRadius: 1,
+                    border: '1px solid',
+                    borderColor: 'divider',
+                    p: 2
+                  }}>
+                    <ResultDisplay result={result} />
+                  </Box>
                 </Box>
-              </Box>
-            )
-          ))}
+              )}
+            </Grid>
+          </Grid>
+
           <WorkflowFeedback 
             feedback={feedback}
             onFeedbackChange={setFeedback}
