@@ -148,7 +148,7 @@ export const WorkflowField: React.FC<WorkflowFieldProps> = ({ field, value, onCh
             return (
               <Box sx={{ 
                 mt: 2,
-                height: '600px',
+                height: '700px',
                 borderRadius: 1,
                 overflow: 'hidden',
                 border: '1px solid',

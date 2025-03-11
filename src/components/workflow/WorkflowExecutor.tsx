@@ -197,7 +197,7 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
           border: '1px solid',
           borderColor: 'divider',
           boxShadow: 'none',
-          width: '95%',
+          width: '100%',
           margin: '0 auto',
           maxWidth: '2400px'
         }}
@@ -208,7 +208,7 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
           </Typography>
           
           {/* New Grid Layout for side-by-side view */}
-          <Grid container spacing={2}>
+          <Grid container spacing={3}>
             {/* File Previews */}
             <Grid item xs={12} md={6}>
               {workflow.fields.map((field, index) => (
@@ -221,7 +221,7 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
                     </Typography>
                     <Box sx={{ 
                       mt: 2,
-                      height: '600px',
+                      height: '700px',
                       borderRadius: 1,
                       overflow: 'hidden',
                       border: '1px solid',
@@ -247,7 +247,7 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
                   </Typography>
                   <Box sx={{ 
                     mt: 2,
-                    height: '600px',
+                    height: '700px',
                     overflowY: 'auto',
                     borderRadius: 1,
                     border: '1px solid',
@@ -289,7 +289,7 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
           background: theme.palette.background.paper,
           boxShadow: theme.shadows[3],
           transition: 'all 0.3s ease-in-out',
-          width: '95%',
+          width: '100%',
           margin: '0 auto',
           maxWidth: '2400px',
           '&:hover': {
