@@ -197,9 +197,9 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
           border: '1px solid',
           borderColor: 'divider',
           boxShadow: 'none',
-          width: '90%',
+          width: '95%',
           margin: '0 auto',
-          maxWidth: '1800px'
+          maxWidth: '2400px'
         }}
       >
         <Box>
@@ -289,6 +289,9 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
           background: theme.palette.background.paper,
           boxShadow: theme.shadows[3],
           transition: 'all 0.3s ease-in-out',
+          width: '95%',
+          margin: '0 auto',
+          maxWidth: '2400px',
           '&:hover': {
             transform: 'translateY(-4px)',
             boxShadow: theme.shadows[6],
