@@ -21,7 +21,7 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }
         component="header" 
         sx={{
           backgroundColor: '#0047AB',
-          padding: '20px 40px',
+          padding: '20px 0px',
           display: 'flex',
           alignItems: 'center',
           height: '108px',
