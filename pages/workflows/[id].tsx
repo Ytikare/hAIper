@@ -51,7 +51,7 @@ export default function WorkflowPage() {
 
   if (loading) {
     return (
-      <Container maxWidth="md" sx={{ py: 4 }}>
+      <Container maxWidth={false} sx={{ py: 4, width: "95%", margin: "0 auto" }}>
         <Paper 
           elevation={0}
           sx={{ 
@@ -128,7 +128,6 @@ export default function WorkflowPage() {
           color="text.secondary" 
           paragraph
           sx={{
-            maxWidth: '800px',
             lineHeight: 1.6,
             mb: 4
           }}
