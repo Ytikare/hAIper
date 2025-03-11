@@ -315,7 +315,27 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
       >
         <form onSubmit={handleSubmit}>
         <WorkflowProgressStepper progress={progress} />
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3, mt: 4 }}>
+        <Box sx={{ 
+          display: 'flex', 
+          flexDirection: 'column', 
+          gap: 4, 
+          mt: 4,
+          '& .MuiFormControl-root': {
+            backgroundColor: (theme) => 
+              theme.palette.mode === 'dark' 
+                ? 'rgba(255, 255, 255, 0.02)'
+                : 'rgba(0, 0, 0, 0.01)',
+            padding: 2,
+            borderRadius: 1,
+            transition: 'all 0.2s ease-in-out',
+            '&:hover': {
+              backgroundColor: (theme) =>
+                theme.palette.mode === 'dark'
+                  ? 'rgba(255, 255, 255, 0.04)'
+                  : 'rgba(0, 0, 0, 0.02)'
+            }
+          }
+        }}>
           {workflow.fields.map((field, index) => (
             <WorkflowField
               key={index}
@@ -331,13 +351,28 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
             </Typography>
           )}
 
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 4 }}>
+          <Box sx={{ 
+            display: 'flex', 
+            justifyContent: 'flex-end', 
+            mt: 5,
+            pb: 2 
+          }}>
             <Button
               type="submit"
               variant="contained"
               color="primary"
+              size="large"
               sx={{ 
-                borderRadius: '25px',  // Use any value you want
+                borderRadius: '12px',
+                px: 4,
+                py: 1.5,
+                fontSize: '1.1rem',
+                fontWeight: 500,
+                transition: 'all 0.2s ease-in-out',
+                '&:hover': {
+                  transform: 'translateY(-2px)',
+                  boxShadow: (theme) => theme.shadows[4]
+                }
               }}
             >
               Execute Workflow

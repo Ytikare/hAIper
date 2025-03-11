@@ -100,12 +100,37 @@ export const WorkflowField: React.FC<WorkflowFieldProps> = ({ field, value, onCh
       };
 
       return (
-        <FormControl fullWidth margin="normal">
+        <FormControl fullWidth margin="normal" sx={{ mt: 3, position: 'relative' }}>
           <TextField
             type="file"
             fullWidth
             label={field.label}
+            InputLabelProps={{ 
+              shrink: true,
+              sx: { 
+                position: 'relative',
+                transform: 'none',
+                marginBottom: 1
+              }
+            }}
             InputProps={{
+              sx: {
+                '& .MuiOutlinedInput-input': {
+                  padding: '12px',
+                  cursor: 'pointer',
+                  backgroundColor: (theme) => 
+                    theme.palette.mode === 'dark' 
+                      ? 'rgba(255, 255, 255, 0.05)'
+                      : 'rgba(0, 0, 0, 0.02)',
+                  borderRadius: 1,
+                  '&:hover': {
+                    backgroundColor: (theme) =>
+                      theme.palette.mode === 'dark'
+                        ? 'rgba(255, 255, 255, 0.08)'
+                        : 'rgba(0, 0, 0, 0.04)'
+                  }
+                }
+              },
               inputProps: {
                 accept: field.validation?.fileTypes
                   ?.map(type => type.startsWith('.') ? type : `.${type}`)
