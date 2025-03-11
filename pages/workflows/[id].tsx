@@ -2,11 +2,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { 
   Container, 
-  Paper, 
   Typography, 
-  Stepper, 
-  Step, 
-  StepLabel,
   Box
 } from '@mui/material';
 import { WorkflowExecutor } from '../../src/components/workflow/WorkflowExecutor';
@@ -51,75 +47,58 @@ export default function WorkflowPage() {
 
   if (loading) {
     return (
-      <Container maxWidth={false} sx={{ py: 4, width: "95%", margin: "0 auto" }}>
-        <Paper 
-          elevation={0}
+      <Container 
+        maxWidth={false} 
+        sx={{ 
+          py: 4, 
+          width: '100%', 
+          margin: '0 auto' 
+        }}
+      >
+        <Box 
           sx={{ 
             p: 4,
-            borderRadius: 3,
             textAlign: 'center',
-            background: (theme) => theme.palette.mode === 'dark'
-              ? 'linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.9))'
-              : 'linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(241, 245, 249, 0.9))',
-            boxShadow: (theme) => theme.palette.mode === 'dark'
-              ? '0 4px 20px rgba(99, 102, 241, 0.3)'
-              : '0 4px 20px rgba(99, 102, 241, 0.15)',
           }}
         >
           <Typography variant="h6">Loading workflow...</Typography>
-        </Paper>
+        </Box>
       </Container>
     );
   }
 
   if (!activeWorkflow) {
-    return <div>Workflow not found</div>;
+    return (
+      <Container 
+        maxWidth={false} 
+        sx={{ 
+          py: 4, 
+          width: '100%', 
+          margin: '0 auto' 
+        }}
+      >
+        <Typography variant="h6">Workflow not found</Typography>
+      </Container>
+    );
   }
 
   return (
     <Container 
-      maxWidth="md" 
+      maxWidth={false} 
       sx={{ 
         py: 4,
+        width: '100%', 
+        margin: '0 auto',
         position: 'relative',
       }}
     >
-      <Paper 
-        elevation={0}
-        sx={{ 
-          p: 4,
-          borderRadius: 3,
-          position: 'relative',
-          background: (theme) => theme.palette.mode === 'dark'
-            ? 'linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.9))'
-            : 'linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(241, 245, 249, 0.9))',
-          boxShadow: (theme) => theme.palette.mode === 'dark'
-            ? '0 4px 20px rgba(99, 102, 241, 0.3)'
-            : '0 4px 20px rgba(99, 102, 241, 0.15)',
-          '&::before': {
-            content: '""',
-            position: 'absolute',
-            inset: 0,
-            borderRadius: 3,
-            padding: '2px',
-            background: 'linear-gradient(45deg, rgba(99, 102, 241, 0.5), rgba(139, 92, 246, 0.5))',
-            WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
-            WebkitMaskComposite: 'xor',
-            maskComposite: 'exclude',
-          }
-        }}
-      >
+      <Box sx={{ p: 2 }}>
         <Typography
           variant="h4"
           component="h1"
           sx={{
             fontWeight: 700,
             mb: 2,
-            background: 'linear-gradient(45deg, #6366f1, #8b5cf6)',
-            backgroundClip: 'text',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            textShadow: '0 2px 10px rgba(99, 102, 241, 0.2)',
           }}
         >
           {activeWorkflow.name}
@@ -135,7 +114,7 @@ export default function WorkflowPage() {
           {activeWorkflow.description}
         </Typography>
         <WorkflowExecutor workflow={activeWorkflow} />
-      </Paper>
+      </Box>
     </Container>
   );
 }

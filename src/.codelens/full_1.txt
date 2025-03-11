@@ -1,0 +1,2777 @@
+
+FILE: C:\Users\miivanov\repos\haiper_frontend_test\temp\hAIper\src\App.tsx
+================================================================================
+import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import { CssBaseline, ThemeProvider as MuiThemeProvider, createTheme } from '@mui/material';
+import { ThemeProvider } from './contexts/ThemeContext';
+import { MainLayout } from './components/layout/MainLayout';
+import { AppRoutes } from './AppRoutes';
+
+function App() {
+  return (
+    <BrowserRouter>
+      <ThemeProvider>
+        <MuiThemeProvider theme={createTheme({
+          components: {
+            MuiContainer: {
+              defaultProps: {
+                maxWidth: false
+              }
+            }
+          }
+        })}>
+          <CssBaseline />
+          <MainLayout>
+            <AppRoutes />
+          </MainLayout>
+        </MuiThemeProvider>
+      </ThemeProvider>
+    </BrowserRouter>
+  );
+}
+
+export default App;
+
+
+
+FILE: C:\Users\miivanov\repos\haiper_frontend_test\temp\hAIper\src\AppRoutes.tsx
+================================================================================
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import { WorkflowList } from './components/admin/WorkflowList';
+import { WorkflowForm } from './components/admin/WorkflowForm';
+import { WorkflowExecutor } from './components/workflow/WorkflowExecutor';
+
+export const AppRoutes = () => {
+  return (
+    <Routes>
+      <Route path="/" element={typeof(WorkflowList)} />
+      <Route path="/admin/workflows" element={typeof(WorkflowList)} />
+      <Route path="/admin/workflows/new" element={typeof(WorkflowForm)} />
+      <Route path="/admin/workflows/:id" element={typeof(WorkflowForm)} />
+      <Route path="/workflows/:id" element={typeof(WorkflowExecutor)} />
+    </Routes>
+  );
+};
+
+
+
+FILE: C:\Users\miivanov\repos\haiper_frontend_test\temp\hAIper\src\.codelens\analysis.txt
+================================================================================
+CODEBASE SUMMARY:
+This project contains 19 files:
+File types: 
+Total lines of code: 2295
+Average file size: 120.8 lines
+Overall complexity: 0
+
+KEY INSIGHTS:
+- Project contains 19 analyzable files
+- Low documentation coverage (0.0%)
+
+CODE METRICS:
+Functions: 24 (0 documented, 0 complex)
+Classes: 1 (0 documented)
+Documentation coverage: 0.0%
+Total imports: 74 (56 unique)
+
+PROJECT STRUCTURE AND CODE INSIGHTS:
+
+================================================================================
+C:/Users/miivanov/repos/haiper_frontend_test/temp/hAIper/src/ (48 lines)
+================================================================================
+  App.tsx
+    Lines: 31
+
+    IMPORTS:
+      import React from 'react';
+      import { AppRoutes } from './AppRoutes';
+      import { BrowserRouter } from 'react-router-dom';
+      import { CssBaseline, ThemeProvider as MuiThemeProvider, createTheme } from '@mui/material';
+      import { MainLayout } from './components/layout/MainLayout';
+      import { ThemeProvider } from './contexts/ThemeContext';
+
+  AppRoutes.tsx
+    Lines: 17
+
+    IMPORTS:
+      import React from 'react';
+      import { Routes, Route } from 'react-router-dom';
+      import { WorkflowExecutor } from './components/workflow/WorkflowExecutor';
+      import { WorkflowForm } from './components/admin/WorkflowForm';
+      import { WorkflowList } from './components/admin/WorkflowList';
+
+
+================================================================================
+C:/Users/miivanov/repos/haiper_frontend_test/temp/hAIper/src/components/admin/ (787 lines)
+================================================================================
+  WorkflowFieldValidation.tsx
+    Lines: 181
+
+    IMPORTS:
+      import AddIcon from '@mui/icons-material/Add';
+      import DeleteIcon from '@mui/icons-material/Delete';
+      import React from 'react';
+      import {
+
+  WorkflowForm.tsx
+    Lines: 389
+
+    IMPORTS:
+      import AddIcon from '@mui/icons-material/Add';
+      import DeleteIcon from '@mui/icons-material/Delete';
+      import React, { useState, useEffect } from 'react';
+      import {
+      import { WorkflowFieldValidation } from './WorkflowFieldValidation';
+      import { WorkflowTemplate, WorkflowField } from '../../types/workflow-builder';
+      import { useRouter } from 'next/router';
+
+  WorkflowList.tsx
+    Lines: 217
+
+    IMPORTS:
+      import CategoryIcon from '@mui/icons-material/Category';
+      import DeleteIcon from '@mui/icons-material/Delete';
+      import EditIcon from '@mui/icons-material/Edit';
+      import ListAltIcon from '@mui/icons-material/ListAlt';
+      import React, { useEffect, useState } from 'react';
+      import {
+      import { WorkflowTemplate } from '../../types/workflow-builder';
+      import { useRouter } from 'next/router';
+      import { workflowService } from '../../services/workflow-service';
+
+
+================================================================================
+C:/Users/miivanov/repos/haiper_frontend_test/temp/hAIper/src/components/layout/ (93 lines)
+================================================================================
+  MainLayout.tsx
+    Lines: 93
+
+    IMPORTS:
+      import Image from 'next/image';
+      import Link from 'next/link';
+      import React from 'react';
+      import logoImg from '../../../media/haiper_logo.png';
+      import mySvg from '../../../media/postbank-logo--bg.svg';
+      import {
+      import { Brightness4, Brightness7 } from '@mui/icons-material';
+      import { useTheme } from '../../contexts/ThemeContext';
+
+
+================================================================================
+C:/Users/miivanov/repos/haiper_frontend_test/temp/hAIper/src/components/workflow/ (760 lines)
+================================================================================
+  WorkflowCard.tsx
+    Lines: 69
+
+    IMPORTS:
+      import {
+      import { FC } from 'react';
+      import { Workflow } from '../../types/workflow';
+      import { useRouter } from 'next/router';
+      import { workflowService } from '../../services/workflow-service';
+
+  WorkflowExecutor.tsx
+    Lines: 339
+
+    IMPORTS:
+      import React, { useState, useCallback } from 'react';
+      import { Box, Button, Typography, Paper, Card, CardContent, Grid, Chip, Divider, useTheme } from '@mui/material';
+      import { ResultDisplay } from './executor_components/resultDisplayFC';
+      import { WorkflowFeedback } from './WorkflowFeedback';
+      import { WorkflowField } from './WorkflowField';
+      import { WorkflowProgress } from '../../types/workflow';
+      import { WorkflowProgressStepper } from './WorkflowProgressStepper';
+      import { WorkflowTemplate } from '../../types/workflow-builder';
+
+  WorkflowFeedback.tsx
+    Lines: 94
+
+    IMPORTS:
+      import React, { useState } from 'react';
+      import { Box, Button, Typography, useTheme } from '@mui/material';
+      import { workflowService } from '../../services/workflow-service';
+
+  WorkflowField.tsx
+    Lines: 201
+
+    IMPORTS:
+      import React, { useEffect } from 'react';
+      import { TextField, FormControl, Input, MenuItem, Typography, Box } from '@mui/material';
+      import { WorkflowField as IWorkflowField } from '../../types/workflow-builder';
+
+  WorkflowProgressStepper.tsx
+    Lines: 57
+
+    IMPORTS:
+      import React from 'react';
+      import { Stepper, Step, StepLabel, Box, CircularProgress, Typography } from '@mui/material';
+      import { WorkflowProgress } from '../../types/workflow';
+
+
+================================================================================
+C:/Users/miivanov/repos/haiper_frontend_test/temp/hAIper/src/components/workflow/executor_components/ (217 lines)
+================================================================================
+  renderJsonContent.tsx
+    Lines: 77
+
+    IMPORTS:
+      import { Box, Typography } from "@mui/material";
+
+  resultDisplayFC.tsx
+    Lines: 140
+
+    IMPORTS:
+      import { Box, Typography, Chip, Button } from "@mui/material";
+      import { renderJsonContent } from "./renderJsonContent";
+
+
+================================================================================
+C:/Users/miivanov/repos/haiper_frontend_test/temp/hAIper/src/contexts/ (100 lines)
+================================================================================
+  ThemeContext.tsx
+    Lines: 33
+
+    IMPORTS:
+      import React, { createContext, useContext, useState, useEffect } from 'react';
+      import { ThemeProvider as MuiThemeProvider } from '@mui/material';
+      import { lightTheme, darkTheme } from '../themes/theme';
+
+  WorkflowContext.tsx
+    Lines: 67
+
+    IMPORTS:
+      import React, { createContext, useContext, useState, useEffect } from 'react';
+      import { WorkflowService } from '../services/workflow-service';
+      import { WorkflowTemplate } from '../types/workflow-builder';
+
+
+================================================================================
+C:/Users/miivanov/repos/haiper_frontend_test/temp/hAIper/src/services/ (104 lines)
+================================================================================
+  workflow-service.ts
+    Lines: 104
+
+    IMPORTS:
+      import { WorkflowTemplate, WorkflowExecution } from '../types/workflow-builder';
+      import { randomUUID } from 'crypto';
+
+
+================================================================================
+C:/Users/miivanov/repos/haiper_frontend_test/temp/hAIper/src/themes/ (107 lines)
+================================================================================
+  theme.ts
+    Lines: 107
+
+    IMPORTS:
+      import { createTheme, alpha, Components, Theme } from '@mui/material';
+
+
+================================================================================
+C:/Users/miivanov/repos/haiper_frontend_test/temp/hAIper/src/types/ (79 lines)
+================================================================================
+  workflow-builder.ts
+    Lines: 66
+
+    IMPORTS:
+      import { Workflow, WorkflowProgress } from './workflow';
+
+  workflow.ts
+    Lines: 13
+
+
+
+FILE: C:\Users\miivanov\repos\haiper_frontend_test\temp\hAIper\src\components\admin\WorkflowFieldValidation.tsx
+================================================================================
+import React from 'react';
+import {
+  Box,
+  TextField,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Chip,
+  IconButton,
+} from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
+
+interface ValidationProps {
+  type: string;
+  validation: any;
+  onChange: (validation: any) => void;
+}
+
+export const WorkflowFieldValidation: React.FC<ValidationProps> = ({
+  type,
+  validation,
+  onChange,
+}) => {
+  const handleAddFileType = () => {
+    const fileTypes = validation.fileTypes || [];
+    onChange({ ...validation, fileTypes: [...fileTypes, ''] });
+  };
+
+  const handleAddOption = () => {
+    const options = validation.options || [];
+    onChange({ ...validation, options: [...options, ''] });
+  };
+
+  const handleRemoveFileType = (index: number) => {
+    const fileTypes = [...(validation.fileTypes || [])];
+    fileTypes.splice(index, 1);
+    onChange({ ...validation, fileTypes });
+  };
+
+  const handleRemoveOption = (index: number) => {
+    const options = [...(validation.options || [])];
+    options.splice(index, 1);
+    onChange({ ...validation, options });
+  };
+
+  switch (type) {
+    case 'number':
+      return (
+        <Box className="field-validation">
+          <TextField
+            label="Min"
+            type="number"
+            value={validation.min || ''}
+            onChange={(e) => onChange({ ...validation, min: e.target.value })}
+            size="small"
+          />
+          <TextField
+            label="Max"
+            type="number"
+            value={validation.max || ''}
+            onChange={(e) => onChange({ ...validation, max: e.target.value })}
+            size="small"
+          />
+          <TextField
+            label="Step"
+            type="number"
+            value={validation.step || ''}
+            onChange={(e) => onChange({ ...validation, step: e.target.value })}
+            size="small"
+          />
+        </Box>
+      );
+
+    case 'text':
+    case 'textarea':
+      return (
+        <Box className="field-validation">
+          <TextField
+            label="Min Length"
+            type="number"
+            value={validation.minLength || ''}
+            onChange={(e) => onChange({ ...validation, minLength: e.target.value })}
+            size="small"
+          />
+          <TextField
+            label="Max Length"
+            type="number"
+            value={validation.maxLength || ''}
+            onChange={(e) => onChange({ ...validation, maxLength: e.target.value })}
+            size="small"
+          />
+          <TextField
+            label="Pattern (regex)"
+            value={validation.pattern || ''}
+            onChange={(e) => onChange({ ...validation, pattern: e.target.value })}
+            size="small"
+          />
+        </Box>
+      );
+
+    case 'file':
+      return (
+        <Box className="field-validation-container">
+          <Box className="field-validation-header">
+            <InputLabel>Accepted File Types</InputLabel>
+            <IconButton size="small" onClick={handleAddFileType}>
+              <AddIcon />
+            </IconButton>
+          </Box>
+          <Box className="field-options-container">
+            {(validation.fileTypes || []).map((type: string, index: number) => (
+              <Box key={index} className="field-option-item">
+                <TextField
+                  value={type}
+                  onChange={(e) => {
+                    const fileTypes = [...(validation.fileTypes || [])];
+                    fileTypes[index] = e.target.value;
+                    onChange({ ...validation, fileTypes });
+                  }}
+                  size="small"
+                  placeholder="e.g. .pdf"
+                  sx={{ width: 100 }}
+                  InputProps={{
+                    startAdornment: type && !type.startsWith('.') ? '.' : undefined
+                  }}
+                />
+                <IconButton size="small" onClick={() => handleRemoveFileType(index)}>
+                  <DeleteIcon />
+                </IconButton>
+              </Box>
+            ))}
+          </Box>
+          <TextField
+            label="Max File Size (MB)"
+            type="number"
+            value={validation.maxSize || ''}
+            onChange={(e) => onChange({ ...validation, maxSize: e.target.value })}
+            size="small"
+            sx={{ mt: 1 }}
+          />
+        </Box>
+      );
+
+    case 'select':
+      return (
+        <Box className="field-validation-container">
+          <Box className="field-validation-header">
+            <InputLabel>Options</InputLabel>
+            <IconButton size="small" onClick={handleAddOption}>
+              <AddIcon />
+            </IconButton>
+          </Box>
+          <Box className="field-options-container">
+            {(validation.options || []).map((option: string, index: number) => (
+              <Box key={index} className="field-option-item">
+                <TextField
+                  value={option}
+                  onChange={(e) => {
+                    const options = [...(validation.options || [])];
+                    options[index] = e.target.value;
+                    onChange({ ...validation, options });
+                  }}
+                  size="small"
+                  placeholder="Option value"
+                  sx={{ width: 150 }}
+                />
+                <IconButton size="small" onClick={() => handleRemoveOption(index)}>
+                  <DeleteIcon />
+                </IconButton>
+              </Box>
+            ))}
+          </Box>
+        </Box>
+      );
+
+    default:
+      return null;
+  }
+};
+
+
+
+FILE: C:\Users\miivanov\repos\haiper_frontend_test\temp\hAIper\src\components\admin\WorkflowForm.tsx
+================================================================================
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+  TextField,
+  Box,
+  IconButton,
+  Typography,
+  Switch,
+  FormControlLabel,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+} from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { WorkflowFieldValidation } from './WorkflowFieldValidation';
+import { WorkflowTemplate, WorkflowField } from '../../types/workflow-builder';
+
+const formStyles = {
+  dialog: {
+    '& .MuiDialog-paper': {
+      borderRadius: '12px',
+    }
+  },
+  formHeader: {
+    backgroundColor: '#0047AB',
+    color: 'white',
+    padding: '20px 24px',
+  },
+  formContent: {
+    padding: '24px',
+  },
+  sectionTitle: {
+    color: '#0047AB',
+    fontWeight: 600,
+    fontSize: '1.1rem',
+    marginTop: '24px',
+    marginBottom: '16px',
+  },
+  fieldCard: {
+    backgroundColor: (theme: any) => theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 71, 171, 0.02)',
+    padding: '16px',
+    borderRadius: '8px',
+    marginBottom: '16px',
+    border: '1px solid',
+    borderColor: (theme: any) => theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 71, 171, 0.1)',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '16px',
+  },
+  footer: {
+    padding: '16px 24px',
+    borderTop: '1px solid',
+    borderColor: (theme: any) => theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
+  }
+};
+
+interface WorkflowFormProps {
+  open: boolean;
+  workflow?: WorkflowTemplate;
+  onClose: () => void;
+  onSave: (workflow: Partial<WorkflowTemplate>) => void;
+}
+
+export const WorkflowForm: React.FC<WorkflowFormProps> = ({
+  open,
+  workflow,
+  onClose,
+  onSave,
+}) => {
+  const router = useRouter();
+  const [formData, setFormData] = useState<Partial<WorkflowTemplate>>({
+    id: crypto.randomUUID(),
+    name: '',
+    description: '',
+    category: '',
+    fields: [],
+    apiConfig: {
+      endpoint: '',
+      method: 'POST',
+      headers: {},
+      transformRequest: (data: any) => data,
+      transformResponse: (data: any) => data,
+    },
+    status: 'available',
+    createdAt: new Date(),
+    updatedAt: new Date()
+  });
+
+  useEffect(() => {
+    if (workflow) {
+      setFormData(workflow);
+    }
+  }, [workflow]);
+
+  const handleAddField = () => {
+    setFormData((prev) => {
+      const fieldId = crypto.randomUUID();
+      const newField: WorkflowField = {
+        id: fieldId,
+        name: `field_${fieldId.slice(0, 8)}`,
+        label: '',
+        type: 'text',
+        required: false,
+        placeholder: '',
+        defaultValue: '',
+        visualizeFile: false,
+        validation: {
+          options: undefined,
+          maxSize: 0,
+          step: undefined,
+          min: undefined,
+          max: undefined,
+          pattern: undefined
+        },
+        options: [],
+      };
+      return {
+        ...prev,
+        fields: [...(prev.fields || []), newField]
+      };
+    });
+  };
+
+  const handleRemoveField = (index: number) => {
+    setFormData(prev => ({
+      ...prev,
+      fields: prev.fields?.filter((_, i) => i !== index),
+    }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const workflowToSave = {
+      ...formData,
+      updatedAt: new Date(),
+      fields: formData.fields?.map(field => ({
+        ...field,
+        validation: field.validation || {
+          options: undefined,
+          maxSize: 0,
+          step: undefined,
+          min: undefined,
+          max: undefined,
+          pattern: undefined
+        }
+      }))
+    };
+    onSave(workflowToSave);
+    router.push('/admin/workflows');
+  };
+
+  return (
+    <Dialog 
+      open={open} 
+      onClose={onClose} 
+      maxWidth="md" 
+      fullWidth
+      sx={formStyles.dialog}
+    >
+      <form onSubmit={handleSubmit}>
+        <DialogTitle sx={formStyles.formHeader}>
+          <Typography variant="h5" fontWeight="500">
+            {workflow ? 'Edit Workflow' : 'Create New Workflow'}
+          </Typography>
+        </DialogTitle>
+        <DialogContent sx={formStyles.formContent}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 , mt: 3}}>
+            <TextField
+              label="Name"
+              value={formData.name}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              required
+              fullWidth
+            />
+            <TextField
+              label="Description"
+              value={formData.description}
+              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+              multiline
+              rows={3}
+              fullWidth
+            />
+            <TextField
+              label="Category"
+              value={formData.category}
+              onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+              fullWidth
+            />
+            
+            <Box>
+              <Typography sx={formStyles.sectionTitle}>
+                API Configuration
+              </Typography>
+              <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
+                <TextField
+                  fullWidth
+                  label="API Endpoint"
+                  value={formData.apiConfig?.endpoint || ''}
+                  onChange={(e) => setFormData({
+                    ...formData,
+                    apiConfig: { 
+                      ...(formData.apiConfig || { method: 'GET' as const }), 
+                      endpoint: e.target.value 
+                    }
+                  })}
+                  placeholder="https://api.example.com/endpoint"
+                />
+                <FormControl sx={{ minWidth: 120 }}>
+                  <InputLabel>Method</InputLabel>
+                  <Select
+                    value={formData.apiConfig?.method || 'GET'}
+                    label="Method"
+                    onChange={(e) => setFormData({
+                      ...formData,
+                      apiConfig: { 
+                        ...(formData.apiConfig || { endpoint: '' }), 
+                        method: e.target.value as 'GET' | 'POST' | 'PUT' | 'DELETE' 
+                      }
+                    })}
+                  >
+                    <MenuItem value="GET">GET</MenuItem>
+                    <MenuItem value="POST">POST</MenuItem>
+                    <MenuItem value="PUT">PUT</MenuItem>
+                    <MenuItem value="DELETE">DELETE</MenuItem>
+                  </Select>
+                </FormControl>
+              </Box>
+            </Box>
+
+            <Box>
+              <Typography sx={formStyles.sectionTitle}>
+                Fields
+              </Typography>
+              {formData.fields?.map((field, index) => (
+                <Box 
+                  key={index}
+                  sx={formStyles.fieldCard}
+                >
+                  <TextField
+                    label="Field Label"
+                    value={field.label}
+                    onChange={(e) => {
+                      const newFields = [...(formData.fields || [])];
+                      const newLabel = e.target.value;
+                      const newName = newLabel.toLowerCase().replace(/\s+/g, '_');
+                      newFields[index] = { 
+                        ...field, 
+                        label: newLabel,
+                        name: newName
+                      };
+                      setFormData({ ...formData, fields: newFields });
+                    }}
+                    sx={{ flexGrow: 1 }}
+                    required
+                  />
+                  <FormControl sx={{ minWidth: 120 }}>
+                    <InputLabel>Type</InputLabel>
+                    <Select
+                      value={field.type}
+                      label="Type"
+                      onChange={(e) => {
+                        const newFields = [...(formData.fields || [])];
+                        newFields[index] = { 
+                          ...field, 
+                          type: e.target.value as 'text' | 'number' | 'dropdown' | 'file' | 'multiselect' | 'date' | 'textarea',
+                          validation: {
+                            options: undefined,
+                            maxSize: 0,
+                            step: undefined
+                          }
+                        };
+                        setFormData({ ...formData, fields: newFields });
+                      }}
+                    >
+                      <MenuItem value="text">Text</MenuItem>
+                      <MenuItem value="textarea">Text Area</MenuItem>
+                      <MenuItem value="number">Number</MenuItem>
+                      <MenuItem value="email">Email</MenuItem>
+                      <MenuItem value="date">Date</MenuItem>
+                      <MenuItem value="file">File</MenuItem>
+                      <MenuItem value="select">Select</MenuItem>
+                    </Select>
+                  </FormControl>
+                  <WorkflowFieldValidation
+                    type={field.type}
+                    validation={field.validation || {}}
+                    onChange={(validation) => {
+                      const newFields = [...(formData.fields || [])];
+                      const updatedValidation = field.type === 'number' 
+                        ? {
+                            ...validation,
+                            min: validation.min ? Number(validation.min) : undefined,
+                            max: validation.max ? Number(validation.max) : undefined
+                          }
+                        : validation;
+                      newFields[index] = { ...field, validation: updatedValidation };
+                      setFormData({ ...formData, fields: newFields });
+                    }}
+                  />
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={field.required || false}
+                        onChange={(e) => {
+                          const newFields = [...(formData.fields || [])];
+                          newFields[index] = { ...field, required: e.target.checked };
+                          setFormData({ ...formData, fields: newFields });
+                        }}
+                      />
+                    }
+                    label="Required"
+                  />
+                  {field.type === 'file' && (
+                    <FormControlLabel
+                      control={
+                        <Switch
+                          checked={field.visualizeFile || false}
+                          onChange={(e) => {
+                            const newFields = [...(formData.fields || [])];
+                            newFields[index] = { ...field, visualizeFile: e.target.checked };
+                            setFormData({ ...formData, fields: newFields });
+                          }}
+                        />
+                      }
+                      label="Visualize File"
+                    />
+                  )}
+                  <IconButton onClick={() => handleRemoveField(index)}>
+                    <DeleteIcon />
+                  </IconButton>
+                </Box>
+              ))}
+              <Button
+                startIcon={<AddIcon />}
+                onClick={handleAddField}
+                variant="outlined"
+                fullWidth
+                sx={{
+                  mt: 2,
+                  py: 1.5,
+                  borderColor: '#0047AB',
+                  color: '#0047AB',
+                  '&:hover': {
+                    backgroundColor: 'rgba(0, 71, 171, 0.08)',
+                    borderColor: '#0047AB',
+                  }
+                }}
+              >
+                Add Field
+              </Button>
+            </Box>
+          </Box>
+        </DialogContent>
+        <DialogActions sx={formStyles.footer}>
+          <Button 
+            onClick={onClose}
+            sx={{
+              color: 'text.secondary',
+              '&:hover': {
+                backgroundColor: 'action.hover',
+              }
+            }}
+          >
+            Cancel
+          </Button>
+          <Button 
+            type="submit"
+            variant="contained"
+            sx={{
+              backgroundColor: '#0047AB',
+              '&:hover': {
+                backgroundColor: '#003d91',
+              }
+            }}
+          >
+            Save
+          </Button>
+        </DialogActions>
+      </form>
+    </Dialog>
+  );
+};
+
+
+
+FILE: C:\Users\miivanov\repos\haiper_frontend_test\temp\hAIper\src\components\admin\WorkflowList.tsx
+================================================================================
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import { workflowService } from '../../services/workflow-service';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  IconButton,
+  Tooltip,
+  Box,
+  Chip,
+  Typography,
+} from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import CategoryIcon from '@mui/icons-material/Category';
+import ListAltIcon from '@mui/icons-material/ListAlt';
+import { WorkflowTemplate } from '../../types/workflow-builder';
+
+interface WorkflowListProps {
+  onEdit: (workflow: WorkflowTemplate) => void;
+  onDelete: (id: string) => void;
+}
+
+export const WorkflowList: React.FC<WorkflowListProps> = ({
+  onEdit,
+  onDelete,
+}) => {
+  const router = useRouter();
+  const [workflows, setWorkflows] = useState<WorkflowTemplate[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchWorkflows = async () => {
+    try {
+      const response = await workflowService.getWorkflows();
+      setWorkflows(response);
+    } catch (error) {
+      console.error('Error fetching workflows:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchWorkflows();
+    
+    // Add refresh event listener
+    const element = document.querySelector('.workflow-list');
+    if (element) {
+      element.addEventListener('refresh', fetchWorkflows);
+      return () => element.removeEventListener('refresh', fetchWorkflows);
+    }
+  }, []);
+
+  if (loading) {
+    return <div>Loading workflows...</div>;
+  }
+
+  return (
+    <TableContainer
+      className="workflow-list"
+      component={Paper} 
+      sx={{
+        borderRadius: 2,
+        boxShadow: (theme) => theme.palette.mode === 'dark'
+          ? '0 4px 20px rgba(0, 0, 0, 0.4)'
+          : '0 4px 20px rgba(0, 0, 0, 0.1)',
+        overflow: 'hidden',
+        background: (theme) => theme.palette.mode === 'dark'
+          ? 'linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.9))'
+          : 'linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(241, 245, 249, 0.9))',
+      }}
+    >
+      <Table sx={{ minWidth: 650 }}>
+        <TableHead>
+          <TableRow>
+            <TableCell sx={{ 
+              fontWeight: 600, 
+              fontSize: '0.875rem',
+              background: (theme) => theme.palette.mode === 'dark'
+                ? 'rgba(30, 41, 59, 0.8)'
+                : 'rgba(241, 245, 249, 0.8)',
+            }}>
+              Name
+            </TableCell>
+            <TableCell sx={{ 
+              fontWeight: 600, 
+              fontSize: '0.875rem',
+              background: (theme) => theme.palette.mode === 'dark'
+                ? 'rgba(30, 41, 59, 0.8)'
+                : 'rgba(241, 245, 249, 0.8)',
+            }}>
+              Description
+            </TableCell>
+            <TableCell sx={{ 
+              fontWeight: 600, 
+              fontSize: '0.875rem',
+              background: (theme) => theme.palette.mode === 'dark'
+                ? 'rgba(30, 41, 59, 0.8)'
+                : 'rgba(241, 245, 249, 0.8)',
+            }}>
+              Category
+            </TableCell>
+            <TableCell sx={{ 
+              fontWeight: 600, 
+              fontSize: '0.875rem',
+              background: (theme) => theme.palette.mode === 'dark'
+                ? 'rgba(30, 41, 59, 0.8)'
+                : 'rgba(241, 245, 249, 0.8)',
+            }}>
+              Fields
+            </TableCell>
+            <TableCell align="right" sx={{ 
+              fontWeight: 600, 
+              fontSize: '0.875rem',
+              background: (theme) => theme.palette.mode === 'dark'
+                ? 'rgba(30, 41, 59, 0.8)'
+                : 'rgba(241, 245, 249, 0.8)',
+            }}>
+              Actions
+            </TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {workflows.map((workflow) => (
+            <TableRow 
+              key={workflow.id}
+              sx={{
+                '&:hover': {
+                  backgroundColor: (theme) => theme.palette.mode === 'dark'
+                    ? 'rgba(30, 41, 59, 0.5)'
+                    : 'rgba(241, 245, 249, 0.5)',
+                },
+                transition: 'background-color 0.2s ease',
+              }}
+            >
+              <TableCell>
+                <Typography variant="subtitle1" sx={{ fontWeight: 500 }}>
+                  {workflow.name}
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography variant="body2" color="text.secondary">
+                  {workflow.description}
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <CategoryIcon sx={{ fontSize: 18, color: 'primary.main' }} />
+                  <Chip 
+                    label={workflow.category}
+                    size="small"
+                    sx={{
+                      background: 'linear-gradient(45deg, #6366f1, #8b5cf6)',
+                      color: 'white',
+                      fontWeight: 500,
+                    }}
+                  />
+                </Box>
+              </TableCell>
+              <TableCell>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <ListAltIcon sx={{ fontSize: 18, color: 'primary.main' }} />
+                  <Chip 
+                    label={`${workflow.fields.length} fields`}
+                    size="small"
+                    variant="outlined"
+                    sx={{ fontWeight: 500 }}
+                  />
+                </Box>
+              </TableCell>
+              <TableCell align="right">
+                <Tooltip title="Edit workflow">
+                  <IconButton 
+                    onClick={() => onEdit(workflow)}
+                    sx={{ 
+                      color: 'primary.main',
+                      '&:hover': { 
+                        color: 'primary.dark',
+                        transform: 'scale(1.1)',
+                      },
+                      transition: 'all 0.2s ease',
+                    }}
+                  >
+                    <EditIcon />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="Delete workflow">
+                  <IconButton 
+                    onClick={() => {
+                      onDelete(workflow.id);
+                      router.push('/admin/workflows');
+                    }}
+                    sx={{ 
+                      color: 'error.main',
+                      '&:hover': { 
+                        color: 'error.dark',
+                        transform: 'scale(1.1)',
+                      },
+                      transition: 'all 0.2s ease',
+                    }}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </Tooltip>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  );
+};
+
+
+
+FILE: C:\Users\miivanov\repos\haiper_frontend_test\temp\hAIper\src\components\layout\MainLayout.tsx
+================================================================================
+import React from 'react';
+import { 
+  IconButton, 
+  Typography, 
+  Button,
+  Box
+} from '@mui/material';
+import { Brightness4, Brightness7 } from '@mui/icons-material';
+import { useTheme } from '../../contexts/ThemeContext';
+import Link from 'next/link';
+import Image from 'next/image';
+import mySvg from '../../../media/postbank-logo--bg.svg';
+import logoImg from '../../../media/haiper_logo.png';
+
+export const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { isDarkMode, toggleTheme } = useTheme();
+
+  return (
+    <div className="main-layout">
+      <Box 
+        component="header" 
+        sx={{
+          backgroundColor: '#0047AB',
+          padding: '20px 40px',
+          display: 'flex',
+          alignItems: 'center',
+          height: '108px',
+          width: '100%',
+          justifyContent: 'space-between'
+        }}
+      >
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Link href="/" passHref style={{ textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center' }}>
+            <Image 
+              src={mySvg}
+              alt="PostBank Logo"
+              width={250}
+              height={108}
+              style={{ marginRight: '20px' }}
+            />
+          </Link>
+          <Image 
+            src={logoImg}
+            alt="Haiper Logo"
+            style={{ 
+              width: 'auto',
+              height: '60px',   // Maintain the height you want
+              marginLeft: '20px' 
+            }}
+          />
+        </Box>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, paddingRight: 3 }}>
+          <Button
+          component={Link}
+          href="/admin"
+          className="btn btn-outline"
+          sx={{
+            color: 'white',
+            borderColor: 'white',
+            '&:hover': {
+              borderColor: 'white',
+              backgroundColor: 'rgba(255, 255, 255, 0.1)'
+            },
+            marginRight: '10px'
+          }}
+        >
+          Admin
+        </Button>
+        <IconButton 
+          onClick={toggleTheme}
+          className="btn btn-icon"
+          sx={{
+            color: 'white',
+            '&:hover': {
+              backgroundColor: 'rgba(255, 255, 255, 0.1)'
+            }
+          }}
+        >
+          {isDarkMode ? <Brightness7 /> : <Brightness4 />}
+        </IconButton>
+        </Box>
+      </Box>
+      <main className="main-content" style={{
+        width: '100%',
+        maxWidth: 'none',
+        padding: '20px 0',
+        margin: '0'
+      }}>
+        {children}
+      </main>
+    </div>
+  );
+};
+
+
+
+FILE: C:\Users\miivanov\repos\haiper_frontend_test\temp\hAIper\src\components\workflow\WorkflowCard.tsx
+================================================================================
+import { FC } from 'react';
+import { useRouter } from 'next/router';
+import {
+  Card,
+  CardContent,
+  CardActions,
+  Typography,
+  Button,
+  Chip,
+  Box,
+  useTheme
+} from '@mui/material';
+import { Workflow } from '../../types/workflow';
+import { workflowService } from '../../services/workflow-service';
+
+interface WorkflowCardProps {
+  workflow: Workflow;
+}
+
+
+const WorkflowCard: FC<WorkflowCardProps> = ({ workflow }) => {
+  const router = useRouter();
+
+  const handleStart = async () => {
+    try {
+      // Fetch the workflow data before navigation
+      await workflowService.getWorkflow(workflow.id);
+      // Use window.location for a full page refresh
+      window.location.href = `/workflows/${workflow.id}`;
+    } catch (error) {
+      console.error('Failed to fetch workflow:', error);
+    }
+  };
+
+  return (
+    <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+      <CardContent sx={{ flexGrow: 1 }}>
+        <Box sx={{ mb: 2 }}>
+          <Typography variant="h6" component="h2">
+            {workflow.name}
+          </Typography>
+        </Box>
+        <Typography color="text.secondary" sx={{ mb: 2 }}>
+          {workflow.description}
+        </Typography>
+        <Chip 
+          label={workflow.status} 
+          color={workflow.status === 'available' ? 'success' : 'warning'}
+          size="small"
+        />
+      </CardContent>
+      <CardActions>
+        <Button 
+          fullWidth 
+          variant="contained" 
+          onClick={handleStart}
+          sx={{ 
+            borderRadius: '25px',  // Use any value you want
+          }}
+          disabled={workflow.status !== 'available'}
+        >
+          {workflow.status === 'available' ? 'Start Workflow' : 'Coming Soon'}
+        </Button>
+      </CardActions>
+    </Card>
+  );
+}
+
+export default WorkflowCard;
+
+
+
+FILE: C:\Users\miivanov\repos\haiper_frontend_test\temp\hAIper\src\components\workflow\WorkflowExecutor.tsx
+================================================================================
+import React, { useState, useCallback } from 'react';
+import { Box, Button, Typography, Paper, Card, CardContent, Grid, Chip, Divider, useTheme } from '@mui/material';
+import { WorkflowFeedback } from './WorkflowFeedback';
+import { WorkflowProgress } from '../../types/workflow';
+import { WorkflowProgressStepper } from './WorkflowProgressStepper';
+import { WorkflowTemplate } from '../../types/workflow-builder';
+import { WorkflowField } from './WorkflowField';
+import { ResultDisplay } from './executor_components/resultDisplayFC';
+
+type ContentTypeResponse = {
+  type: string;
+  data: any;
+};
+
+interface WorkflowExecutorProps {
+  workflow: WorkflowTemplate;
+}
+
+export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) => {
+  const [formData, setFormData] = useState<Record<string, any>>({});
+  const [result, setResult] = useState<ContentTypeResponse | null>(null);
+  const [error, setError] = useState<string>('');
+  const [isCompleted, setIsCompleted] = useState(false);
+  const [feedback, setFeedback] = useState<'positive' | 'negative' | null>(null);
+  const [progress, setProgress] = useState<WorkflowProgress>({
+    currentStep: 0,
+    totalSteps: 4,
+    status: 'pending',
+    stepDetails: ''
+  });
+
+  const updateProgress = useCallback((step: number, status: WorkflowProgress['status'], details: string) => {
+    setProgress({
+      currentStep: step,
+      totalSteps: 4,
+      status,
+      stepDetails: details
+    });
+  }, []);
+
+  const executeWorkflowAPI = async (data: Record<string, any>): Promise<ContentTypeResponse> => {
+    const { apiConfig } = workflow;
+    
+    if (!workflow.apiConfig?.endpoint) {
+      throw new Error('Workflow API endpoint not configured');
+    }
+
+    let url = apiConfig.endpoint;
+    const requestOptions: RequestInit = {
+      method: apiConfig.method,
+      headers: {
+        ...apiConfig.headers,
+      },
+    };
+
+    // Handle different HTTP methods
+    if (!apiConfig.method || !['GET', 'HEAD'].includes(apiConfig.method.toUpperCase())) {
+      // For POST, PUT, DELETE, PATCH etc.
+      const formData = new FormData();
+      Object.entries(data).forEach(([key, value]) => {
+        if (value instanceof File) {
+          formData.append(key, value);
+        } else {
+          formData.append(key, typeof value === 'object' ? JSON.stringify(value) : String(value));
+        }
+      });
+
+      // Transform request data if transformer is provided
+      const finalData = apiConfig.transformRequest 
+        ? apiConfig.transformRequest(formData)
+        : formData;
+
+      requestOptions.body = finalData;
+    } else {
+      // For GET/HEAD, convert data to URL parameters
+      const params = new URLSearchParams();
+      Object.entries(data).forEach(([key, value]) => {
+        if (!(value instanceof File)) { // Skip files for GET requests
+          params.append(key, typeof value === 'object' ? JSON.stringify(value) : String(value));
+        }
+      });
+      // Append params to URL
+      url = `${url}${url.includes('?') ? '&' : '?'}${params.toString()}`;
+    }
+
+    const response = await fetch(url, requestOptions);
+
+    if (!response.ok) {
+      throw new Error(`API request failed: ${response.statusText}`);
+    }
+
+    const contentType = response.headers.get('content-type') || '';
+
+    // Handle different content types
+    if (contentType.includes('application/json')) {
+      const jsonData = await response.json();
+      return {
+        type: 'json',
+        data: apiConfig.transformResponse ? apiConfig.transformResponse(jsonData) : jsonData
+      };
+    } else if (contentType.includes('image/')) {
+      const blob = await response.blob();
+      const imageUrl = URL.createObjectURL(blob);
+      return { type: 'image', data: imageUrl };
+    } else if (contentType.includes('application/pdf')) {
+      const blob = await response.blob();
+      const pdfUrl = URL.createObjectURL(blob);
+      return { type: 'pdf', data: pdfUrl };
+    } else if (contentType.includes('text/')) {
+      const text = await response.text();
+      return { type: 'text', data: text };
+    } else {
+      // Default to blob download for unknown types
+      const blob = await response.blob();
+      const fileUrl = URL.createObjectURL(blob);
+      return { type: 'blob', data: fileUrl };
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      // Step 1: Preparing workflow
+      updateProgress(0, 'in_progress', 'Preparing workflow data...');
+      
+      // Step 2: Sending to API endpoint
+      updateProgress(1, 'in_progress', 'Sending data to API endpoint...');
+      
+      // Step 3: Processing
+      updateProgress(2, 'in_progress', 'Processing response...');
+      const response = await executeWorkflowAPI(formData);
+      
+      // Step 4: Completing
+      updateProgress(3, 'in_progress', 'Finalizing...');
+      setResult(response);
+      
+      // Complete
+      updateProgress(4, 'completed', 'Workflow completed successfully');
+      setError('');
+      setIsCompleted(true);
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'An error occurred';
+      setError(errorMessage);
+      setResult(null);
+      updateProgress(progress.currentStep, 'failed', `Error: ${errorMessage}`);
+    }
+  };
+
+  const handleFieldChange = (fieldName: string, value: any) => {
+    setFormData(prev => ({
+      ...prev,
+      [fieldName]: value
+    }));
+  };
+
+  const handleReset = () => {
+    // Cleanup result URLs
+    if (result?.type === 'blob' || result?.type === 'image' || result?.type === 'pdf') {
+      URL.revokeObjectURL(result.data);
+    }
+    
+    // Cleanup file preview URLs
+    Object.entries(formData).forEach(([key, value]) => {
+      if (value instanceof File) {
+        const field = workflow.fields.find(f => f.name === key || f.label === key);
+        if (field?.type === 'file' && field.visualizeFile) {
+          // Revoke any existing object URLs
+          const fileInput = document.querySelector(`input[type="file"][name="${key}"]`) as HTMLInputElement;
+          if (fileInput) {
+            fileInput.value = ''; // Clear the file input
+          }
+        }
+      }
+    });
+
+    // Reset all state
+    setFormData({});
+    setResult(null);
+    setError('');
+    setIsCompleted(false);
+    setFeedback(null);
+    setProgress({
+      currentStep: 0,
+      totalSteps: 4,
+      status: 'pending',
+      stepDetails: ''
+    });
+  };
+
+  if (isCompleted) {
+    return (
+      <Paper
+        sx={{
+          p: 2,
+          borderRadius: 1,
+          bgcolor: 'background.paper',
+          border: '1px solid',
+          borderColor: 'divider',
+          boxShadow: 'none',
+          width: '100%',
+          margin: '0',
+          maxWidth: 'none',
+          paddingLeft: 0,
+          paddingRight: 0
+        }}
+      >
+        <Box>
+          <Typography variant="subtitle1" color="success.main" sx={{ mb: 2 }}>
+            ✓ Workflow completed successfully!
+          </Typography>
+          
+          {/* New Grid Layout for side-by-side view */}
+          <Grid container spacing={3}>
+            {/* File Previews */}
+            <Grid item xs={12} md={6}>
+              {workflow.fields.map((field, index) => (
+                field.type === 'file' && 
+                field.visualizeFile && 
+                formData[field.name || field.label] && (
+                  <Box key={index} sx={{ mt: 3 }}>
+                    <Typography variant="h6" gutterBottom>
+                      {field.label}:
+                    </Typography>
+                    <Box sx={{ 
+                      mt: 2,
+                      height: '700px',
+                      borderRadius: 1,
+                      overflow: 'hidden',
+                      border: '1px solid',
+                      borderColor: 'divider'
+                    }}>
+                      <iframe
+                        src={URL.createObjectURL(formData[field.name || field.label])}
+                        style={{ width: '100%', height: '100%', border: 'none' }}
+                        title={`${field.label} Preview`}
+                      />
+                    </Box>
+                  </Box>
+                )
+              ))}
+            </Grid>
+
+            {/* API Result */}
+            <Grid item xs={12} md={6}>
+              {result && (
+                <Box sx={{ mt: 3 }}>
+                  <Typography variant="h6" gutterBottom>
+                    API Result:
+                  </Typography>
+                  <Box sx={{ 
+                    mt: 2,
+                    height: '700px',
+                    overflowY: 'auto',
+                    borderRadius: 1,
+                    border: '1px solid',
+                    borderColor: 'divider',
+                    p: 2
+                  }}>
+                    <ResultDisplay result={result} />
+                  </Box>
+                </Box>
+              )}
+            </Grid>
+          </Grid>
+
+          <WorkflowFeedback 
+            feedback={feedback}
+            onFeedbackChange={setFeedback}
+            workflowId={workflow.id}
+          />
+          <Button
+            variant="outlined"
+            onClick={handleReset}
+            size="small"
+            sx={{ mt: 2 }}
+          >
+            Start New Workflow
+          </Button>
+        </Box>
+      </Paper>
+    );
+  }
+
+  return (
+      <Paper
+        elevation={3}
+        sx={(theme) => ({
+          p: 4,
+          paddingLeft: 0,
+          paddingRight: 0,
+          borderRadius: 3,
+          position: 'relative',
+          background: theme.palette.background.paper,
+          boxShadow: theme.shadows[3],
+          transition: 'all 0.3s ease-in-out',
+          width: '100%',
+          margin: '0',
+          maxWidth: 'none',
+          '&:hover': {
+            transform: 'translateY(-4px)',
+            boxShadow: theme.shadows[6],
+          }
+        })}
+      >
+        <form onSubmit={handleSubmit}>
+        <WorkflowProgressStepper progress={progress} />
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3, mt: 4 }}>
+          {workflow.fields.map((field, index) => (
+            <WorkflowField
+              key={index}
+              field={field}
+              value={formData[field.name || field.label]}
+              onChange={(value) => handleFieldChange(field.name || field.label, value)}
+            />
+          ))}
+
+          {error && (
+            <Typography color="error">
+              {error}
+            </Typography>
+          )}
+
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 4 }}>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              sx={{ 
+                borderRadius: '25px',  // Use any value you want
+              }}
+            >
+              Execute Workflow
+            </Button>
+          </Box>
+        </Box>
+      </form>
+      </Paper>
+  );
+};
+
+
+
+FILE: C:\Users\miivanov\repos\haiper_frontend_test\temp\hAIper\src\components\workflow\WorkflowFeedback.tsx
+================================================================================
+import React, { useState } from 'react';
+import { Box, Button, Typography, useTheme } from '@mui/material';
+import { workflowService } from '../../services/workflow-service';
+
+interface WorkflowFeedbackProps {
+  feedback: 'positive' | 'negative' | null;
+  onFeedbackChange: (feedback: 'positive' | 'negative') => void;
+  workflowId: string;
+}
+
+export const WorkflowFeedback: React.FC<WorkflowFeedbackProps> = ({
+  feedback,
+  onFeedbackChange,
+  workflowId,
+}) => {
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const handleFeedback = async (newFeedback: 'positive' | 'negative') => {
+    if (isSubmitted) return; // Prevent multiple submissions
+    
+    try {
+      await workflowService.submitFeedback(workflowId, newFeedback);
+      onFeedbackChange(newFeedback);
+      setIsSubmitted(true); // Mark as submitted after successful feedback
+    } catch (error) {
+      console.error('Failed to submit feedback:', error);
+      // Only update UI state if API call succeeds
+    }
+  };
+  return (
+    <Box sx={{ 
+      mt: 4, 
+      display: 'flex', 
+      flexDirection: 'column', 
+      alignItems: 'center',
+      gap: 2 
+    }}>
+      <Typography variant="subtitle1" color="text.secondary">
+        Was this result helpful?
+      </Typography>
+      {!isSubmitted ? (
+        <Box sx={{ display: 'flex', gap: 2 }}>
+          <Button
+            variant={feedback === 'positive' ? 'contained' : 'outlined'}
+            onClick={() => handleFeedback('positive')}
+            sx={{
+              minWidth: '120px',
+              color: feedback === 'positive' ? 'white' : 'success.main',
+              borderColor: 'success.main',
+              bgcolor: feedback === 'positive' ? 'success.main' : 'transparent',
+              '&:hover': {
+                bgcolor: feedback === 'positive' ? 'success.dark' : 'success.light',
+                borderColor: 'success.main',
+              }
+            }}
+          >
+            👍 Yes
+          </Button>
+          <Button
+            variant={feedback === 'negative' ? 'contained' : 'outlined'}
+            onClick={() => handleFeedback('negative')}
+            sx={{
+              minWidth: '120px',
+              color: feedback === 'negative' ? 'white' : 'error.main',
+              borderColor: 'error.main',
+              bgcolor: feedback === 'negative' ? 'error.main' : 'transparent',
+              '&:hover': {
+                bgcolor: feedback === 'negative' ? 'error.dark' : 'error.light',
+                borderColor: 'error.main',
+              }
+            }}
+          >
+            👎 No
+          </Button>
+        </Box>
+      ) : (
+        <Box sx={{ 
+          p: 2, 
+          border: 1, 
+          borderColor: feedback === 'positive' ? 'success.main' : 'error.main',
+          borderRadius: 1,
+          bgcolor: feedback === 'positive' ? 'success.light' : 'error.light',
+          color: '#ffffff'
+        }}>
+          <Typography variant="body1" sx={{ fontWeight: 500 }}>
+            {feedback === 'positive' 
+              ? '👍 Thank you for your positive feedback!' 
+              : '👎 Thanks for letting us know. We\'ll work on improving this.'}
+          </Typography>
+        </Box>
+      )}
+    </Box>
+  );
+};
+
+
+
+FILE: C:\Users\miivanov\repos\haiper_frontend_test\temp\hAIper\src\components\workflow\WorkflowField.tsx
+================================================================================
+import React, { useEffect } from 'react';
+import { TextField, FormControl, Input, MenuItem, Typography, Box } from '@mui/material';
+import { WorkflowField as IWorkflowField } from '../../types/workflow-builder';
+
+interface WorkflowFieldProps {
+  field: IWorkflowField;
+  value: any;
+  onChange: (value: any) => void;
+}
+
+export const WorkflowField: React.FC<WorkflowFieldProps> = ({ field, value, onChange }) => {
+  switch (field.type) {
+    case 'textarea':
+      return (
+        <TextField
+          fullWidth
+          multiline
+          rows={4}
+          label={field.label}
+          value={value || ''}
+          onChange={(e) => onChange(e.target.value)}
+          required={field.required}
+          margin="normal"
+        />
+      );
+    
+    case 'number':
+      return (
+        <TextField
+          fullWidth
+          type="number"
+          label={field.label}
+          value={value || ''}
+          onChange={(e) => onChange(e.target.value)}
+          required={field.required}
+          margin="normal"
+          inputProps={{
+            min: field.validation?.min,
+            max: field.validation?.max,
+            step: field.validation?.step
+          }}
+        />
+      );
+    
+    case 'email':
+      return (
+        <TextField
+          fullWidth
+          type="email"
+          label={field.label}
+          value={value || ''}
+          onChange={(e) => onChange(e.target.value)}
+          required={field.required}
+          margin="normal"
+        />
+      );
+    
+    case 'date':
+      return (
+        <TextField
+          fullWidth
+          type="date"
+          label={field.label}
+          value={value || ''}
+          onChange={(e) => onChange(e.target.value)}
+          required={field.required}
+          margin="normal"
+          InputLabelProps={{ shrink: true }}
+        />
+      );
+    
+    case 'file':
+      const handleFileValidation = (file: File): boolean => {
+        // Check file size
+        if (field.validation?.maxFileSize && 
+            file.size > field.validation.maxFileSize * 1024 * 1024) {
+          alert(`File size must be less than ${field.validation.maxFileSize}MB`);
+          return false;
+        }
+        
+        // Check file type
+        if (field.validation?.fileTypes && field.validation.fileTypes.length > 0) {
+          const fileExt = `.${file.name.split('.').pop()?.toLowerCase()}`;
+          const fileType = file.type.toLowerCase();
+          
+          const isValidType = field.validation.fileTypes.some(type => {
+            const normalizedType = type.toLowerCase();
+            return normalizedType.startsWith('.') 
+              ? fileExt === normalizedType  // Check extension (e.g. .pdf)
+              : fileType.includes(normalizedType); // Check MIME type (e.g. pdf)
+          });
+          
+          if (!isValidType) {
+            alert(`Invalid file type. Accepted types: ${field.validation.fileTypes.join(', ')}`);
+            return false;
+          }
+        }
+        
+        return true;
+      };
+
+      return (
+        <FormControl fullWidth margin="normal">
+          <TextField
+            type="file"
+            fullWidth
+            label={field.label}
+            InputProps={{
+              inputProps: {
+                accept: field.validation?.fileTypes
+                  ?.map(type => type.startsWith('.') ? type : `.${type}`)
+                  .join(',')
+              }
+            }}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              const file = e.target.files?.[0];
+              if (file) {
+                if (handleFileValidation(file)) {
+                  onChange(file);
+                } else {
+                  e.target.value = ''; // Reset input if validation fails
+                }
+              }
+            }}
+            required={field.required}
+          />
+          <Typography
+            variant="caption"
+            sx={{
+              display: 'block',
+              mt: 0.5,
+              color: 'text.secondary'
+            }}
+          >
+            Accepted types: {field.validation?.fileTypes?.join(', ') || '*'}. 
+            Max size: {field.validation?.maxFileSize || 10}MB
+          </Typography>
+          
+          {/* Add the PDF preview here */}
+          {field.visualizeFile && value && (() => {
+            const objectUrl = URL.createObjectURL(value);
+            useEffect(() => {
+              return () => {
+                URL.revokeObjectURL(objectUrl);
+              };
+            }, []);
+            
+            return (
+              <Box sx={{ 
+                mt: 2,
+                height: '700px',
+                borderRadius: 1,
+                overflow: 'hidden',
+                border: '1px solid',
+                borderColor: 'divider',
+                userSelect: 'text',
+                pointerEvents: 'auto'
+              }}>
+                <iframe
+                  src={objectUrl}
+                  style={{ width: '100%', height: '100%', border: 'none' }}
+                  title="PDF Preview"
+                />
+              </Box>
+            );
+          })()}
+        </FormControl>
+      );
+    
+    case 'dropdown':
+      return (
+        <TextField
+          select
+          fullWidth
+          label={field.label}
+          value={value || ''}
+          onChange={(e) => onChange(e.target.value)}
+          required={field.required}
+          margin="normal"
+        >
+          {field.validation?.options?.map((option: string) => (
+            <MenuItem key={option} value={option}>
+              {option}
+            </MenuItem>
+          ))}
+        </TextField>
+      );
+    
+    default:
+      return (
+        <TextField
+          fullWidth
+          label={field.label}
+          value={value || ''}
+          onChange={(e) => onChange(e.target.value)}
+          required={field.required}
+          margin="normal"
+        />
+      );
+  }
+};
+
+
+
+FILE: C:\Users\miivanov\repos\haiper_frontend_test\temp\hAIper\src\components\workflow\WorkflowProgressStepper.tsx
+================================================================================
+import React from 'react';
+import { Stepper, Step, StepLabel, Box, CircularProgress, Typography } from '@mui/material';
+import { WorkflowProgress } from '../../types/workflow';
+
+interface WorkflowProgressStepperProps {
+  progress: WorkflowProgress;
+}
+
+export const WorkflowProgressStepper: React.FC<WorkflowProgressStepperProps> = ({ progress }) => {
+  const steps = [
+    'Preparing Workflow',
+    'Sending to Backend',
+    'Executing in Airflow',
+    'Processing Results'
+  ];
+
+  const getStepIcon = (stepIndex: number) => {
+    const currentStep = progress.currentStep;
+    
+    if (progress.status === 'failed') {
+      return <Typography color="error">×</Typography>;
+    }
+    
+    if (stepIndex === currentStep && progress.status === 'in_progress') {
+      return <CircularProgress size={24} />;
+    }
+    
+    return null;
+  };
+
+  return (
+    <Box sx={{ width: '100%', mt: 2, mb: 2 }}>
+      <Stepper activeStep={progress.currentStep} alternativeLabel>
+        {steps.map((label, index) => (
+          <Step key={label}>
+            <StepLabel
+              StepIconProps={{
+                icon: getStepIcon(index)
+              }}
+            >
+              {label}
+            </StepLabel>
+          </Step>
+        ))}
+      </Stepper>
+      {progress.stepDetails && (
+        <Typography
+          align="center"
+          sx={{ mt: 2 }}
+          color={progress.status === 'failed' ? 'error' : 'text.secondary'}
+        >
+          {progress.stepDetails}
+        </Typography>
+      )}
+    </Box>
+  );
+};
+
+
+
+FILE: C:\Users\miivanov\repos\haiper_frontend_test\temp\hAIper\src\components\workflow\executor_components\renderJsonContent.tsx
+================================================================================
+import { Box, Typography } from "@mui/material";
+
+export const renderJsonContent = (data: any, level: number = 0) => {
+      if (typeof data !== 'object' || data === null) {
+        return (
+          <span
+          style={{ 
+            fontFamily: 'monospace',
+            color: typeof data === 'string' ? '#10B981' : '#3B82F6',
+            wordBreak: 'break-word'
+          }}
+        >
+          {typeof data === 'string' ? `"${data}"` : String(data)}
+        </span>
+        );
+      }
+
+      return (
+        <Box sx={{ 
+          ml: level > 0 ? 2 : 0,
+          userSelect: 'text',
+          pointerEvents: 'auto'
+        }}>
+          {Object.entries(data).map(([key, value], index) => (
+            <Box 
+              key={index} 
+              sx={{ 
+                mb: 1.5,
+                pl: level > 0 ? 2 : 0,
+                borderLeft: level > 0 ? '2px solid' : 'none',
+                borderColor: 'divider',
+              }}
+            >
+              {typeof value !== 'object' ? (
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <Typography 
+                    variant="subtitle2" 
+                    sx={{ 
+                      color: 'text.secondary',
+                      fontSize: '0.85rem',
+                      fontWeight: 600,
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.5px'
+                    }}
+                  >
+                    {key.replace(/_/g, ' ')}:
+                  </Typography>
+                  {renderJsonContent(value, level + 1)}
+                </Box>
+              ) : (
+                <>
+                  <Typography 
+                    variant="subtitle2" 
+                    sx={{ 
+                      color: 'text.secondary',
+                      fontSize: '0.85rem',
+                      mb: 0.5,
+                      fontWeight: 600,
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.5px'
+                    }}
+                  >
+                    {key.replace(/_/g, ' ')}
+                  </Typography>
+                  <Box sx={{ 
+                    pl: 1,
+                    py: typeof value === 'object' && value !== null ? 1 : 0
+                  }}>
+                    {renderJsonContent(value, level + 1)}
+                  </Box>
+                </>
+              )}
+            </Box>
+          ))}
+        </Box>
+      );
+    };
+
+
+
+FILE: C:\Users\miivanov\repos\haiper_frontend_test\temp\hAIper\src\components\workflow\executor_components\resultDisplayFC.tsx
+================================================================================
+import { Box, Typography, Chip, Button } from "@mui/material";
+import { renderJsonContent } from "./renderJsonContent";
+
+type ContentTypeResponse = {
+    type: string;
+    data: any;
+  };
+  
+
+export const ResultDisplay: React.FC<{ result: ContentTypeResponse }> = ({ result }) => {
+    switch (result.type) {
+      case 'json':
+        return (
+          <Box sx={{ 
+            mt: 2,
+            p: 3,
+            borderRadius: 1,
+            bgcolor: (theme) => theme.palette.mode === 'dark' 
+              ? 'rgba(30, 41, 59, 0.2)' 
+              : 'rgba(241, 245, 249, 0.2)',
+            border: '1px solid',
+            borderColor: 'divider',
+            fontFamily: 'monospace'
+          }}>
+            {renderJsonContent(result.data)}
+          </Box>
+        );
+      
+      case 'image':
+        return (
+          <Box sx={{ 
+            mt: 2,
+            p: 2,
+            borderRadius: 1,
+            bgcolor: (theme) => theme.palette.mode === 'dark' 
+              ? 'rgba(30, 41, 59, 0.2)' 
+              : 'rgba(241, 245, 249, 0.2)',
+            border: '1px solid',
+            borderColor: 'divider',
+            pointerEvents: 'auto',
+            userSelect: 'text'
+          }}>
+            <img 
+              src={result.data} 
+              alt="Result" 
+              style={{ 
+                maxWidth: '100%', 
+                height: 'auto',
+                borderRadius: '4px',
+              }} 
+            />
+          </Box>
+        );
+      
+      case 'pdf':
+        return (
+          <Box sx={{ 
+            mt: 2,
+            height: '600px',
+            borderRadius: 1,
+            overflow: 'hidden',
+            border: '1px solid',
+            borderColor: 'divider'
+          }}>
+            <iframe
+              src={result.data}
+              style={{ width: '100%', height: '100%', border: 'none' }}
+              title="PDF Result"
+              allowFullScreen={true}
+              allow="fullscreen"
+            />
+          </Box>
+        );
+      
+      case 'text':
+        return (
+          <Box sx={{ 
+            mt: 2,
+            p: 2,
+            borderRadius: 1,
+            bgcolor: (theme) => theme.palette.mode === 'dark' 
+              ? 'rgba(30, 41, 59, 0.2)' 
+              : 'rgba(241, 245, 249, 0.2)',
+            border: '1px solid',
+            borderColor: 'divider',
+            userSelect: 'text',
+            pointerEvents: 'auto'
+          }}>
+            <Typography 
+              variant="body2"
+              sx={{ 
+                whiteSpace: 'pre-wrap',
+                fontFamily: 'monospace',
+                color: 'text.primary'
+              }}
+            >
+              {result.data}
+            </Typography>
+          </Box>
+        );
+      
+      case 'blob':
+        return (
+          <Box sx={{ 
+            mt: 2,
+            p: 2,
+            borderRadius: 1,
+            bgcolor: (theme) => theme.palette.mode === 'dark' 
+              ? 'rgba(30, 41, 59, 0.2)' 
+              : 'rgba(241, 245, 249, 0.2)',
+            border: '1px solid',
+            borderColor: 'divider',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 2
+          }}>
+            <Chip 
+              label="File Ready" 
+              color="success" 
+              size="small" 
+              variant="outlined"
+            />
+            <Button 
+              variant="contained" 
+              href={result.data} 
+              download
+              size="small"
+              sx={{
+                bgcolor: 'primary.main',
+                '&:hover': {
+                  bgcolor: 'primary.dark',
+                }
+              }}
+            >
+              Download File
+            </Button>
+          </Box>
+        );
+    }
+  };
+
+
+
+FILE: C:\Users\miivanov\repos\haiper_frontend_test\temp\hAIper\src\contexts\ThemeContext.tsx
+================================================================================
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { ThemeProvider as MuiThemeProvider } from '@mui/material';
+import { lightTheme, darkTheme } from '../themes/theme';
+
+type ThemeContextType = {
+  isDarkMode: boolean;
+  toggleTheme: () => void;
+};
+
+const ThemeContext = createContext<ThemeContextType>({} as ThemeContextType);
+
+export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  useEffect(() => {
+    // Update data-theme attribute when theme changes
+    document.documentElement.setAttribute('data-theme', isDarkMode ? 'dark' : 'light');
+  }, [isDarkMode]);
+
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode);
+  };
+
+  return (
+    <ThemeContext.Provider value={{ isDarkMode, toggleTheme }}>
+      <MuiThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
+        {children}
+      </MuiThemeProvider>
+    </ThemeContext.Provider>
+  );
+};
+
+export const useTheme = () => useContext(ThemeContext);
+
+
+
+FILE: C:\Users\miivanov\repos\haiper_frontend_test\temp\hAIper\src\contexts\WorkflowContext.tsx
+================================================================================
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { WorkflowTemplate } from '../types/workflow-builder';
+import { WorkflowService } from '../services/workflow-service';
+
+interface WorkflowContextType {
+  workflows: WorkflowTemplate[];
+  activeWorkflow?: WorkflowTemplate;
+  setWorkflows: (workflows: WorkflowTemplate[]) => void;
+  setActiveWorkflow: (workflow?: WorkflowTemplate) => void;
+  createWorkflow: (workflow: Partial<WorkflowTemplate>) => Promise<void>;
+  updateWorkflow: (id: string, workflow: Partial<WorkflowTemplate>) => Promise<void>;
+  deleteWorkflow: (id: string) => Promise<void>;
+}
+
+const WorkflowContext = createContext<WorkflowContextType>({} as WorkflowContextType);
+
+export const WorkflowProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [workflows, setWorkflows] = useState<WorkflowTemplate[]| null>(null);
+  const [activeWorkflow, setActiveWorkflow] = useState<WorkflowTemplate>();
+  const [workflowService] = useState(() => new WorkflowService());
+
+  useEffect(() => {
+    const fetchWorkflows = async () => {
+      try {
+        const data = await workflowService.getWorkflows();
+        setWorkflows(data);
+      } catch (error) {
+        console.error('Failed to fetch workflows:', error);
+      }
+    };
+
+    fetchWorkflows();
+  }, []);
+
+  const createWorkflow = async (workflow: Partial<WorkflowTemplate>) => {
+    const created = await workflowService.createWorkflow(workflow);
+    setWorkflows([...workflows, created]);
+  };
+
+  const updateWorkflow = async (id: string, workflow: Partial<WorkflowTemplate>) => {
+    const updated = await workflowService.updateWorkflow(id, workflow);
+    setWorkflows(workflows.map(w => w.id === id ? updated : w));
+  };
+
+  const deleteWorkflow = async (id: string) => {
+    await workflowService.deleteWorkflow(id);
+    setWorkflows(workflows.filter(w => w.id !== id));
+  };
+
+  return (
+    <WorkflowContext.Provider 
+      value={{
+        workflows,
+        activeWorkflow,
+        setWorkflows,
+        setActiveWorkflow,
+        createWorkflow,
+        updateWorkflow,
+        deleteWorkflow
+      }}
+    >
+      {children}
+    </WorkflowContext.Provider>
+  );
+};
+
+export const useWorkflow = () => useContext(WorkflowContext);
+
+
+
+FILE: C:\Users\miivanov\repos\haiper_frontend_test\temp\hAIper\src\services\workflow-service.ts
+================================================================================
+import { WorkflowTemplate, WorkflowExecution } from '../types/workflow-builder';
+import { randomUUID } from 'crypto';
+
+export class WorkflowService {
+  private static instance: WorkflowService;
+  private baseUrl: string;
+
+  constructor() {
+    if (WorkflowService.instance) {
+      return WorkflowService.instance;
+    }
+    WorkflowService.instance = this;
+    this.baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+  }
+
+  private async fetchApi(endpoint: string, options?: RequestInit) {
+    const response = await fetch(`${this.baseUrl}/api${endpoint}`, {
+      ...options,
+      headers: {
+        'Content-Type': 'application/json',
+        ...options?.headers,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`API call failed: ${response.statusText}`);
+    }
+
+    return response.json();
+  }
+
+  async getWorkflows(): Promise<WorkflowTemplate[]> {
+    return this.fetchApi('/workflows');
+  }
+
+  async getWorkflow(id: string): Promise<WorkflowTemplate> {
+    const workflow = await this.fetchApi(`/workflows/${id}`);
+    if (!workflow) {
+      throw new Error('Workflow not found');
+    }
+    return workflow;
+  }
+
+  async createWorkflow(workflow: Partial<WorkflowTemplate>): Promise<WorkflowTemplate> {
+    return this.fetchApi('/workflows', {
+      method: 'POST',
+      body: JSON.stringify(workflow),
+    });
+  }
+
+  async updateWorkflow(id: string, workflow: Partial<WorkflowTemplate>): Promise<WorkflowTemplate> {
+    return this.fetchApi(`/workflows/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(workflow),
+    });
+  }
+
+  async deleteWorkflow(id: string): Promise<void> {
+    await this.fetchApi(`/workflows/${id}`, {
+      method: 'DELETE',
+    });
+  }
+
+  async executeWorkflow(id: string, data: any): Promise<WorkflowExecution> {
+    const execution = await this.fetchApi(`/workflows/${id}/execute`, {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+
+    if (!execution) {
+      const now = new Date();
+      return {
+        id: randomUUID(),
+        templateId: id,
+        values: data,
+        progress: {
+          currentStep: 1,
+          totalSteps: 1,
+          status: 'completed',
+          stepDetails: 'Workflow execution completed'
+        },
+        result: data,
+        startedAt: now,
+        completedAt: now,
+        executedBy: 'admin'
+      };
+    }
+
+    return execution;
+  }
+
+  async submitFeedback(workflowId: string, feedback: 'positive' | 'negative'): Promise<any> {
+    return this.fetchApi('/workflow-feedback', {
+      method: 'POST',
+      body: JSON.stringify({
+        workflowId,
+        feedback,
+        submittedAt: new Date().toISOString(),
+      }),
+    });
+  }
+}
+
+export const workflowService = new WorkflowService();
+
+
+
+FILE: C:\Users\miivanov\repos\haiper_frontend_test\temp\hAIper\src\styles\theme.css
+================================================================================
+/* Base Variables */
+:root {
+  /* Colors */
+  --primary-50: #eef2ff;
+  --primary-100: #e0e7ff;
+  --primary-200: #c7d2fe;
+  --primary-300: #a5b4fc;
+  --primary-400: #818cf8;
+  --primary-500: #6366f1;
+  --primary-600: #4f46e5;
+  --primary-700: #4338ca;
+  --primary-800: #3730a3;
+  --primary-900: #312e81;
+  --primary-950: #1e1b4b;
+
+  --surface-0: #ffffff;
+  --surface-50: #f8fafc;
+  --surface-100: #f1f5f9;
+  --surface-200: #e2e8f0;
+  --surface-300: #cbd5e1;
+  --surface-400: #94a3b8;
+  --surface-500: #64748b;
+  --surface-600: #475569;
+  --surface-700: #334155;
+  --surface-800: #1e293b;
+  --surface-900: #0f172a;
+  --surface-950: #020617;
+
+  /* Layout */
+  --header-height: 64px;
+  --content-padding: 24px;
+  --border-radius-sm: 4px;
+  --border-radius-md: 8px;
+  --border-radius-lg: 12px;
+}
+
+/* Dark theme overrides */
+[data-theme="dark"] {
+  --surface-0: #020617;
+  --surface-50: #0f172a;
+  --surface-100: #1e293b;
+  --surface-200: #334155;
+  --surface-300: #475569;
+  --surface-400: #64748b;
+  --surface-500: #94a3b8;
+  --surface-600: #cbd5e1;
+  --surface-700: #e2e8f0;
+  --surface-800: #f1f5f9;
+  --surface-900: #f8fafc;
+  --surface-950: #ffffff;
+}
+
+/* Layout */
+.main-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex-grow: 1;
+  padding: var(--content-padding);
+  margin-top: var(--header-height);
+}
+
+/* Header */
+.app-header {
+  background: var(--surface-50);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--surface-200);
+  height: var(--header-height);
+  display: flex;
+  align-items: center;
+  padding: 0 var(--content-padding);
+}
+
+.app-title {
+  background: linear-gradient(45deg, var(--primary-500), var(--primary-600));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.app-badge {
+  margin-left: 8px;
+  font-size: 0.7em;
+  padding: 4px 8px;
+  border-radius: var(--border-radius-sm);
+  background: rgba(99, 102, 241, 0.1);
+  border: 1px solid var(--primary-500);
+  color: var(--primary-500);
+}
+
+/* Forms */
+.workflow-form {
+  border-radius: var(--border-radius-lg);
+  background: var(--surface-0);
+  overflow: hidden;
+}
+
+.form-header {
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--surface-200);
+  background: var(--surface-50);
+}
+
+.form-content {
+  padding: 24px;
+}
+
+.form-footer {
+  padding: 16px 24px;
+  border-top: 1px solid var(--surface-200);
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+/* Result Display */
+.result-container {
+  margin-top: 16px;
+  padding: 24px;
+  border-radius: var(--border-radius-md);
+  border: 1px solid var(--surface-200);
+  background: var(--surface-50);
+}
+
+.json-content {
+  font-family: monospace;
+  padding: 16px;
+}
+
+.json-key {
+  color: var(--surface-600);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.json-value {
+  color: var(--primary-500);
+  word-break: break-word;
+}
+
+.json-string {
+  color: #10B981;
+}
+
+.json-number {
+  color: #3B82F6;
+}
+
+.nested-content {
+  margin-left: 16px;
+  padding-left: 16px;
+  border-left: 2px solid var(--surface-200);
+}
+
+/* Buttons */
+.btn {
+  padding: 8px 16px;
+  border-radius: var(--border-radius-md);
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.btn-primary {
+  background: linear-gradient(45deg, var(--primary-500), var(--primary-600));
+  color: white;
+  border: none;
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--surface-200);
+  color: var(--surface-900);
+}
+
+/* Cards */
+.card {
+  border-radius: var(--border-radius-md);
+  border: 1px solid var(--surface-200);
+  background: var(--surface-50);
+  padding: 16px;
+}
+
+/* Field containers */
+.field-container {
+  margin-bottom: 16px;
+}
+
+/* Progress stepper */
+.progress-stepper {
+  margin-bottom: 24px;
+}
+
+/* Field validation */
+.field-validation {
+  display: flex;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.field-validation-container {
+  margin-top: 16px;
+}
+
+.field-validation-header {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.field-options-container {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.field-option-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+
+
+FILE: C:\Users\miivanov\repos\haiper_frontend_test\temp\hAIper\src\themes\theme.ts
+================================================================================
+import { createTheme, alpha, Components, Theme } from '@mui/material';
+
+const commonComponents: Components<Theme> = {
+  MuiCard: {
+    styleOverrides: {
+      root: ({ theme }) => ({
+        borderRadius: 4,
+        padding: '1px',
+        background: theme.palette.background.paper,
+        position: 'relative',
+        transition: 'transform 0.3s ease',
+        boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)',
+        '&:hover': {
+          transform: 'translateY(-5px)',
+        },
+      }),
+    },
+  },
+  MuiButton: {
+    styleOverrides: {
+      root: {
+        borderRadius: 4,
+        textTransform: 'none',
+        fontWeight: 'bold',
+        padding: '0.7rem 1.2rem',
+        '&.MuiButton-contained': {
+          backgroundColor: '#E60000',
+          color: '#FFFFFF',
+          '&:hover': {
+            backgroundColor: '#CC0000',
+          },
+        },
+      },
+    },
+  },
+  MuiAppBar: {
+    styleOverrides: {
+      root: {
+        backgroundColor: '#0F318C',
+      },
+    },
+  },
+};
+
+export const lightTheme = createTheme({
+  palette: {
+    mode: 'light',
+    primary: {
+      main: '#0F318C',
+      light: '#2850B8',
+      dark: '#0A2066',
+    },
+    secondary: {
+      main: '#E60000',
+      light: '#FF1A1A',
+      dark: '#CC0000',
+    },
+    background: {
+      default: '#FFFFFF',
+      paper: '#FFFFFF',
+    },
+    text: {
+      primary: '#333333',
+      secondary: '#666666',
+    },
+  },
+  typography: {
+    fontFamily: '"Arial", "Helvetica", sans-serif',
+    h6: {
+      fontWeight: 600,
+    },
+  },
+  components: {
+    ...commonComponents,
+  },
+});
+
+export const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+    primary: {
+      main: '#0F318C',
+      light: '#2850B8',
+      dark: '#0A2066',
+    },
+    secondary: {
+      main: '#E60000',
+      light: '#FF1A1A',
+      dark: '#CC0000',
+    },
+    background: {
+      default: '#1A1A1A',
+      paper: '#262626',
+    },
+    text: {
+      primary: '#FFFFFF',
+      secondary: '#E5E5E5',
+    },
+  },
+  typography: {
+    fontFamily: '"Arial", "Helvetica", sans-serif',
+    h6: {
+      fontWeight: 600,
+    },
+  },
+  components: commonComponents,
+});
+
+
+
+FILE: C:\Users\miivanov\repos\haiper_frontend_test\temp\hAIper\src\types\workflow.ts
+================================================================================
+export interface Workflow {
+  id: string;
+  name: string;
+  description: string;
+  status: 'available' | 'coming_soon';
+}
+
+export interface WorkflowProgress {
+  currentStep: number;
+  totalSteps: number;
+  status: 'pending' | 'in_progress' | 'completed' | 'failed';
+  stepDetails: string;
+}
+

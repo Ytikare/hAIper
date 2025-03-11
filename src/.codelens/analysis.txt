@@ -1,0 +1,220 @@
+CODEBASE SUMMARY:
+This project contains 19 files:
+File types: 
+Total lines of code: 2295
+Average file size: 120.8 lines
+Overall complexity: 0
+
+KEY INSIGHTS:
+- Project contains 19 analyzable files
+- Low documentation coverage (0.0%)
+
+CODE METRICS:
+Functions: 24 (0 documented, 0 complex)
+Classes: 1 (0 documented)
+Documentation coverage: 0.0%
+Total imports: 74 (56 unique)
+
+PROJECT STRUCTURE AND CODE INSIGHTS:
+
+================================================================================
+C:/Users/miivanov/repos/haiper_frontend_test/temp/hAIper/src/ (48 lines)
+================================================================================
+  App.tsx
+    Lines: 31
+
+    IMPORTS:
+      import React from 'react';
+      import { AppRoutes } from './AppRoutes';
+      import { BrowserRouter } from 'react-router-dom';
+      import { CssBaseline, ThemeProvider as MuiThemeProvider, createTheme } from '@mui/material';
+      import { MainLayout } from './components/layout/MainLayout';
+      import { ThemeProvider } from './contexts/ThemeContext';
+
+  AppRoutes.tsx
+    Lines: 17
+
+    IMPORTS:
+      import React from 'react';
+      import { Routes, Route } from 'react-router-dom';
+      import { WorkflowExecutor } from './components/workflow/WorkflowExecutor';
+      import { WorkflowForm } from './components/admin/WorkflowForm';
+      import { WorkflowList } from './components/admin/WorkflowList';
+
+
+================================================================================
+C:/Users/miivanov/repos/haiper_frontend_test/temp/hAIper/src/components/admin/ (787 lines)
+================================================================================
+  WorkflowFieldValidation.tsx
+    Lines: 181
+
+    IMPORTS:
+      import AddIcon from '@mui/icons-material/Add';
+      import DeleteIcon from '@mui/icons-material/Delete';
+      import React from 'react';
+      import {
+
+  WorkflowForm.tsx
+    Lines: 389
+
+    IMPORTS:
+      import AddIcon from '@mui/icons-material/Add';
+      import DeleteIcon from '@mui/icons-material/Delete';
+      import React, { useState, useEffect } from 'react';
+      import {
+      import { WorkflowFieldValidation } from './WorkflowFieldValidation';
+      import { WorkflowTemplate, WorkflowField } from '../../types/workflow-builder';
+      import { useRouter } from 'next/router';
+
+  WorkflowList.tsx
+    Lines: 217
+
+    IMPORTS:
+      import CategoryIcon from '@mui/icons-material/Category';
+      import DeleteIcon from '@mui/icons-material/Delete';
+      import EditIcon from '@mui/icons-material/Edit';
+      import ListAltIcon from '@mui/icons-material/ListAlt';
+      import React, { useEffect, useState } from 'react';
+      import {
+      import { WorkflowTemplate } from '../../types/workflow-builder';
+      import { useRouter } from 'next/router';
+      import { workflowService } from '../../services/workflow-service';
+
+
+================================================================================
+C:/Users/miivanov/repos/haiper_frontend_test/temp/hAIper/src/components/layout/ (93 lines)
+================================================================================
+  MainLayout.tsx
+    Lines: 93
+
+    IMPORTS:
+      import Image from 'next/image';
+      import Link from 'next/link';
+      import React from 'react';
+      import logoImg from '../../../media/haiper_logo.png';
+      import mySvg from '../../../media/postbank-logo--bg.svg';
+      import {
+      import { Brightness4, Brightness7 } from '@mui/icons-material';
+      import { useTheme } from '../../contexts/ThemeContext';
+
+
+================================================================================
+C:/Users/miivanov/repos/haiper_frontend_test/temp/hAIper/src/components/workflow/ (760 lines)
+================================================================================
+  WorkflowCard.tsx
+    Lines: 69
+
+    IMPORTS:
+      import {
+      import { FC } from 'react';
+      import { Workflow } from '../../types/workflow';
+      import { useRouter } from 'next/router';
+      import { workflowService } from '../../services/workflow-service';
+
+  WorkflowExecutor.tsx
+    Lines: 339
+
+    IMPORTS:
+      import React, { useState, useCallback } from 'react';
+      import { Box, Button, Typography, Paper, Card, CardContent, Grid, Chip, Divider, useTheme } from '@mui/material';
+      import { ResultDisplay } from './executor_components/resultDisplayFC';
+      import { WorkflowFeedback } from './WorkflowFeedback';
+      import { WorkflowField } from './WorkflowField';
+      import { WorkflowProgress } from '../../types/workflow';
+      import { WorkflowProgressStepper } from './WorkflowProgressStepper';
+      import { WorkflowTemplate } from '../../types/workflow-builder';
+
+  WorkflowFeedback.tsx
+    Lines: 94
+
+    IMPORTS:
+      import React, { useState } from 'react';
+      import { Box, Button, Typography, useTheme } from '@mui/material';
+      import { workflowService } from '../../services/workflow-service';
+
+  WorkflowField.tsx
+    Lines: 201
+
+    IMPORTS:
+      import React, { useEffect } from 'react';
+      import { TextField, FormControl, Input, MenuItem, Typography, Box } from '@mui/material';
+      import { WorkflowField as IWorkflowField } from '../../types/workflow-builder';
+
+  WorkflowProgressStepper.tsx
+    Lines: 57
+
+    IMPORTS:
+      import React from 'react';
+      import { Stepper, Step, StepLabel, Box, CircularProgress, Typography } from '@mui/material';
+      import { WorkflowProgress } from '../../types/workflow';
+
+
+================================================================================
+C:/Users/miivanov/repos/haiper_frontend_test/temp/hAIper/src/components/workflow/executor_components/ (217 lines)
+================================================================================
+  renderJsonContent.tsx
+    Lines: 77
+
+    IMPORTS:
+      import { Box, Typography } from "@mui/material";
+
+  resultDisplayFC.tsx
+    Lines: 140
+
+    IMPORTS:
+      import { Box, Typography, Chip, Button } from "@mui/material";
+      import { renderJsonContent } from "./renderJsonContent";
+
+
+================================================================================
+C:/Users/miivanov/repos/haiper_frontend_test/temp/hAIper/src/contexts/ (100 lines)
+================================================================================
+  ThemeContext.tsx
+    Lines: 33
+
+    IMPORTS:
+      import React, { createContext, useContext, useState, useEffect } from 'react';
+      import { ThemeProvider as MuiThemeProvider } from '@mui/material';
+      import { lightTheme, darkTheme } from '../themes/theme';
+
+  WorkflowContext.tsx
+    Lines: 67
+
+    IMPORTS:
+      import React, { createContext, useContext, useState, useEffect } from 'react';
+      import { WorkflowService } from '../services/workflow-service';
+      import { WorkflowTemplate } from '../types/workflow-builder';
+
+
+================================================================================
+C:/Users/miivanov/repos/haiper_frontend_test/temp/hAIper/src/services/ (104 lines)
+================================================================================
+  workflow-service.ts
+    Lines: 104
+
+    IMPORTS:
+      import { WorkflowTemplate, WorkflowExecution } from '../types/workflow-builder';
+      import { randomUUID } from 'crypto';
+
+
+================================================================================
+C:/Users/miivanov/repos/haiper_frontend_test/temp/hAIper/src/themes/ (107 lines)
+================================================================================
+  theme.ts
+    Lines: 107
+
+    IMPORTS:
+      import { createTheme, alpha, Components, Theme } from '@mui/material';
+
+
+================================================================================
+C:/Users/miivanov/repos/haiper_frontend_test/temp/hAIper/src/types/ (79 lines)
+================================================================================
+  workflow-builder.ts
+    Lines: 66
+
+    IMPORTS:
+      import { Workflow, WorkflowProgress } from './workflow';
+
+  workflow.ts
+    Lines: 13
