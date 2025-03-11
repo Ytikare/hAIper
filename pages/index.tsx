@@ -28,12 +28,14 @@ const Home: NextPage = () => {
       width: '95%',
       margin: '0 auto'
     }}>
-      <Typography variant="h4" gutterBottom>
-        Welcome to hAIper Platform
-      </Typography>
-      <Typography variant="subtitle1" color="text.secondary" paragraph>
-        Your AI-powered workflow automation platform
-      </Typography>
+      <Box sx={{ maxWidth: "800px", mb: 4 }}>
+        <Typography variant="h5" gutterBottom sx={{ fontWeight: 600 }}>
+          Simplify your work with Postbank's AI solutions
+        </Typography>
+        <Typography variant="body1" color="text.secondary" paragraph>
+          Select a tool below to automate routine tasks, analyze documents, or get AI assistance with your daily workflows
+        </Typography>
+      </Box>
       
       <Grid container spacing={3} sx={{ mt: 4 }}>
         {workflows.map((workflow) => (
