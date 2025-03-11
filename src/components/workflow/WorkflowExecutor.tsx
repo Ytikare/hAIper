@@ -197,8 +197,8 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
           border: '1px solid',
           borderColor: 'divider',
           boxShadow: 'none',
-          width: '100%',
-          margin: '0',
+          width: '95%',
+          margin: '0 auto',
           maxWidth: 'none',
           paddingLeft: 0,
           paddingRight: 0
@@ -227,7 +227,9 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
                       borderRadius: 1,
                       overflow: 'hidden',
                       border: '1px solid',
-                      borderColor: 'divider'
+                      borderColor: 'divider',
+                      userSelect: 'text',
+                      pointerEvents: 'auto'
                     }}>
                       <iframe
                         src={URL.createObjectURL(formData[field.name || field.label])}
@@ -254,7 +256,9 @@ export const WorkflowExecutor: React.FC<WorkflowExecutorProps> = ({ workflow }) 
                     borderRadius: 1,
                     border: '1px solid',
                     borderColor: 'divider',
-                    p: 2
+                    p: 2,
+                    userSelect: 'text',
+                    pointerEvents: 'auto'
                   }}>
                     <ResultDisplay result={result} />
                   </Box>
