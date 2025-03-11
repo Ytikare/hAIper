@@ -23,7 +23,11 @@ const Home: NextPage = () => {
   }, []);
 
   return (
-    <Box sx={{ mt: 4 }}>
+    <Box sx={{ 
+      mt: 4,
+      width: '95%',
+      margin: '0 auto'
+    }}>
       <Typography variant="h4" gutterBottom>
         Welcome to hAIper Platform
       </Typography>
@@ -33,7 +37,7 @@ const Home: NextPage = () => {
       
       <Grid container spacing={3} sx={{ mt: 4 }}>
         {workflows.map((workflow) => (
-          <Grid item xs={12} sm={6} md={4} key={workflow.id}>
+          <Grid item xs={12} sm={6} md={4} lg={3} key={workflow.id}>
             <WorkflowCard workflow={workflow} />
           </Grid>
         ))}
