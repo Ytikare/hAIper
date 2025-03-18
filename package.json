@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@azure/msal-browser": "^4.7.0",
+    "@azure/msal-react": "^3.0.6",
     "@emotion/cache": "^11.11.0",
     "@emotion/react": "^11.11.3",
     "@emotion/server": "^11.11.0",
@@ -17,7 +19,6 @@
     "@mui/icons-material": "^5.15.7",
     "@mui/material": "^5.15.7",
     "next": "^14.2.23",
-    "next-auth": "^4.24.11",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^7.1.5"
