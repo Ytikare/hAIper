@@ -11,8 +11,8 @@ export const msalConfig = {
     postLogoutRedirectUri: "http://localhost:3000", // Where to redirect after logout
   },
   cache: {
-    cacheLocation: "sessionStorage", // This configures where your cache will be stored
-    storeAuthStateInCookie: false, // Set to true for IE 11 compatibility
+    cacheLocation: "localStorage", // This configures where your cache will be stored
+    storeAuthStateInCookie: true, // Set to true for IE 11 compatibility and to use cookies
   },
 };
 
