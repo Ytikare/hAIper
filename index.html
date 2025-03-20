@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>hAIper - Postbank</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f2f5;
+        }
+        .loading-container {
+            text-align: center;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+        }
+        .logo {
+            margin-bottom: 20px;
+        }
+        h1 {
+            color: #0047AB;
+            margin-bottom: 10px;
+        }
+        .spinner {
+            border: 4px solid rgba(0, 71, 171, 0.1);
+            border-radius: 50%;
+            border-top: 4px solid #0047AB;
+            width: 40px;
+            height: 40px;
+            margin: 20px auto;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .button {
+            background-color: #0047AB;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+            text-decoration: none;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-container">
+        <h1>hAIper - Postbank</h1>
+        <p>The application is running on internal ports. Please use the port directly to access the application:</p>
+        <a href="http://haiper.test.postbank.bg:7777" class="button">Access Application</a>
+        
+        <p style="margin-top: 20px; font-size: 14px; color: #666;">
+            Note: Please ensure port 7777 is accessible from your network.
+        </p>
+    </div>
+</body>
+</html>

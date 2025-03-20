@@ -3,3 +3,7 @@
 node_modules
 .next
 next-env.d.ts
+*codelens*
+/daemon
+service-log.txt
+test.html

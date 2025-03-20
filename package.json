@@ -17,6 +17,7 @@
     "@mui/icons-material": "^5.15.7",
     "@mui/material": "^5.15.7",
     "next": "^14.2.23",
+    "node-windows": "^1.0.0-beta.8",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^7.1.5"
@@ -28,5 +29,15 @@
     "eslint": "^8.56.0",
     "eslint-config-next": "14.1.0",
     "typescript": "^5.3.3"
+  },
+  "proxy": {
+  "/api": {
+    "target": "http://localhost:8000",
+    "pathRewrite": {
+      "^/api": "/api"
+    },
+    "changeOrigin": true,
+    "secure": false
   }
+}
 }
